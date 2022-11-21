@@ -1,0 +1,11 @@
+Functional:
+1. Home Page should contain product categories and buttons for log in and registration
+2. Whereby pressing on registration button user should access a registration page
+3. It should be picture of guitars at the background on the page
+4. The list of product`s categories must be situate at the centre of page
+5. The buttons 'Sign in' and 'Registration' should be at the right-up position on the page
+
+Non-functional:
+1. It should be HTML with CSS
+2. CSS should be stored in external files and maps to HTML using classes.
+3. JS events should be used
