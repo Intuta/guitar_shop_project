@@ -1,6 +1,5 @@
 package com.myproject.guitar_shop.domain;
 
-import com.myproject.guitar_shop.repository.utility.Category;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,4 +27,11 @@ public class Product {
     private String info;
     @Column(name = "quantity")
     private Integer quantity;
+
+    public enum Category {
+        ACOUSTIC_GUITAR,
+        ELECTRIC_GUITAR,
+        BASS_GUITAR,
+        ACOUSTIC_BASS_GUITAR
+    }
 }

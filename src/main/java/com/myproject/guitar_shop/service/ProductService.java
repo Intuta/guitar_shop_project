@@ -2,7 +2,6 @@ package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.repository.ProductRepository;
-import com.myproject.guitar_shop.repository.utility.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,20 +32,23 @@ public class ProductService {
         return receivedProduct.orElseThrow(() -> new NoSuchElementException(String.format("Product with title %s not found", title)));
     }
 
-    public List<Product> getProductsByCategory(Category category) {
+    public List<Product> getAllProductsByCategory(Product.Category category) {
         List<Product> products = new ArrayList<>();
         repository.findAllByCategory(category).forEach(products::add);
         return products;
     }
 
-    public void createNewProduct(Product product) {
-        repository.save(product);
+    public Product createProduct(Product product) {
+        return repository.save(product);
     }
 
     public Product updateProduct(Product product) {
         int id = product.getId();
-        if (repository.existsById(id)) repository.save(product);
-        return repository.findById(id).orElseThrow();
+        if (repository.existsById(id)) {
+            return repository.save(product);
+        } else {
+            throw new NoSuchElementException(String.format("Product with id %s not found", id));
+        }
     }
 
     public void deleteProduct(Product product) {
