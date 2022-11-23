@@ -127,6 +127,5 @@ public class CartServiceTest {
 
         assertThat(capturedCart.getSum()).isEqualTo(expectedSum);
         assertThat(returnedCart).isEqualTo(cart).usingRecursiveComparison();
-
     }
 }

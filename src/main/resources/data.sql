@@ -15,4 +15,6 @@ INSERT INTO carts VALUES (2, 1, 4624.85);
 
 INSERT INTO items VALUES (1, 1, 1, null, 4624.85, 2, 9249.7);
 INSERT INTO items VALUES (2, 1, 1, null, 4624.85, 2, 9249.7);
+
+INSERT INTO transactions VALUES (1, 1, '2012-01-23',  9249.7);
 COMMIT;
