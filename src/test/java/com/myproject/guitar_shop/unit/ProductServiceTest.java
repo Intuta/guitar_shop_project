@@ -3,13 +3,10 @@ package com.myproject.guitar_shop.unit;
 import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.repository.ProductRepository;
 import com.myproject.guitar_shop.service.ProductService;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
@@ -20,26 +17,16 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
 
-    private AutoCloseable closeable;
     @Mock
     private ProductRepository productRepository;
     @InjectMocks
     private ProductService productService;
-
-    @Before
-    public void openMocks() {
-        closeable = MockitoAnnotations.openMocks(this);
-    }
-
-    @After
-    public void releaseMocks() throws Exception {
-        closeable.close();
-    }
 
     @Test
     public void getByIdTest_Pass() {
@@ -60,7 +47,7 @@ class ProductServiceTest {
     public void getByIdTest_Fail() {
         int productId = 1;
 
-        when(productRepository.findById(any())).thenReturn(Optional.empty());
+        when(productRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> productService.getProductById(productId)).isInstanceOf(NoSuchElementException.class);
     }

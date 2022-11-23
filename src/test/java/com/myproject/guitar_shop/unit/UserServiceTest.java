@@ -3,13 +3,10 @@ package com.myproject.guitar_shop.unit;
 import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.repository.UserRepository;
 import com.myproject.guitar_shop.service.UserService;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.NoSuchElementException;
@@ -18,25 +15,16 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
-    private AutoCloseable closeable;
     @Mock
     private UserRepository userRepository;
     @InjectMocks
     private UserService userService;
 
-    @Before
-    public void openMocks() {
-        closeable = MockitoAnnotations.openMocks(this);
-    }
-
-    @After
-    public void releaseMocks() throws Exception {
-        closeable.close();
-    }
 
     @Test
     public void getByIdTest_Pass() {
@@ -54,16 +42,16 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getByIdTest_Fail() {
+    public void getUserByIdTest_Fail() {
         int userId = 1;
 
-        when(userRepository.findById(any())).thenReturn(Optional.empty());
+        when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> userService.getUserById(userId)).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
-    public void getByEmailTest_Pass() {
+    public void getUserByEmailTest_Pass() {
         String email = "email@domain.com";
         User user = User.builder()
                 .id(1)
@@ -79,7 +67,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getByEmailTest_Fail() {
+    public void getUserByEmailTest_Fail() {
         String email = "email@domain.com";
 
         when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
