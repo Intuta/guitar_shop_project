@@ -1,7 +1,7 @@
 package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.Transaction;
-import com.myproject.guitar_shop.repository.AppRepository;
+import com.myproject.guitar_shop.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +12,10 @@ import java.util.List;
 @Service
 public class TransactionService extends AppService<Transaction> {
 
-    private final AppRepository<Transaction> repository;
+    private final TransactionRepository repository;
 
     @Autowired
-    public TransactionService(AppRepository<Transaction> repository) {
+    public TransactionService(TransactionRepository repository) {
         super(repository);
         this.repository = repository;
     }

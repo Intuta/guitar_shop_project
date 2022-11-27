@@ -1,7 +1,7 @@
 package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.Product;
-import com.myproject.guitar_shop.repository.AppRepository;
+import com.myproject.guitar_shop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +13,10 @@ import java.util.Optional;
 @Service
 public class ProductService extends AppService<Product> {
 
-    private final AppRepository<Product> repository;
+    private final ProductRepository repository;
 
     @Autowired
-    public ProductService(AppRepository<Product> repository) {
+    public ProductService(ProductRepository repository) {
         super(repository);
         this.repository = repository;
     }

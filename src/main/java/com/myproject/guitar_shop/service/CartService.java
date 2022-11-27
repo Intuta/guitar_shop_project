@@ -2,7 +2,7 @@ package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.Cart;
 import com.myproject.guitar_shop.domain.Item;
-import com.myproject.guitar_shop.repository.AppRepository;
+import com.myproject.guitar_shop.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +12,10 @@ import java.util.Optional;
 @Service
 
 public class CartService extends AppService<Cart> {
-    private final AppRepository<Cart> repository;
+    private final CartRepository repository;
 
     @Autowired
-    public CartService(AppRepository<Cart> repository) {
+    public CartService(CartRepository repository) {
         super(repository);
         this.repository = repository;
     }

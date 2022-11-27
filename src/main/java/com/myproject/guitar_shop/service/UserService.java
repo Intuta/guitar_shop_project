@@ -1,7 +1,7 @@
 package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.User;
-import com.myproject.guitar_shop.repository.AppRepository;
+import com.myproject.guitar_shop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import java.util.Optional;
 @Service
 public class UserService extends AppService<User> {
 
-    private final AppRepository<User> repository;
+    private final UserRepository repository;
 
     @Autowired
-    public UserService(AppRepository<User> repository) {
+    public UserService(UserRepository repository) {
         super(repository);
         this.repository = repository;
     }
@@ -23,4 +23,5 @@ public class UserService extends AppService<User> {
         Optional<User> receivedUser = repository.findByEmail(email);
         return receivedUser.orElseThrow(() -> new NoSuchElementException(String.format("User with email %s not found", email)));
     }
+
 }

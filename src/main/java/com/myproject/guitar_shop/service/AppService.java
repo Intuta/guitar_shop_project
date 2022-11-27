@@ -1,7 +1,6 @@
 package com.myproject.guitar_shop.service;
 
-import com.myproject.guitar_shop.repository.AppRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -10,10 +9,9 @@ import java.util.Optional;
  * @param <T> Common class with realization of shared methods of services
  */
 abstract class AppService<T> {
-    public AppRepository<T> repository;
+    public CrudRepository<T, Integer> repository;
 
-    @Autowired
-    public AppService(AppRepository<T> repository) {
+    public AppService(CrudRepository<T, Integer> repository) {
         this.repository = repository;
     }
 

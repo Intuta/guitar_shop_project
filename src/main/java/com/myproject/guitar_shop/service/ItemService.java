@@ -1,7 +1,7 @@
 package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.Item;
-import com.myproject.guitar_shop.repository.AppRepository;
+import com.myproject.guitar_shop.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import java.util.NoSuchElementException;
 
 @Service
 public class ItemService extends AppService<Item> {
-    private final AppRepository<Item> repository;
+    private final ItemRepository repository;
 
     @Autowired
-    public ItemService(AppRepository<Item> repository) {
+    public ItemService(ItemRepository repository) {
         super(repository);
         this.repository = repository;
     }
