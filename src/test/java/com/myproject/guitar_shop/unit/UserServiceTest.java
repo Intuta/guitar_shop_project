@@ -27,7 +27,7 @@ public class UserServiceTest {
 
 
     @Test
-    public void getByIdTest_Pass() {
+    public void getByIdTest_Pass() throws Exception {
         int userId = 1;
         User user = User.builder()
                 .id(userId)
@@ -36,7 +36,7 @@ public class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-        User returnedUser = userService.getUserById(userId);
+        User returnedUser = userService.getById(userId);
 
         assertThat(returnedUser).isEqualTo(user).usingRecursiveComparison();
     }
@@ -47,7 +47,7 @@ public class UserServiceTest {
 
         when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> userService.getUserById(userId)).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> userService.getById(userId)).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createUserTest() {
+    public void createUserTest() throws Exception {
         User user = User.builder()
                 .id(1)
                 .name("name")
@@ -84,22 +84,21 @@ public class UserServiceTest {
 
         when(userRepository.save(user)).thenReturn(user);
 
-        User returnedUser = userService.createUser(user);
+        User returnedUser = userService.create(user);
 
         assertThat(returnedUser).isEqualTo(user).usingRecursiveComparison();
     }
 
     @Test
-    public void updateUser_Pass() {
+    public void updateUser_Pass() throws Exception {
         User user = User.builder()
                 .id(1)
                 .name("name")
                 .build();
 
-        when(userRepository.existsById(user.getId())).thenReturn(true);
         when(userRepository.save(user)).thenReturn(user);
 
-        User returnedUser = userService.updateUser(user);
+        User returnedUser = userService.update(user);
 
         assertThat(returnedUser).isEqualTo(user).usingRecursiveComparison();
     }

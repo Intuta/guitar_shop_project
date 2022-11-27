@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
-    Iterable<Transaction> findAllByUserId(int userId);
+public interface TransactionRepository extends AppRepository<Transaction>{
 
 }

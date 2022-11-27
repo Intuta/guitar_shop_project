@@ -37,10 +37,10 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void getTransactionById_Pass() {
+    public void getTransactionById_Pass() throws Exception {
         when(transactionRepository.findById(transaction.getId())).thenReturn(Optional.of(transaction));
 
-        Transaction returnedTransaction = transactionService.getTransactionById(transaction.getId());
+        Transaction returnedTransaction = transactionService.getById(transaction.getId());
 
         assertThat(returnedTransaction).isEqualTo(transaction).usingRecursiveComparison();
     }
@@ -49,7 +49,7 @@ public class TransactionServiceTest {
     public void getTransactionById_Fail() {
         when(transactionRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> transactionService.getTransactionById(transaction.getId())).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> transactionService.getById(transaction.getId())).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
@@ -65,10 +65,10 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void createTransactionTest() {
+    public void createTransactionTest() throws Exception {
         when(transactionRepository.save(transaction)).thenReturn(transaction);
 
-        Transaction returnedTransaction = transactionService.createTransaction(transaction);
+        Transaction returnedTransaction = transactionService.create(transaction);
 
         assertThat(returnedTransaction).isEqualTo(transaction).usingRecursiveComparison();
     }

@@ -45,12 +45,12 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void getItemByIdTest_Pass() {
+    public void getItemByIdTest_Pass() throws Exception {
         int id = item.getId();
 
-        when(itemRepository.findById(1)).thenReturn(Optional.of(item));
+        when(itemRepository.findById(id)).thenReturn(Optional.of(item));
 
-        Item returnedItem = itemService.getItemById(id);
+        Item returnedItem = itemService.getById(id);
 
         assertThat(returnedItem).isEqualTo(item).usingRecursiveComparison();
     }
@@ -61,7 +61,7 @@ public class ItemServiceTest {
 
         when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> itemService.getItemById(id)).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> itemService.getById(id)).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class ItemServiceTest {
 
         when(itemRepository.save(itemCaptor.capture())).thenReturn(item);
 
-        Item returnedItem = itemService.createItem(item);
+        Item returnedItem = itemService.create(item);
         Item capturedItem = itemCaptor.getValue();
 
         assertThat(capturedItem.getSum()).isEqualTo(expectedSum);
@@ -112,7 +112,7 @@ public class ItemServiceTest {
         when(itemRepository.existsById(item.getId())).thenReturn(true);
         when(itemRepository.save(itemCaptor.capture())).thenReturn(item);
 
-        Item returnedItem = itemService.updateItem(item);
+        Item returnedItem = itemService.update(item);
         Item capturedItem = itemCaptor.getValue();
 
         assertThat(capturedItem.getSum()).isEqualTo(expectedSum);

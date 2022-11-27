@@ -55,12 +55,12 @@ public class CartServiceTest {
 
 
     @Test
-    public void getCartById_Pass() {
+    public void getCartById_Pass() throws Exception {
         int id = cart.getId();
 
         when(cartRepository.findById(id)).thenReturn(Optional.of(cart));
 
-        Cart returnedCart = cartService.getCartById(id);
+        Cart returnedCart = cartService.getById(id);
 
         assertThat(returnedCart).isEqualTo(cart).usingRecursiveComparison();
     }
@@ -71,7 +71,7 @@ public class CartServiceTest {
 
         when(cartRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> cartService.getCartById(id)).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> cartService.getById(id)).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class CartServiceTest {
 
         when(cartRepository.save(cart)).thenReturn(cart);
 
-        Cart returnedCart = cartService.createCart(cart);
+        Cart returnedCart = cartService.create(cart);
 
         assertThat(returnedCart).isEqualTo(cart).usingRecursiveComparison();
     }
@@ -122,7 +122,7 @@ public class CartServiceTest {
         when(cartRepository.existsById(cart.getId())).thenReturn(true);
         when(cartRepository.save(cartCaptor.capture())).thenReturn(cart);
 
-        Cart returnedCart = cartService.updateCart(cart);
+        Cart returnedCart = cartService.update(cart);
         Cart capturedCart = cartCaptor.getValue();
 
         assertThat(capturedCart.getSum()).isEqualTo(expectedSum);

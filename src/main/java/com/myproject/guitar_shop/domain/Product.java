@@ -37,6 +37,9 @@ public class Product {
     @Column(name = "quantity")
     private Integer quantity;
 
+    @Column(name = "picture_src")
+    private String src;
+
     public enum Category {
         ACOUSTIC_GUITAR,
         ELECTRIC_GUITAR,

@@ -1,23 +1,40 @@
 package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.Item;
-import com.myproject.guitar_shop.repository.ItemRepository;
-import lombok.RequiredArgsConstructor;
+import com.myproject.guitar_shop.repository.AppRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
-public class ItemService {
-    private final ItemRepository repository;
+public class ItemService extends AppService<Item> {
+    private final AppRepository<Item> repository;
 
-    public Item getItemById(int id) {
-        Optional<Item> receivedItem = repository.findById(id);
-        return receivedItem.orElseThrow(() -> new NoSuchElementException(String.format("Item with id %s not found", id)));
+    @Autowired
+    public ItemService(AppRepository<Item> repository) {
+        super(repository);
+        this.repository = repository;
+    }
+
+
+    @Override
+    public Item create(Item item) {
+        total(item);
+        return repository.save(item);
+    }
+
+    @Override
+    public Item update(Item item) {
+        int id = item.getId();
+        if (repository.existsById(id)) {
+            total(item);
+            return repository.save(item);
+        } else {
+            throw new NoSuchElementException(String.format("Item with id %s not found", id));
+        }
     }
 
     public List<Item> getAllItemsByCartId(int cartId) {
@@ -32,31 +49,11 @@ public class ItemService {
         return items;
     }
 
-    public Item createItem(Item item) {
-        total(item);
-        return repository.save(item);
-    }
-
-    public Item updateItem(Item item) {
-        int id = item.getId();
-        if (repository.existsById(id)) {
-            total(item);
-            return repository.save(item);
-        }
-        else {
-            throw new NoSuchElementException(String.format("Item with id %s not found", id));
-        }
-    }
-
-    public void deleteItem(Item item) {
-        repository.delete(item);
-    }
-
     /**
-     * @param item
-     * The method counts final cost of the item
+     * @param item The method counts final cost of the item
      */
     private void total(Item item) {
         item.setSum(item.getPrice() * item.getQuantity());
     }
+
 }

@@ -29,7 +29,7 @@ class ProductServiceTest {
     private ProductService productService;
 
     @Test
-    public void getByIdTest_Pass() {
+    public void getByIdTest_Pass() throws Exception {
         int productId = 1;
         Product product = Product.builder()
                 .id(productId)
@@ -38,7 +38,7 @@ class ProductServiceTest {
 
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
-        Product returnedProduct = productService.getProductById(productId);
+        Product returnedProduct = productService.getById(productId);
 
         assertThat(returnedProduct).isEqualTo(product).usingRecursiveComparison();
     }
@@ -49,7 +49,7 @@ class ProductServiceTest {
 
         when(productRepository.findById(anyInt())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> productService.getProductById(productId)).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> productService.getById(productId)).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
@@ -113,7 +113,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void createProductTest() {
+    public void createProductTest() throws Exception {
         Product product = Product.builder()
                 .id(1)
                 .title("title")
@@ -121,22 +121,22 @@ class ProductServiceTest {
 
         when(productRepository.save(product)).thenReturn(product);
 
-        Product returnedProduct = productService.createProduct(product);
+        Product returnedProduct = productService.create(product);
 
         assertThat(returnedProduct).isEqualTo(product).usingRecursiveComparison();
     }
 
     @Test
-    public void updateProductTest_Pass() {
+    public void updateProductTest_Pass() throws Exception {
         Product product = Product.builder()
                 .id(1)
                 .title("title")
                 .price(100)
                 .build();
-        when(productRepository.existsById(product.getId())).thenReturn(true);
+
         when(productRepository.save(product)).thenReturn(product);
 
-        Product returnedProduct = productService.updateProduct(product);
+        Product returnedProduct = productService.update(product);
 
         assertThat(returnedProduct).isEqualTo(product).usingRecursiveComparison();
     }

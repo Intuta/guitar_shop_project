@@ -1,24 +1,23 @@
 package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.Transaction;
-import com.myproject.guitar_shop.repository.TransactionRepository;
-import lombok.RequiredArgsConstructor;
+import com.myproject.guitar_shop.repository.AppRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.NotSupportedException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
-public class TransactionService {
+public class TransactionService extends AppService<Transaction> {
 
-    private final TransactionRepository repository;
+    private final AppRepository<Transaction> repository;
 
-    public Transaction getTransactionById(int id) {
-        Optional<Transaction> receivedTransaction = repository.findById(id);
-        return receivedTransaction.orElseThrow(() -> new NoSuchElementException(String.format("Transaction with id %s not found", id)));
+    @Autowired
+    public TransactionService(AppRepository<Transaction> repository) {
+        super(repository);
+        this.repository = repository;
     }
 
     public List<Transaction> getAllTransactionsByUserId(int userId) {
@@ -27,7 +26,13 @@ public class TransactionService {
         return receivedTransactions;
     }
 
-    public Transaction createTransaction(Transaction transaction) {
-        return repository.save(transaction);
+    @Override
+    public Transaction update(Transaction entity) throws NotSupportedException {
+        throw new NotSupportedException("Not supported operation!");
+    }
+
+    @Override
+    public void delete(Transaction entity) throws NotSupportedException {
+        throw new NotSupportedException("Not supported operation!");
     }
 }
