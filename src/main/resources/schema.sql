@@ -8,16 +8,16 @@ DROP TABLE IF EXISTS users;
 DROP TYPE IF EXISTS category;
 DROP TYPE IF EXISTS role;
 
-CREATE TYPE category AS ENUM ('ACOUSTIC_GUITAR', 'ELECTRIC_GUITAR', 'BASS_GUITAR', 'ACOUSTIC_BASS_GUITAR');
 CREATE TABLE products
 (
-    id       SERIAL PRIMARY KEY,
-    brand    VARCHAR(50),
-    title    VARCHAR(100) NOT NULL,
-    category CATEGORY     NOT NULL,
-    price    DECIMAL      NOT NULL CHECK (price > 0),
-    info     VARCHAR(200),
-    quantity INTEGER CHECK (quantity > -1)
+    id          SERIAL PRIMARY KEY,
+    brand       VARCHAR(50),
+    title       VARCHAR(100) NOT NULL,
+    category    VARCHAR      NOT NULL,
+    price       DECIMAL      NOT NULL CHECK (price > 0),
+    info        VARCHAR(200),
+    quantity    INTEGER CHECK (quantity > -1),
+    picture_src VARCHAR(1000)
 );
 
 CREATE TYPE role AS ENUM ('CUSTOMER', 'ADMINISTRATOR');
@@ -27,7 +27,7 @@ CREATE TABLE users
     name     VARCHAR(100) NOT NULL,
     email    VARCHAR(50)  NOT NULL,
     phone    VARCHAR(20),
-    password VARCHAR(50)  NOT NULL,
+    password VARCHAR      NOT NULL,
     role     ROLE         NOT NULL
 );
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <link th:href="@{/styles/registration.css}" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/registration.js}"></script>
+    <title>Log ig</title>
+</head>
+<div class="title">
+
+</div>
+<body class="body">
+<div class="backing">
+    <div class="container">
+        <h1 class="text-center">Register</h1>
+        <form action="home.html" method="POST" class="registration-form">
+            <label class="col-one-half">
+                <span class="label-text">First Name</span>
+                <input type="text" name="firstName">
+            </label>
+            <label class="col-one-half">
+                <span class="label-text">Last Name</span>
+                <input type="text" name="lastName">
+            </label>
+            <label>
+                <span class="label-text">Email</span>
+                <input type="text" name="email">
+            </label>
+            <label>
+                <span class="label-text">Phone</span>
+                <input type="text" name="phone">
+            </label>
+            <label class="password">
+                <span class="label-text">Password</span>
+                <button class="toggle-visibility" title="toggle password visibility" tabindex="-1">
+                    <span class="glyphicon glyphicon-eye-close"></span>
+                </button>
+                <input type="password" name="password">
+            </label>
+            <label class="checkbox">
+                <input type="checkbox" name="newsletter">
+
+            </label>
+            <div class="text-center">
+                <button formmethod="post" class="submit" name="register">Sign Me Up</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
