@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "users")
 @Data
@@ -16,7 +15,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class User {
     @Id
-    @Column(name = "id")
+    @SequenceGenerator(name = "hibernate_sequence", sequenceName="hibernate_sequence", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name")

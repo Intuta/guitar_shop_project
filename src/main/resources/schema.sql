@@ -4,9 +4,11 @@ DROP TABLE IF EXISTS carts;
 DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS users;
+DROP SEQUENCE IF EXISTS hibernate_sequence;
 
 DROP TYPE IF EXISTS category;
-DROP TYPE IF EXISTS role;
+
+CREATE SEQUENCE hibernate_sequence START 1;
 
 CREATE TABLE products
 (
@@ -17,10 +19,9 @@ CREATE TABLE products
     price       DECIMAL      NOT NULL CHECK (price > 0),
     info        VARCHAR(200),
     quantity    INTEGER CHECK (quantity > -1),
-    picture_src VARCHAR(1000)
+    src VARCHAR(1000)
 );
 
-CREATE TYPE role AS ENUM ('CUSTOMER', 'ADMINISTRATOR');
 CREATE TABLE users
 (
     id       SERIAL PRIMARY KEY,
@@ -28,7 +29,7 @@ CREATE TABLE users
     email    VARCHAR(50)  NOT NULL,
     phone    VARCHAR(20),
     password VARCHAR      NOT NULL,
-    role     ROLE         NOT NULL
+    role     VARCHAR         NOT NULL
 );
 
 CREATE TABLE transactions

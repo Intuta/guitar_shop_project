@@ -21,7 +21,8 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+        String ROLE_PREFIX = "ROLE_";
+        return Collections.singleton(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole().name()));
     }
 
     @Override
@@ -52,5 +53,9 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

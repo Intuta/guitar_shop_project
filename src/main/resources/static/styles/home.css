@@ -1,5 +1,5 @@
 .background1 {
-    background-image: url("https://2.downloader.disk.yandex.ru/preview/bba7d139749f099659f6ef78a46d3ae3a501e8da8f06cb41c82a1caf388c8c82/inf/qSaDJpV1C8VoUzRcmUxUS0Ui7jCTZ7_Yhg0WhdkySCyZ4is-2qE7RoIqprl7N3upB8yEt8v4oYLpa8xjJkLF1Q%3D%3D?uid=173653706&filename=nii-a_sjYst1xJo-unsplash%20%281%29.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=173653706&tknv=v2&size=1920x968");
+    background-image: url("images/backing.jpg");
     background-size: 100% auto;
     background-attachment:fixed;
 
@@ -175,7 +175,7 @@
     width: 35px;
     height: 35px;
 
-    background-image: url("https://1.downloader.disk.yandex.ru/preview/5c244fb0fdbb9e6c3d1d541d5a59103eb3dea7a43505cd0f7cd1e4323faa3e3f/inf/Nn1Pu6N9JzDVtA0tAIU4ppp_fctcmwlNSlh5JJkWtZgnXgHFJ9DH-aeAWB4TVizA3p8-KgF7VTBvRMSO1rUX-g%3D%3D?uid=173653706&filename=%D1%81%D0%B2%D0%B5%D1%82%D0%BB%D0%B0%D1%8F%20%D0%BB%D1%83%D0%BF%D0%B0.bmp&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=173653706&tknv=v2&size=1920x969");
+    background-image: url("images/lightSearchTool.bmp");
     background-size: 100% auto;
     background-attachment: initial;
 
@@ -187,7 +187,7 @@
 }
 .search:hover {
     border-color: white;
-    background-image: url("https://2.downloader.disk.yandex.ru/preview/4bbfc356b093888ce28506bfef3442a02b2d2c5507b20b363bb6c3c7ed477da0/inf/oSA8qUh4GkjNlMClvjfr1lRQ_WPChMShchdNW0yOVnciePfkrqvGpcYyuUMGZg3WJtlPHMxvn8ZBM8nrLJohKg%3D%3D?uid=173653706&filename=%D1%82%D0%B5%D0%BC%D0%BD%D0%B0%D1%8F%20%D0%BB%D1%83%D0%BF%D0%B0.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=173653706&tknv=v2&size=1904x968");
+    background-image: url("images/darkSearchTool.jpg");
 
 }
 
@@ -218,7 +218,7 @@
     width: 35px;
     height: 35px;
 
-    background-image: url("https://2.downloader.disk.yandex.ru/preview/a9d101f0573e894478cf40dac34608f5ba20f75929d8891edcade8869a19fae7/inf/xox5AKyXNua8DZaMonLoUuz8mZJq4h5gzVz3Lv1bl3J4DFxVsAvbSeXdGALF5Fbyl3bKgpXL3oyj9yEjC0OvBA%3D%3D?uid=173653706&filename=%D0%A1%D0%B2%D0%B5%D1%82%D0%BB%D0%B0%D1%8F%20%D0%BA%D0%BE%D1%80%D0%B7%D0%B8%D0%BD%D0%B0.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=173653706&tknv=v2&size=1920x969");
+    background-image: url("images/lightCart.jpg");
     background-size: 100% auto;
     background-attachment: initial;
     border-color: lightgray;
@@ -229,7 +229,7 @@
 }
 .cart:hover {
     border-color: white;
-    background-image: url("https://1.downloader.disk.yandex.ru/preview/395dc5562049b0f955333620004d51e71193503b6f54ced619da2d3a698bf448/inf/MMfPgjnkZIPY7h8rQ-CxzYNQuvF-tUl1ypBYjJlm25ZYI9rYVp0oSFqn-Oy2jjIh5qyVXX1meMNbOzZSd3iA7A%3D%3D?uid=173653706&filename=%D0%A2%D0%B5%D0%BC%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BE%D1%80%D0%B7%D0%B8%D0%BD%D0%B0.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=173653706&tknv=v2&size=1920x969");
+    background-image: url("images/darkCart.jpg");
 
 }
 

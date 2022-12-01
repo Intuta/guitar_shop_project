@@ -9,12 +9,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MyUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository repository;
 
     @Autowired
-    public MyUserDetailsService(UserRepository repository) {
+    public UserDetailsServiceImpl(UserRepository repository) {
         super();
         this.repository = repository;
     }
@@ -24,4 +24,5 @@ public class MyUserDetailsService implements UserDetailsService {
         User user = repository.findByEmail(email).orElseThrow();
         return new UserPrincipal(user);
     }
+
 }

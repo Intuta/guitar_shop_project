@@ -12,17 +12,18 @@
 <div class="backing">
     <div class="container">
         <h1 class="text-center">Enter email and password</h1>
-        <form action="../authorization" method="POST" class="registration-form">
+
+        <form action="/login" method="POST" class="authentication-form">
             <label>
                 <span class="label-text">Email</span>
-                <input type="text" name="email">
+                <input type="email" name="email" required>
             </label>
             <label class="password">
                 <span class="label-text">Password</span>
                 <button class="toggle-visibility" title="toggle password visibility" tabindex="-1">
                     <span class="glyphicon glyphicon-eye-close"></span>
                 </button>
-                <input type="password" name="password">
+                <input type="password" name="password" required>
             </label>
             <label class="checkbox">
                 <input type="checkbox" name="newsletter">
@@ -32,6 +33,7 @@
                 <button class="submit" formmethod="post" type="submit" name="sing in">Sign in</button>
             </div>
         </form>
+
         <button class="register" id="register">Register</button>
     </div>
 </div>

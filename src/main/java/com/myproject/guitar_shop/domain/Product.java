@@ -37,7 +37,7 @@ public class Product {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "picture_src")
+    @Column(name = "src")
     private String src;
 
     public enum Category {
