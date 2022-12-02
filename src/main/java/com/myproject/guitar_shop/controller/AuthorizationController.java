@@ -36,6 +36,7 @@ public class AuthorizationController extends AbstractController {
 
     @PostMapping("/register")
     public String addUser(@RequestBody String body, Model model) {
+        System.out.println(body);
         Map<String, String> userInfo = RequestMapper.mapRequestBody(body);
         User currentUser = service.create(service.mapUser(userInfo));
 

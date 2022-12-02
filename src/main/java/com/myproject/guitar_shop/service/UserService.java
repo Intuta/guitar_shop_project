@@ -2,6 +2,7 @@ package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class UserService extends AppService<User> {
 
     public User mapUser(Map<String, String> userInfo) {
         return User.builder()
-                .name(userInfo.get("firstName") + " " + userInfo.get("lastName"))
+                .name(userInfo.get("firstName"))
                 .email(URLDecoder.decode(userInfo.get("email"), StandardCharsets.UTF_8))
                 .phone(userInfo.get("phone"))
                 .password(passwordEncoder.encode(userInfo.get("password")))

@@ -12,14 +12,14 @@ CREATE SEQUENCE hibernate_sequence START 1;
 
 CREATE TABLE products
 (
-    id          SERIAL PRIMARY KEY,
-    brand       VARCHAR(50),
-    title       VARCHAR(100) NOT NULL,
-    category    VARCHAR      NOT NULL,
-    price       DECIMAL      NOT NULL CHECK (price > 0),
-    info        VARCHAR(200),
-    quantity    INTEGER CHECK (quantity > -1),
-    src VARCHAR(1000)
+    id       SERIAL PRIMARY KEY,
+    brand    VARCHAR(50),
+    title    VARCHAR(100) NOT NULL,
+    category VARCHAR      NOT NULL,
+    price    DECIMAL      NOT NULL CHECK (price > 0),
+    info     VARCHAR(200),
+    quantity INTEGER CHECK (quantity > -1),
+    src      VARCHAR(1000)
 );
 
 CREATE TABLE users
@@ -29,7 +29,7 @@ CREATE TABLE users
     email    VARCHAR(50)  NOT NULL,
     phone    VARCHAR(20),
     password VARCHAR      NOT NULL,
-    role     VARCHAR         NOT NULL
+    role     VARCHAR      NOT NULL
 );
 
 CREATE TABLE transactions
