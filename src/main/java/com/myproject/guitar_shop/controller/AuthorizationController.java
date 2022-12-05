@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-public class AuthorizationController extends AbstractController {
+public class AuthorizationController {
 
     private final UserService service;
     private final UserDetailsServiceImpl userDetailsService;
