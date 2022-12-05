@@ -2,7 +2,6 @@ package com.myproject.guitar_shop.controller;
 
 import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.domain.User;
-import com.myproject.guitar_shop.service.CartService;
 import com.myproject.guitar_shop.service.ItemService;
 import com.myproject.guitar_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +18,9 @@ public class ProductController extends AbstractController {
     private final ProductService service;
     private final ItemService itemService;
 
-    private final CartService cartService;
-
     @GetMapping("/product/{id}")
     public String productById(@PathVariable String id, Model model) {
         model.addAttribute("product", service.getById(Integer.parseInt(id)));
-        model.addAttribute("user", this.getCurrentUser());
         return "product";
     }
 
@@ -32,7 +28,6 @@ public class ProductController extends AbstractController {
     @GetMapping("/category/{category}")
     public String category(@PathVariable String category, Model model) {
         model.addAttribute("guitars", service.getAllProductsByCategory(Product.Category.valueOf(category)));
-        model.addAttribute("user", this.getCurrentUser());
         return "products";
     }
 
@@ -44,8 +39,6 @@ public class ProductController extends AbstractController {
         itemService.addItem(currentProduct, currentUser);
 
         model.addAttribute("guitars", service.getAllProductsByCategory(currentProduct.getCategory()));
-        model.addAttribute("user", this.getCurrentUser());
-//        model.addAttribute("itemInTheCart", cartService.getCartByUserId(currentUser.getId()).getItems());
         return "products";
 
     }

@@ -9,7 +9,6 @@ public class HomeController extends AbstractController {
 
     @RequestMapping(value = {"", "/home"})
     public String home(Model model) {
-        model.addAttribute("user", this.getCurrentUser());
         return "home";
     }
 

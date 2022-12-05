@@ -19,7 +19,6 @@ public class CartController extends AbstractController {
     public String cart(Model model) {
         User currentUser = this.getCurrentUser();
         model.addAttribute("cart", service.getCartByUserId(currentUser.getId()));
-        model.addAttribute("user", this.getCurrentUser());
         return "cart";
     }
 

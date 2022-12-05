@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <link th:href="@{/styles/home.css}" rel="stylesheet">
     <link th:href="@{/styles/product.css}" rel="stylesheet">
@@ -20,16 +21,12 @@
         <button class="search"></button>
     </form>
 
-    <div th:if="${user == null}">
-        <button class="authentication" id="log_in">
-            <h2>Sign In</h2>
-        </button>
-    </div>
-    <div th:if="${user != null}">
-        <button class="authentication" id="log_out">
-            <h2>Sign Out</h2>
-        </button>
-    </div>
+    <button class="authentication" id="log_out" sec:authorize="isAuthenticated()">
+        <h2>Sign Out</h2>
+    </button>
+    <button class="authentication" id="log_in" sec:authorize="!isAuthenticated()">
+        <h2>Sign In</h2>
+    </button>
 
     <button class="cart" id="cart">
         <!--        <div class="amount"></div>-->

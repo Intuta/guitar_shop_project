@@ -9,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,8 +23,7 @@ public class AuthorizationController extends AbstractController {
     private final UserDetailsServiceImpl userDetailsService;
 
     @GetMapping("/log_in")
-    public String log(Model model) {
-        model.addAttribute("user", this.getCurrentUser());
+    public String log() {
         return "log_in";
     }
 
@@ -35,7 +33,7 @@ public class AuthorizationController extends AbstractController {
     }
 
     @PostMapping("/register")
-    public String addUser(@RequestBody String body, Model model) {
+    public String addUser(@RequestBody String body) {
         Map<String, String> userInfo = RequestMapper.mapRequestBody(body);
         User currentUser = service.create(service.mapUser(userInfo));
 
@@ -45,14 +43,12 @@ public class AuthorizationController extends AbstractController {
         if (token.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(token);
         }
-        model.addAttribute("user", currentUser);
 
         return "home";
     }
 
     @GetMapping("/logout")
-    public String logout(Model model) {
-        model.addAttribute("user", this.getCurrentUser());
+    public String logout() {
         return "home";
     }
 
