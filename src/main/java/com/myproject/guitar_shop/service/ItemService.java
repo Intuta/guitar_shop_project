@@ -53,6 +53,17 @@ public class ItemService extends AppService<Item> {
         return items;
     }
 
+    public void updateQuantity(int id, int quantity) {
+        Item item = repository.findById(id).orElseThrow(NoSuchElementException::new);
+        if (quantity < 1) {
+            repository.delete(item);
+        }
+        else {
+            item.setQuantity(quantity);
+            update(item);
+        }
+    }
+
     /**
      * @param item The method counts final cost of the item
      */
@@ -60,12 +71,26 @@ public class ItemService extends AppService<Item> {
         item.setSum(item.getPrice() * item.getQuantity());
     }
 
+    /**
+     * @param product
+     * @param user
+     * The method receives the cart via user id and constructs a new Item
+     */
     public void addItem(Product product, User user) {
         Cart cart = cartService.getCartByUserId(user.getId());
-        cart = cartService.create(cart);
         Item item = Item.builder().cartId(cart.getId()).product(product).price(product.getPrice()).quantity(1).build();
-        List<Item> items = cart.getItems();
+        addItemIntoCart(item, cart);
+    }
 
+    /**
+     * @param item
+     * @param cart
+     * The method receives List of Items of the cart and checks if it contains item.
+     * If it does - it updates price-information and adds 1 unit
+     * If it doesn't - adds this new item into the cart
+     */
+    private void addItemIntoCart(Item item, Cart cart) {
+        List<Item> items = cart.getItems();
         if (items.contains(item)) {
             Item previousItem = items.get(items.indexOf(item));
             previousItem.setPrice(item.getPrice());
@@ -76,9 +101,7 @@ public class ItemService extends AppService<Item> {
             create(item);
             items.add(item);
         }
-
         cartService.update(cart);
-
     }
 
 }

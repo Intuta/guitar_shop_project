@@ -110,7 +110,6 @@ public class CartServiceTest {
         cart.setItems(items);
         double expectedSum = 6.0;
 
-        when(cartRepository.existsById(cart.getId())).thenReturn(true);
         when(cartRepository.save(cartCaptor.capture())).thenReturn(cart);
 
         Cart returnedCart = cartService.update(cart);

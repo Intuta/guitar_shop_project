@@ -66,6 +66,15 @@
                         </a>
                     </div>
                 </div>
+                <div class="table-data" th:if="${cart == null || !cart.contains(guitar)}">
+                    <div class="table-data">0 in the cart</div>
+                </div>
+
+                <div class="table-data" th:unless="${cart == null || !cart.contains(guitar)}">
+                    <div class="table-data">In the cart!</div>
+                </div>
+
+
             </div>
         </div>
     </div>

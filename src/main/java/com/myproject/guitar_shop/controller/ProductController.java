@@ -2,6 +2,7 @@ package com.myproject.guitar_shop.controller;
 
 import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.domain.User;
+import com.myproject.guitar_shop.service.CartService;
 import com.myproject.guitar_shop.service.ItemService;
 import com.myproject.guitar_shop.service.ProductService;
 import com.myproject.guitar_shop.utility.CurrentUserProvider;
@@ -18,6 +19,7 @@ public class ProductController {
 
     private final ProductService service;
     private final ItemService itemService;
+    private final CartService cartService;
 
     @GetMapping("/product/{id}")
     public String productById(@PathVariable String id, Model model) {
@@ -39,8 +41,8 @@ public class ProductController {
         User currentUser = CurrentUserProvider.getCurrentUser();
         if (currentUser != null) {
             itemService.addItem(currentProduct, currentUser);
+            model.addAttribute("cart", cartService.getCartByUserId(currentUser.getId()).getItems());
         }
-
         model.addAttribute("guitars", service.getAllProductsByCategory(currentProduct.getCategory()));
         return "products";
 

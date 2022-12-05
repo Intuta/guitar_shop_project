@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -25,14 +24,10 @@ public class CartService extends AppService<Cart> {
 
     public Cart getCartByUserId(int userId) {
         Optional<Cart> receivedCart = repository.findByUserId(userId);
-
         if (receivedCart.isEmpty()) {
             Cart cart = Cart.builder().user(userService.getById(userId)).items(new ArrayList<>()).build();
-            create(cart);
-        }
-
-        receivedCart = repository.findByUserId(userId);
-        return receivedCart.get();
+            return create(cart);
+        } else return receivedCart.get();
     }
 
     @Override
@@ -43,13 +38,8 @@ public class CartService extends AppService<Cart> {
 
     @Override
     public Cart update(Cart cart) {
-        int id = cart.getId();
-        if (repository.existsById(id)) {
-            calculateTotal(cart);
-            return repository.save(cart);
-        } else {
-            throw new NoSuchElementException(String.format("Cart with id %s not found", id));
-        }
+        calculateTotal(cart);
+        return repository.save(cart);
     }
 
     /**
