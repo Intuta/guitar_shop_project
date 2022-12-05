@@ -30,7 +30,7 @@ public class CartServiceTest {
     private Item item2;
     private Cart cart;
     @Captor
-    ArgumentCaptor<Cart> cartCaptor;
+    private ArgumentCaptor<Cart> cartCaptor;
     @Mock
     private CartRepository cartRepository;
     @InjectMocks
@@ -55,7 +55,7 @@ public class CartServiceTest {
 
 
     @Test
-    public void getCartById_Pass() throws Exception {
+    public void getCartById_Pass() {
         int id = cart.getId();
 
         when(cartRepository.findById(id)).thenReturn(Optional.of(cart));
@@ -83,15 +83,6 @@ public class CartServiceTest {
         Cart returnedCart = cartService.getCartByUserId(userId);
 
         assertThat(returnedCart).isEqualTo(cart).usingRecursiveComparison();
-    }
-
-    @Test
-    public void getCartByUserIdTest_Fail() {
-        int userId = 1;
-
-        when(cartRepository.findByUserId(anyInt())).thenReturn(Optional.empty());
-
-        assertThatThrownBy(() -> cartService.getCartByUserId(userId)).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test

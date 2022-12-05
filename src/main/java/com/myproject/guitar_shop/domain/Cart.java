@@ -16,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Cart {
     @Id
+    @SequenceGenerator(name = "cart_hibernate_sequence", sequenceName="cart_hibernate_sequence", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 

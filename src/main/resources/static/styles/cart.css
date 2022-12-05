@@ -1,0 +1,35 @@
+.sum_text {
+    position: relative;
+    top: 7px;
+    left: 1150px;
+    font-size: 0.9em;
+}
+.transaction {
+    position: relative;
+    top: 0px;
+    left: 1200px;
+
+    width: 100px;
+    height: 38px;
+
+    color: rgb(39, 58, 65);
+    text-decoration: none;
+    border-color: white;
+    background: #e5e3e3;
+    outline-color: lightgray;
+
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 7px;
+    text-align: center;
+}
+
+.transaction:hover {
+    background: rgb(47, 79, 93);
+    color: white;
+}
+
+.transaction:active {
+    background: rgb(39, 58, 65);
+    color: white;
+}

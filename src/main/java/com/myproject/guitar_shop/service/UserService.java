@@ -2,12 +2,10 @@ package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -40,7 +38,6 @@ public class UserService extends AppService<User> {
                 .password(passwordEncoder.encode(userInfo.get("password")))
                 .role(User.Role.valueOf("CUSTOMER"))
                 .build();
-
     }
 
 }

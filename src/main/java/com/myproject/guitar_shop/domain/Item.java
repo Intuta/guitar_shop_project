@@ -15,6 +15,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Item {
     @Id
+    @SequenceGenerator(name = "item_hibernate_sequence", sequenceName="item_hibernate_sequence", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -36,4 +38,13 @@ public class Item {
 
     @Column(name = "sum")
     private Double sum;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Item) {
+            Item other = (Item) obj;
+            return (other.getCartId().equals(this.getCartId()) && other.getProduct().equals(this.product));
+        }
+        return false;
+    }
 }

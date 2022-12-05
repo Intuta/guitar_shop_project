@@ -3,6 +3,7 @@
 <head>
     <link th:href="@{/styles/home.css}" rel="stylesheet">
     <link th:href="@{/styles/catalog.css}" rel="stylesheet">
+    <link th:href="@{/styles/cart.css}" rel="stylesheet">
     <title>Guitar shop</title>
 </head>
 <body class="background1">
@@ -31,8 +32,9 @@
         </button>
     </div>
 
-    <button class="cart" id="cart"></button>
-
+    <button class="cart" id="cart">
+        <!--        <div class="amount"></div>-->
+    </button>
 </div>
 
 <div class="backing">
@@ -56,19 +58,17 @@
 <div class="catalog_container">
     <div class="table">
         <div class="table-content">
-            <div class="table-row" th:each="guitar: ${guitars}">
-                <div class="td"><img th:src="${guitar.getSrc()}" alt="" height="300"></div>
-                <a th:href="@{/product/{id}(id = ${guitar.getId()})}" class="table-data"
-                   th:text="${guitar.getTitle()}"/>
-                <div class="table-data" th:text="${guitar.getPrice() + ' USD'}"></div>
-                <div class="table-data">
-                    <div class="add_form">
-                        <a class="add_text"
-                           th:href="@{/addIntoCart/{id}(id = ${guitar.getId()})}">
-                            Add into the cart
-                        </a>
-                    </div>
-                </div>
+            <div class="table-row" th:each="item: ${cart.getItems()}">
+                <div class="td"><img th:src="${item.getProduct().getSrc()}" alt="" height="300"></div>
+                <a th:href="@{/product/{id}(id = ${item.getProduct().getId()})}" class="table-data"
+                   th:text="${item.getProduct().getTitle()}"/>
+                <div class="table-data" th:text="${item.getProduct().getPrice() + ' USD'}"></div>
+                <div class="table-data" th:text="${item.getQuantity()}"></div>
+                <div class="table-data" th:text="${item.getSum()}"></div>
+            </div>
+            <div class="table-row">
+                <div class="sum_text" th:text="${'Total cost: ' + cart.getSum() + ' USD'}"></div>
+                <button class="transaction">Buy</button>
             </div>
         </div>
     </div>
@@ -87,6 +87,3 @@
 
 </body>
 </html>
-
-
-

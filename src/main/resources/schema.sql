@@ -5,10 +5,15 @@ DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS hibernate_sequence;
+DROP SEQUENCE IF EXISTS item_hibernate_sequence;
+DROP SEQUENCE IF EXISTS cart_hibernate_sequence;
+
 
 DROP TYPE IF EXISTS category;
 
 CREATE SEQUENCE hibernate_sequence START 1;
+CREATE SEQUENCE item_hibernate_sequence START 1;
+CREATE SEQUENCE cart_hibernate_sequence START 1;
 
 CREATE TABLE products
 (
