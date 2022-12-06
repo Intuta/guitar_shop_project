@@ -1,6 +1,6 @@
 package com.myproject.guitar_shop.controller;
 
-import com.myproject.guitar_shop.domain.Item;
+import com.myproject.guitar_shop.domain.Cart;
 import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.service.CartService;
 import com.myproject.guitar_shop.service.ItemService;
@@ -33,11 +33,14 @@ public class CartController {
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/updateQuantity/{item_id}")
-    public String updateQuantity(@PathVariable("item_id") String itemId, @RequestParam("quantity") String quantity,  Model model) {
-        itemService.updateQuantity(Integer.parseInt(itemId), Integer.parseInt(quantity));
+    public String updateQuantity(@PathVariable("item_id") String itemId, @RequestParam("quantity") String quantity, Model model) {
         User currentUser = CurrentUserProvider.getCurrentUser();
+
+        itemService.updateQuantity(Integer.parseInt(itemId), Integer.parseInt(quantity));
+
         if (currentUser != null) {
-            model.addAttribute("cart", service.getCartByUserId(currentUser.getId()));
+            Cart currentCart = service.getCartByUserId(currentUser.getId());
+            model.addAttribute("cart", currentCart);
         }
         return "cart";
     }

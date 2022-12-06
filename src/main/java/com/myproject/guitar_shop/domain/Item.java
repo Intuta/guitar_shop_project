@@ -23,7 +23,7 @@ public class Item {
     @Column(name = "cart_id")
     private Integer cartId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
