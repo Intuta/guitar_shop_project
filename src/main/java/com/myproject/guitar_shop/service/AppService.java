@@ -20,11 +20,7 @@ abstract class AppService<T> {
         return receivedCart.orElseThrow(() -> new NoSuchElementException("Not found!"));
     }
 
-    public T create(T entity) {
-        return repository.save(entity);
-    }
-
-    public T update(T entity) throws Exception {
+    public T save(T entity) {
         return repository.save(entity);
     }
 

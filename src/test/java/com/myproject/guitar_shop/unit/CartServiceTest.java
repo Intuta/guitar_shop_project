@@ -95,7 +95,7 @@ public class CartServiceTest {
 
         when(cartRepository.save(cart)).thenReturn(cart);
 
-        Cart returnedCart = cartService.create(cart);
+        Cart returnedCart = cartService.save(cart);
 
         assertThat(returnedCart).isEqualTo(cart).usingRecursiveComparison();
     }

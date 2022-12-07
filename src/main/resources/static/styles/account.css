@@ -1,0 +1,86 @@
+.container_container {
+    position: absolute;
+    top: 100px;
+    left:700px;
+    right: 50%;
+
+
+    width: 510px;
+    height: 260px;
+
+    opacity: .95;
+    border: solid rgb(44, 51, 54);
+    background: rgb(39, 58, 65);
+
+    font-family: 'Cookie', serif;
+    font-weight: bold;
+    font-size: 26px;
+    text-align: left;
+}
+
+.user_container {
+    position: absolute;
+    top: 2px;
+    left:1px;
+    right: 50%;
+
+
+    width: 500px;
+    height: 250px;
+
+    opacity: .95;
+    border: solid rgb(44, 51, 54);
+    background: white;
+
+    font-family: 'Cookie', serif;
+    font-weight: bold;
+    font-size: 26px;
+    text-align: left;
+}
+
+.change_form {
+    position: relative;
+    display: block;
+    top: -3px;
+    left: 165px;
+    width: 314px;
+    font-size: 0.9em;
+}
+
+.user_data_text {
+    position: relative;
+    display: block;
+    top: 25px;
+    left: 16px;
+    font-size: 0.9em;
+    color: rgb(39, 58, 65);
+}
+
+.account_button {
+    position: relative;
+    top: 9px;
+    display: inline-block;
+    left: 9px;
+    opacity: .99;
+    border-color: white;
+
+    width: 236px;
+    height: 50px;
+    color: rgb(39, 58, 65);
+
+
+    background: #e5e3e3;
+    outline-color: lightgray;
+    font-size: 0.5em;
+    text-align: center;
+}
+
+.account_button:hover {
+    background: rgb(44, 73, 86);
+    color: white;
+}
+
+.account_button:active {
+    background: rgb(39, 58, 65);
+    color: white;
+}

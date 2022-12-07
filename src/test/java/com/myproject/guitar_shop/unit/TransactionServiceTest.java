@@ -68,7 +68,7 @@ public class TransactionServiceTest {
     public void createTransactionTest() throws Exception {
         when(transactionRepository.save(transaction)).thenReturn(transaction);
 
-        Transaction returnedTransaction = transactionService.create(transaction);
+        Transaction returnedTransaction = transactionService.save(transaction);
 
         assertThat(returnedTransaction).isEqualTo(transaction).usingRecursiveComparison();
     }

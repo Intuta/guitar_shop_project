@@ -30,16 +30,16 @@ public class CartService extends AppService<Cart> {
         Optional<Cart> receivedCart = repository.findByUserId(userId);
         if (receivedCart.isEmpty()) {
             Cart cart = Cart.builder().user(userService.getById(userId)).items(new ArrayList<>()).build();
-            return create(cart);
+            return save(cart);
         } else return receivedCart.get();
     }
 
     @Override
-    public Cart create(Cart cart) {
+    public Cart save(Cart cart) {
         return repository.save(cart);
     }
 
-    @Override
+
     public Cart update(Cart cart) {
         return repository.save(cart);
     }
@@ -60,7 +60,7 @@ public class CartService extends AppService<Cart> {
             itemService.update(previousItem);
         } else {
             item.setCartId(cart.getId());
-            itemService.create(item);
+            itemService.save(item);
             items.add(item);
         }
         update(cart);

@@ -96,7 +96,7 @@ public class ItemServiceTest {
 
         when(itemRepository.save(itemCaptor.capture())).thenReturn(item);
 
-        Item returnedItem = itemService.create(item);
+        Item returnedItem = itemService.save(item);
 //        Item capturedItem = itemCaptor.getValue();
 //
 //        assertThat(capturedItem.getSum()).isEqualTo(expectedSum);

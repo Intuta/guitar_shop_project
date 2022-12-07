@@ -158,8 +158,8 @@
 
 .input_form {
     position: absolute;
-    top: 7px;
-    left: 1445px;
+    top: 12.7%;
+    left: 1415px;
 
     height: 30px;
     width: 255px;
@@ -169,7 +169,7 @@
     position: absolute;
     top: 7px;
     display: block;
-    left: 1715px;
+    left: 1681px;
 
     opacity: .95;
     width: 35px;
@@ -212,7 +212,7 @@
     position: absolute;
     top: 7px;
     display: block;
-    left: 1755px;
+    left: 1719px;
 
     opacity: .95;
     width: 35px;
@@ -234,6 +234,36 @@
 }
 
 .cart:active {
+    background: rgb(39, 58, 65);
+    color: white;
+}
+
+.account {
+    position: absolute;
+    top: 7px;
+    display: block;
+    left: 1757px;
+
+    opacity: .95;
+    width: 35px;
+    height: 35px;
+
+    background-image: url("images/lightAccount.jpg");
+    background-size: 100% auto;
+    background-attachment: initial;
+    border-color: lightgray;
+
+    text-decoration: none;
+    text-align: center;
+
+}
+.account:hover {
+    border-color: white;
+    background-image: url("images/darkAccount.jpg");
+
+}
+
+.account:active {
     background: rgb(39, 58, 65);
     color: white;
 }

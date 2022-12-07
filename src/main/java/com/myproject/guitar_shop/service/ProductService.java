@@ -38,4 +38,8 @@ public class ProductService extends AppService<Product> {
         return products;
     }
 
+    public Product update(Product product){
+        return repository.save(product);
+    }
+
 }

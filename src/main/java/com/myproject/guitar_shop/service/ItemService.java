@@ -31,11 +31,10 @@ public class ItemService extends AppService<Item> {
     }
 
     @Override
-    public Item create(Item item) {
+    public Item save(Item item) {
         return repository.save(item);
     }
 
-    @Override
     public Item update(Item item) {
         int id = item.getId();
         if (repository.existsById(id)) {
@@ -79,5 +78,14 @@ public class ItemService extends AppService<Item> {
         Cart cart = cartService.getCartByUserId(user.getId());
         Item item = Item.builder().cartId(cart.getId()).product(product).price(product.getPrice()).quantity(1).build();
         cartService.addItemIntoCart(item, cart);
+    }
+
+    public List<Item> setTransactionId(List<Item> items, int transactionId) {
+        for (Item item:items) {
+            item.setTransactionId(transactionId);
+            item.setCartId(null);
+            update(item);
+        }
+        return items;
     }
 }

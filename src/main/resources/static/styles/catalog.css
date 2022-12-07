@@ -46,6 +46,7 @@ td div {
     font-weight: bold;
     font-size: 26px;
     text-align: center;
+    text-decoration:none;
 }
 
 .add_text {
@@ -54,6 +55,7 @@ td div {
     flex: 1 1 5%;
     text-align: left;
     font-size: 0.9em;
+    text-decoration:none;
     color: white;
 }
 
@@ -67,6 +69,17 @@ td div {
     background: rgb(39, 58, 65);
 
     text-align: center;
+    text-decoration:none;
+}
+
+.add_form:hover {
+    background: rgb(30, 95, 110);
+    color: white;
+}
+
+.add_form:active {
+    background: rgb(39, 58, 65);
+    color: white;
 }
 
 

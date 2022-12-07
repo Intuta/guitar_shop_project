@@ -84,23 +84,10 @@ public class UserServiceTest {
 
         when(userRepository.save(user)).thenReturn(user);
 
-        User returnedUser = userService.create(user);
+        User returnedUser = userService.save(user);
 
         assertThat(returnedUser).isEqualTo(user).usingRecursiveComparison();
     }
 
-    @Test
-    public void updateUser_Pass() throws Exception {
-        User user = User.builder()
-                .id(1)
-                .name("name")
-                .build();
-
-        when(userRepository.save(user)).thenReturn(user);
-
-        User returnedUser = userService.update(user);
-
-        assertThat(returnedUser).isEqualTo(user).usingRecursiveComparison();
-    }
 
 }

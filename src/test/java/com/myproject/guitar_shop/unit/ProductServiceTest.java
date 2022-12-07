@@ -121,7 +121,7 @@ class ProductServiceTest {
 
         when(productRepository.save(product)).thenReturn(product);
 
-        Product returnedProduct = productService.create(product);
+        Product returnedProduct = productService.save(product);
 
         assertThat(returnedProduct).isEqualTo(product).usingRecursiveComparison();
     }

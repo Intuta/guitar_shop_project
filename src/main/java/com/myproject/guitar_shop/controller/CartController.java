@@ -30,7 +30,6 @@ public class CartController {
         return "cart";
     }
 
-
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/updateQuantity/{item_id}")
     public String updateQuantity(@PathVariable("item_id") String itemId, @RequestParam("quantity") String quantity, Model model) {

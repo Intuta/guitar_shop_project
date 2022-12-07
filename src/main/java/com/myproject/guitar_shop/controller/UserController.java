@@ -3,21 +3,22 @@ package com.myproject.guitar_shop.controller;
 import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.security.UserDetailsServiceImpl;
 import com.myproject.guitar_shop.service.UserService;
+import com.myproject.guitar_shop.utility.CurrentUserProvider;
 import com.myproject.guitar_shop.utility.RequestMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-public class AuthorizationController {
+public class UserController {
 
     private final UserService service;
     private final UserDetailsServiceImpl userDetailsService;
@@ -35,7 +36,7 @@ public class AuthorizationController {
     @PostMapping("/register")
     public String addUser(@RequestBody String body) {
         Map<String, String> userInfo = RequestMapper.mapRequestBody(body);
-        User currentUser = service.create(service.mapUser(userInfo));
+        User currentUser = service.save(service.mapUser(userInfo));
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(currentUser.getEmail());
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, currentUser.getPassword(), userDetails.getAuthorities());
@@ -50,6 +51,21 @@ public class AuthorizationController {
     @GetMapping("/logout")
     public String logout() {
         return "home";
+    }
+
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/account")
+    public String account(Model model) {
+        model.addAttribute("user", CurrentUserProvider.getCurrentUser()); //Почему не возвращается Юзер с нужными полями после update?
+        return "account";
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/updateUser/{user_id}")
+    public String updateUSer(@PathVariable String user_id, @RequestParam Map<String, String> params, Model model) {
+        model.addAttribute("user", service.update(params, Integer.parseInt(user_id)));
+        return "account";
     }
 
 }

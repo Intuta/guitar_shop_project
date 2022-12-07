@@ -3,6 +3,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <link th:href="@{/styles/home.css}" rel="stylesheet">
+    <link th:href="@{/styles/account.css}" rel="stylesheet">
     <title>Guitar shop</title>
 </head>
 <body class="background1">
@@ -14,13 +15,12 @@
 
     <form method="GET">
         <label>
-            <input class="input_form" th:placeholder="${'search...'}">
+            <input class="input_form">
         </label>
         <button class="search"></button>
+        <button class="cart" id="cart"></button>
+        <button class="account" id="account"></button>
     </form>
-
-    <button class="cart" id="cart"></button>
-    <button class="account" id="account"></button>
 
     <button class="authentication" id="log_out" sec:authorize="isAuthenticated()">
         <h2>Sign Out</h2>
@@ -50,10 +50,37 @@
     </button>
 </div>
 
+<div class="container_container">
+    <div class="user_container">
+        <form th:action="@{/updateUser/{user_id}(name = 'name', user_id =${user.id})}"
+              method="GET">
+            <div class="user_data_text">User name:</div>
+            <input type="text" class="change_form" id="updateName"
+                   th:name="name" th:placeholder="${user.getName()}">
+        </form>
+
+        <form th:action="@{/updateUser/{user_id}(name = 'email', user_id =${user.id})}"
+              method="GET">
+            <div class="user_data_text">Email:</div>
+            <input type="email" class="change_form" id="updateEmail"
+                   th:name="email" th:placeholder="${user.getEmail()}">
+        </form>
+
+        <form th:action="@{/updateUser/{user_id}(name = 'phone', user_id =${user.id})}"
+              method="GET">
+            <div class="user_data_text">Phone:</div>
+            <input type="tel" pattern="[0-9]{12}" class="change_form" id="updatePhone"
+                   th:name="phone" th:placeholder="${user.getPhone()}">
+        </form>
+        <button class="account_button">My purchases</button>
+        <button class="account_button">Change password</button>
+    </div>
+</div>
+
+
 <script src="../js/home.js"></script>
 <script src="../js/log_in.js"></script>
 <script src="../js/log_out.js"></script>
-<script src="../js/account.js"></script>
 <script src="../js/cart.js"></script>
 <script src="../js/acoustic.js"></script>
 <script src="../js/electric.js"></script>

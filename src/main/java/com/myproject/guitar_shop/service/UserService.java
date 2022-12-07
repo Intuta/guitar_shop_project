@@ -30,6 +30,26 @@ public class UserService extends AppService<User> {
         return receivedUser.orElseThrow(() -> new NoSuchElementException(String.format("User with email %s not found", email)));
     }
 
+    public User update(Map<String,String> attributes, int userId) {
+        Optional<User> currentUser = repository.findById(userId);
+        currentUser.ifPresent(user -> attributes.keySet().forEach(key -> {
+            switch (key) {
+                case "name":
+                    user.setName(attributes.get("name"));
+                    break;
+                case "email":
+                    user.setEmail(attributes.get("email"));
+                    break;
+                case "phone":
+                    user.setPhone(attributes.get("phone"));
+                    break;
+                case "password":
+                    user.setPassword(passwordEncoder.encode(attributes.get("password")));
+            }
+        }));
+        return save(currentUser.orElseThrow());
+    }
+
     public User mapUser(Map<String, String> userInfo) {
         return User.builder()
                 .name(userInfo.get("firstName"))

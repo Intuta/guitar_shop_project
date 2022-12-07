@@ -87,3 +87,35 @@
     color: rgb(44, 73, 86);
     font-size: 0.8em;
 }
+
+.add_form {
+    position: relative;
+    display: block;
+    top: 250px;
+    left: 650px;
+    width: 220px;
+    height: 50px;
+    background: rgb(39, 58, 65);
+
+    text-align: center;
+    text-decoration:none;
+}
+
+.add_form:hover {
+    background: rgb(30, 91, 110);
+    color: white;
+}
+
+.add_form:active {
+    background: rgb(39, 58, 65);
+    color: white;
+}
+
+.add_form_text {
+    position: relative;
+    top: 8px;
+    flex: 1 1 5%;
+    font-size: 0.7em;
+    text-decoration:none;
+    color: white;
+}
