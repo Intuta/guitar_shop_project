@@ -24,14 +24,14 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public String productById(@PathVariable String id, Model model) {
         model.addAttribute("product", service.getById(Integer.parseInt(id)));
-        return "product";
+        return "home";
     }
 
 
     @GetMapping("/category/{category}")
     public String category(@PathVariable String category, Model model) {
         model.addAttribute("guitars", service.getAllProductsByCategory(Product.Category.valueOf(category)));
-        return "products";
+        return "home";
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")
@@ -41,10 +41,9 @@ public class ProductController {
         User currentUser = CurrentUserProvider.getCurrentUser();
         if (currentUser != null) {
             itemService.addItem(currentProduct, currentUser);
-            model.addAttribute("cart", cartService.getCartByUserId(currentUser.getId()).getItems());
         }
         model.addAttribute("guitars", service.getAllProductsByCategory(currentProduct.getCategory()));
-        return "products";
+        return "home";
 
     }
 }

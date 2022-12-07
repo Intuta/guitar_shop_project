@@ -57,15 +57,23 @@ public class UserController {
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/account")
     public String account(Model model) {
-        model.addAttribute("user", CurrentUserProvider.getCurrentUser()); //Почему не возвращается Юзер с нужными полями после update?
-        return "account";
+        model.addAttribute("user", CurrentUserProvider.getCurrentUser()); 
+        return "home";
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/updateUser/{user_id}")
     public String updateUSer(@PathVariable String user_id, @RequestParam Map<String, String> params, Model model) {
-        model.addAttribute("user", service.update(params, Integer.parseInt(user_id)));
-        return "account";
+        User currentUser = service.save(service.update(params, Integer.parseInt(user_id)));
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(currentUser.getEmail());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, currentUser.getPassword(), userDetails.getAuthorities());
+
+        if (token.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(token);
+        }
+        model.addAttribute("user",currentUser);
+        return "home";
     }
 
 }

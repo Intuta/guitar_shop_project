@@ -27,7 +27,7 @@ public class CartController {
         if (currentUser != null) {
             model.addAttribute("cart", service.getCartByUserId(currentUser.getId()));
         }
-        return "cart";
+        return "home";
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")
@@ -41,7 +41,7 @@ public class CartController {
             Cart currentCart = service.getCartByUserId(currentUser.getId());
             model.addAttribute("cart", currentCart);
         }
-        return "cart";
+        return "home";
     }
 
 }

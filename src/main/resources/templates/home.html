@@ -3,6 +3,10 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <link th:href="@{/styles/home.css}" rel="stylesheet">
+    <link th:href="@{/styles/account.css}" rel="stylesheet">
+    <link th:href="@{/styles/cart.css}" rel="stylesheet">
+    <link th:href="@{/styles/catalog.css}" rel="stylesheet">
+    <link th:href="@{/styles/product.css}" rel="stylesheet">
     <title>Guitar shop</title>
 </head>
 <body class="background1">
@@ -48,6 +52,107 @@
     <button class="categories" id="acoustic_bass">
         <h3>Acoustic bass guitars</h3>
     </button>
+</div>
+
+
+<div th:if="${user != null}" class="account_container">
+    <div class="user_container">
+        <form th:action="@{/updateUser/{user_id}(name = 'name', user_id =${user.id})}"
+              method="GET">
+            <div class="user_data_text">User name:</div>
+            <input type="text" class="change_form" id="updateName"
+                   th:name="name" th:placeholder="${user.getName()}">
+        </form>
+
+        <form th:action="@{/updateUser/{user_id}(name = 'email', user_id =${user.id})}"
+              method="GET">
+            <div class="user_data_text">Email:</div>
+            <input type="email" class="change_form" id="updateEmail"
+                   th:name="email" th:placeholder="${user.getEmail()}">
+        </form>
+
+        <form th:action="@{/updateUser/{user_id}(name = 'phone', user_id =${user.id})}"
+              method="GET">
+            <div class="user_data_text">Phone:</div>
+            <input type="tel" pattern="[0-9]{12}" class="change_form" id="updatePhone"
+                   th:name="phone" th:placeholder="${user.getPhone()}">
+        </form>
+        <button class="account_button" id="transactions">My purchases</button>
+        <button class="account_button">Change password</button>
+    </div>
+</div>
+
+<div th:if="${guitars != null}" class="catalog_container">
+    <div class="table">
+        <div class="table-content">
+            <div class="table-row" th:each="guitar: ${guitars}">
+                <div class="td"><img th:src="${guitar.getSrc()}" alt="" height="300"></div>
+                <a th:href="@{/product/{id}(id = ${guitar.getId()})}" class="table-data"
+                   th:text="${guitar.getTitle()}"/>
+                <div class="table-data" th:text="${guitar.getPrice() + ' USD'}"></div>
+                <div class="table-data">
+                    <a class="add_form_catalog_form" th:href="@{/addIntoCart/{id}(id = ${guitar.getId()})}">
+                        <label class="add_form_catalog_text">
+                            Add into the cart
+                        </label>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${product != null}" class="container_container">
+    <div class="product_container">
+        <div class="title_container" th:text="${product.getTitle()}"></div>
+        <div class="image_container">
+            <div class="image"><img th:src="${product.getSrc()}" alt=""></div>
+        </div>
+        <div class="data_container" th:text="${product.getInfo()}"></div>
+        <div class="data_container" th:text="${product.getQuantity() + ' unit in stock'}"></div>
+        <div class="data_container" th:text="${'Price: ' + product.getPrice() + ' USD'}"></div>
+        <a class="add_form" th:href="@{/addIntoCart/{id}(id = ${product.getId()})}">
+            <label class="add_form_text">
+                Add into the cart
+            </label>
+        </a>
+    </div>
+</div>
+
+<div th:if="${cart != null}" class="catalog_container">
+    <div class="table">
+        <div class="table-content">
+            <div class="table-row" th:if="${cart.getItems().isEmpty()}">
+                <div class="empty_cart_text">Cart is empty</div>
+            </div>
+            <div th:if="${!cart.getItems().isEmpty()}">
+                <div class="table-row" th:each="item: ${cart.getItems()}">
+                    <div class="td"><img th:src="${item.getProduct().getSrc()}" alt="" height="300"></div>
+                    <a th:href="@{/product/{id}(id = ${item.getProduct().getId()})}" class="table-data"
+                       th:text="${item.getProduct().getTitle()}"/>
+                    <div class="table-data" th:text="${'Cost: ' + item.getProduct().getPrice() + ' USD'}"></div>
+                    <div class="table-data">
+                        <form th:action="@{/updateQuantity/{item_id}(quantity = 'name', item_id =${item.id})}"
+                              method="GET">
+                            <input type="number" class="quantity_form" id="updateQuantity"
+                                   th:name="quantity" th:placeholder="${item.getQuantity()}">
+                        </form>
+                        <a th:href="@{/updateQuantity/{item_id}(quantity = '0', item_id =${item.id})}" >
+                            <button class="delete"></button>
+                        </a>
+                    </div>
+                    <div class="table-data" th:text="${'Sum: ' +    item.getSum() + ' USD'}">
+                    </div>
+                </div>
+                <div class="table-row">
+                    <div class="sum_text" th:text="${'Total cost: ' + cart.getSum() + ' USD'}"></div>
+                    <a th:href="@{/buy/{cart_id}(cart_id=${cart.id})}" class="buy">
+                        <label class="buy_text">Buy</label></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <script src="../js/home.js"></script>

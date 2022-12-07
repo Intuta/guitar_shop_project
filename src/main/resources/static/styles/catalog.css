@@ -49,7 +49,7 @@ td div {
     text-decoration:none;
 }
 
-.add_text {
+.add_form_catalog_text {
     position: relative;
     top: 12px;
     flex: 1 1 5%;
@@ -59,7 +59,7 @@ td div {
     color: white;
 }
 
-.add_form {
+.add_form_catalog_form {
     position: relative;
     display: block;
     top: 1px;
@@ -72,12 +72,12 @@ td div {
     text-decoration:none;
 }
 
-.add_form:hover {
+.add_form_catalog_form:hover {
     background: rgb(30, 95, 110);
     color: white;
 }
 
-.add_form:active {
+.add_form_catalog_form:active {
     background: rgb(39, 58, 65);
     color: white;
 }
