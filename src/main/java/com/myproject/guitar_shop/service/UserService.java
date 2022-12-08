@@ -30,7 +30,7 @@ public class UserService extends AppService<User> {
         return receivedUser.orElseThrow(() -> new NoSuchElementException(String.format("User with email %s not found", email)));
     }
 
-    public User update(Map<String,String> attributes, int userId) {
+    public User update(Map<String, String> attributes, int userId) {
         Optional<User> currentUser = repository.findById(userId);
         currentUser.ifPresent(user -> attributes.keySet().forEach(key -> {
             switch (key) {
@@ -43,11 +43,19 @@ public class UserService extends AppService<User> {
                 case "phone":
                     user.setPhone(attributes.get("phone"));
                     break;
-                case "password":
-                    user.setPassword(passwordEncoder.encode(attributes.get("password")));
             }
         }));
-        return save(currentUser.orElseThrow());
+
+        if (currentUser.isPresent() && attributes.containsKey("password")) {
+                if (passwordEncoder.matches(attributes.get("password"), currentUser.get().getPassword())) {
+                    currentUser.get().setPassword(passwordEncoder.encode(attributes.get("new_password")));
+                }
+                else currentUser = Optional.empty();
+        }
+        if (currentUser.isPresent()) {
+            return save(currentUser.orElseThrow());
+        }
+        else throw new NoSuchElementException();
     }
 
     public User mapUser(Map<String, String> userInfo) {

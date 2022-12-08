@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class CartAspect {
     @Pointcut("execution(* com.myproject.guitar_shop.repository.CartRepository.save(..))")
-    public void callTotalCart(){
+    public void callTotalCart() {
 
     }
+
     /**
      * @param cart The method counts sum of all items in the cart
      */
@@ -25,9 +26,6 @@ public class CartAspect {
                 .sum();
         cart.setSum(sum);
         pjp.proceed();
-        sum = cart.getItems().stream()
-                .mapToDouble(Item::getSum)
-                .sum();
         return cart;
     }
 

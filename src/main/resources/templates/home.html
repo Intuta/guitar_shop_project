@@ -16,9 +16,9 @@
         <h2>Guitar Shop</h2>
     </button>
 
-    <form method="GET">
+    <form action="/products" method="GET">
         <label>
-            <input class="input_form" th:placeholder="${'search...'}">
+            <input type="text" class="input_form" th:placeholder="${'search...'}" name="title" required>
         </label>
         <button class="search"></button>
     </form>
@@ -78,20 +78,22 @@
                    th:name="phone" th:placeholder="${user.getPhone()}">
         </form>
         <button class="account_button" id="transactions">My purchases</button>
-        <button class="account_button">Change password</button>
+        <button class="account_button" id="passwordChange">Change password</button>
     </div>
 </div>
 
-<div th:if="${guitars != null}" class="catalog_container">
+<div th:if="${products != null}" class="catalog_container">
     <div class="table">
         <div class="table-content">
-            <div class="table-row" th:each="guitar: ${guitars}">
-                <div class="td"><img th:src="${guitar.getSrc()}" alt="" height="300"></div>
-                <a th:href="@{/product/{id}(id = ${guitar.getId()})}" class="table-data"
-                   th:text="${guitar.getTitle()}"/>
-                <div class="table-data" th:text="${guitar.getPrice() + ' USD'}"></div>
+            <div class="table-row" th:each="product: ${products}">
+                <div class="td"><img th:src="${product.getSrc()}" alt="" height="300"></div>
+                <a th:href="@{/product/{id}(id = ${product.getId()})}" class="table-data"
+                   th:text="${product.getTitle()}"/>
+                <div class="table-data" th:text="${product.getQuantity() + ' in stock'}"></div>
+                <div class="table-data" th:text="${product.getPrice() + ' USD'}"></div>
                 <div class="table-data">
-                    <a class="add_form_catalog_form" th:href="@{/addIntoCart/{id}(id = ${guitar.getId()})}">
+                    <a th:if="${product.getQuantity() > 0}" class="add_form_catalog_form"
+                       th:href="@{/addIntoCart/{id}(id = ${product.getId()})}">
                         <label class="add_form_catalog_text">
                             Add into the cart
                         </label>
@@ -111,7 +113,8 @@
         <div class="data_container" th:text="${product.getInfo()}"></div>
         <div class="data_container" th:text="${product.getQuantity() + ' unit in stock'}"></div>
         <div class="data_container" th:text="${'Price: ' + product.getPrice() + ' USD'}"></div>
-        <a class="add_form" th:href="@{/addIntoCart/{id}(id = ${product.getId()})}">
+        <a th:if="${product.getQuantity() > 0}" class="add_form"
+           th:href="@{/addIntoCart/{id}(id = ${product.getId()})}">
             <label class="add_form_text">
                 Add into the cart
             </label>
@@ -123,7 +126,7 @@
     <div class="table">
         <div class="table-content">
             <div class="table-row" th:if="${cart.getItems().isEmpty()}">
-                <div class="empty_cart_text">Cart is empty</div>
+                <div class="empty_text">Cart is empty</div>
             </div>
             <div th:if="${!cart.getItems().isEmpty()}">
                 <div class="table-row" th:each="item: ${cart.getItems()}">
@@ -131,18 +134,25 @@
                     <a th:href="@{/product/{id}(id = ${item.getProduct().getId()})}" class="table-data"
                        th:text="${item.getProduct().getTitle()}"/>
                     <div class="table-data" th:text="${'Cost: ' + item.getProduct().getPrice() + ' USD'}"></div>
+
+                    <div th:if="${item.getQuantity() > item.getProduct().getQuantity()}" class="warn_text">
+                        <div th:text="${item.getProduct().getQuantity() + ' on the stock'}"></div>
+                    </div>
+                    <div th:if="${item.getQuantity() <= item.getProduct().getQuantity()}" class="table-data">
+                        <div th:text="${item.getProduct().getQuantity() + ' on the stock'}"></div>
+                    </div>
+
                     <div class="table-data">
                         <form th:action="@{/updateQuantity/{item_id}(quantity = 'name', item_id =${item.id})}"
                               method="GET">
                             <input type="number" class="quantity_form" id="updateQuantity"
                                    th:name="quantity" th:placeholder="${item.getQuantity()}">
                         </form>
-                        <a th:href="@{/updateQuantity/{item_id}(quantity = '0', item_id =${item.id})}" >
+                        <a th:href="@{/updateQuantity/{item_id}(quantity = '0', item_id =${item.id})}">
                             <button class="delete"></button>
                         </a>
                     </div>
-                    <div class="table-data" th:text="${'Sum: ' +    item.getSum() + ' USD'}">
-                    </div>
+                    <div class="table-data" th:text="${'Sum: ' +    item.getSum() + ' USD'}"></div>
                 </div>
                 <div class="table-row">
                     <div class="sum_text" th:text="${'Total cost: ' + cart.getSum() + ' USD'}"></div>
@@ -151,15 +161,75 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
+<div th:if="${itemsForConfirmation != null}" class="catalog_container">
+    <div class="table">
+        <div class="table-content">
+            <div th:if="${itemsForConfirmation.getItems().isEmpty()}" class="table-row">
+                <div class="warn_text" th:text="${'Sorry, guitar(s) you have choose are out of stock'}"></div>
+            </div>
+            <div class="table-row" th:each="item: ${itemsForConfirmation.getItems()}">
+                <div class="td"><img th:src="${item.product.getSrc()}" alt="" height="300"></div>
+                <a th:href="@{/product/{id}(id = ${item.getProduct.getId()})}" class="table-data"
+                   th:text="${item.getProduct.getTitle()}"/>
+                <div class="table-data" th:text="${item.getPrice() + ' USD'}"></div>
+                <div class="table-data" th:text="${item.getQuantity() + ' in the cart'}"></div>
+                <div class="table-data" th:text="${item.getSum() + ' USD'}"></div>
+            </div>
+            <div th:if="${!itemsForConfirmation.getItems().isEmpty()}" class="table-row">
+                <div class="sum_text" th:text="${'Total cost: ' + itemsForConfirmation.getSum() + ' USD'}"></div>
+                <a th:href="@{/purchase/{cart_id}(cart_id=${itemsForConfirmation.id})}" class="buy">
+                    <label class="buy_text">Confirm</label>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${transactions != null}" class="catalog_container">
+    <div class="table">
+        <div class="table-content">
+            <div class="table-row" th:if="${transactions.isEmpty()}">
+                <div class="empty_text">There aro no purchases so far</div>
+            </div>
+            <div th:if="${!transactions.isEmpty()}">
+                <div class="table-row" th:each="transaction: ${transactions}">
+                    <div class="table-data" th:text="${'Order №' + transaction.getId()}"></div>
+                    <a th:href="@{/transaction/{id}(id = ${transaction.getId()})}" class="table-data"
+                       th:text="${transaction.getCreationDate()}"/>
+                    <a th:href="@{/transaction/{id}(id = ${transaction.getId()})}" class="table-data"
+                       th:text="${'Purchase amount: ' + transaction.getSum() + ' USD'}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${transactionItems != null}" class="catalog_container">
+    <div class="table">
+        <div class="table-content" th:if="${!transactionItems.isEmpty()}">
+            <div class="table-row" th:each="item: ${transactionItems}">
+                <div class="td"><img th:src="${item.getProduct().getSrc()}" alt="" height="300"></div>
+                <a th:href="@{/product/{id}(id = ${item.getProduct().getId()})}" class="table-data"
+                   th:text="${item.getProduct().getTitle()}"/>
+                <div class="table-data" th:text="${'Cost: ' + item.getPrice() + ' USD'}"></div>
+                <div class="table-data" th:text="${'Quantity: ' + item.getQuantity()}"></div>
+                <div class="table-data" th:text="${'Sum: ' +    item.getSum() + ' USD'}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="../js/home.js"></script>
 <script src="../js/log_in.js"></script>
 <script src="../js/log_out.js"></script>
 <script src="../js/account.js"></script>
+<script src="../js/passwordChange.js"></script>
 <script src="../js/cart.js"></script>
+<script src="../js/transactions.js"></script>
 <script src="../js/acoustic.js"></script>
 <script src="../js/electric.js"></script>
 <script src="../js/bass.js"></script>

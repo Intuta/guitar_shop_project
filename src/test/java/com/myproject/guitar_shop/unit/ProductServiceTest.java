@@ -69,29 +69,29 @@ class ProductServiceTest {
         assertThat(returnedProducts).isEqualTo(products).usingRecursiveComparison();
     }
 
-    @Test
-    public void getProductByTitleTest_Pass() {
-        String title = "name";
-        Product product = Product.builder()
-                .id(1)
-                .title(title)
-                .build();
-
-        when(productRepository.findByTitle(title)).thenReturn(Optional.of(product));
-
-        Product returnedProduct = productService.getProductByTitle(title);
-
-        assertThat(returnedProduct).isEqualTo(product).usingRecursiveComparison();
-    }
-
-    @Test
-    public void getProductByTitleTest_Fail() {
-        String title = "name";
-
-        when(productRepository.findByTitle(any())).thenReturn(Optional.empty());
-
-        assertThatThrownBy(() -> productService.getProductByTitle(title)).isInstanceOf(NoSuchElementException.class);
-    }
+//    @Test
+//    public void getProductByTitleTest_Pass() {
+//        String title = "name";
+//        Product product = Product.builder()
+//                .id(1)
+//                .title(title)
+//                .build();
+//
+//        when(productRepository.findByTitle(title)).thenReturn(Optional.of(product));
+//
+//        Product returnedProduct = productService.getProductByTitle(title);
+//
+//        assertThat(returnedProduct).isEqualTo(product).usingRecursiveComparison();
+//    }
+//
+//    @Test
+//    public void getProductByTitleTest_Fail() {
+//        String title = "name";
+//
+//        when(productRepository.findByTitle(any())).thenReturn(Optional.empty());
+//
+//        assertThatThrownBy(() -> productService.getProductByTitle(title)).isInstanceOf(NoSuchElementException.class);
+//    }
 
     @Test
     public void getAllProductsByCategoryTest() {

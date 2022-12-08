@@ -1,5 +1,5 @@
 
-*{
+* {
     box-sizing: border-box;
     font-size: 1em;
     margin: 0;
@@ -57,13 +57,13 @@
     text-align: center;
 }
 
-body{
+body {
     background-image: url("images/backing.jpg");
     background-size: 100% auto;
-    background-attachment:fixed;
+    background-attachment: fixed;
 }
 
-.container{
+.container {
     opacity: .90;
     display: block;
     overflow: hidden;
@@ -78,7 +78,8 @@ body{
     width: 97%;
     height: 96%;
 }
-.container:before{
+
+.container:before {
     background: lightgray;
     background-size: cover;
     content: '';
@@ -94,7 +95,8 @@ body{
     transform: translate(-50%, -50%);
     width: 100vw;
 }
-.container:after{
+
+.container:after {
     background: rgba(255, 255, 255, 0.6);
     content: '';
     display: block;
@@ -105,7 +107,8 @@ body{
     z-index: -1;
     width: 100%;
 }
-.submit{
+
+.submit {
     position: relative;
     top: 10%;
     display: block;
@@ -118,20 +121,21 @@ body{
     text-decoration: none;
     border-color: white;
 
-    background:white;
+    background: white;
     outline-color: lightgray;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 12px;
     text-align: center;
 }
+
 .submit:hover {
     background: rgb(47, 79, 93);
     outline-color: lightgray;
     color: white;
 }
 
-.register{
+.register {
     position: relative;
     top: -22%;
     display: block;
@@ -143,20 +147,48 @@ body{
     text-decoration: none;
     border-color: white;
 
-    background:white;
+    background: white;
     outline-color: lightgray;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 12px;
     text-align: center;
 }
+
 .register:hover {
     background: rgb(47, 79, 93);
     outline-color: lightgray;
     color: white;
 }
 
-form label{
+.update {
+    position: relative;
+    top: 10%;
+    display: block;
+    left: 25%;
+
+
+    width: 200px;
+    height: 40px;
+    color: rgb(39, 58, 65);
+    text-decoration: none;
+    border-color: white;
+
+    background: white;
+    outline-color: lightgray;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    text-align: center;
+}
+
+.update:hover {
+    background: rgb(47, 79, 93);
+    outline-color: lightgray;
+    color: white;
+}
+
+form label {
     border-bottom: 1px solid #333;
     display: block;
     font-size: 1.25em;
@@ -164,15 +196,18 @@ form label{
     -webkit-transition: all 0.25s;
     transition: all 0.25s;
 }
-form label.col-one-half{
+
+form label.col-one-half {
     float: left;
     width: 50%;
 }
-form label.col-one-half:nth-of-type(even){
+
+form label.col-one-half:nth-of-type(even) {
     border-left: 1px solid #333;
     padding-left: 0.25em;
 }
-form label input{
+
+form label input {
     background: none;
     border: none;
     line-height: 1em;
@@ -180,13 +215,16 @@ form label input{
     padding: 0.125em 0.25em;
     width: 100%;
 }
-form label input:focus{
+
+form label input:focus {
     outline: none;
 }
-form label input:-webkit-autofill{
+
+form label input:-webkit-autofill {
     background-color: transparent !important;
 }
-form label span.label-text{
+
+form label span.label-text {
     text-align: left;
     color: rgb(27, 73, 91);
     display: block;
@@ -197,17 +235,21 @@ form label span.label-text{
     -webkit-transition: all 0.25s;
     transition: all 0.25s;
 }
-form label.checkbox{
+
+form label.checkbox {
     border-bottom: 0;
     text-align: left;
 }
-form label.checkbox input{
+
+form label.checkbox input {
     display: none;
 }
-form label.checkbox span{
+
+form label.checkbox span {
     font-size: 0.4em;
 }
-form label.checkbox span:before{
+
+form label.checkbox span:before {
     content: '\e157';
     display: inline-block;
     font-family: 'Glyphicons Halflings', serif;
@@ -216,12 +258,24 @@ form label.checkbox span:before{
     position: relative;
     top: 1px;
 }
-form label.checkbox input:checked + span:before{content: '\e067';}
-form label.invalid{border-color: #c0392b !important;}
-form label.invalid span.label-text{color: #c0392b;}
-form label.password{position: relative;}
 
-form label.password button.toggle-visibility{
+form label.checkbox input:checked + span:before {
+    content: '\e067';
+}
+
+form label.invalid {
+    border-color: #c0392b !important;
+}
+
+form label.invalid span.label-text {
+    color: #c0392b;
+}
+
+form label.password {
+    position: relative;
+}
+
+form label.password button.toggle-visibility {
     background: none;
     border: none;
     cursor: pointer;
@@ -237,32 +291,38 @@ form label.password button.toggle-visibility{
     -webkit-transition: all 0.25s;
     transition: all 0.25s;
 }
+
 form label.password button.toggle-visibility:hover,
 form label.password button.toggle-visibility:focus,
-form label.password button.toggle-visibility:active{
+form label.password button.toggle-visibility:active {
     color: rgb(47, 79, 93);
     outline: none;
 }
-form label.password button.toggle-visibility span{vertical-align: middle;}
 
-h1{
+form label.password button.toggle-visibility span {
+    vertical-align: middle;
+}
+
+h1 {
     text-align: center;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 18px;
 }
-h1 img{
+
+h1 img {
     height: auto;
     margin: 0 auto;
     max-width: 240px;
     width: 100%;
 }
-html{
+
+html {
     font-size: 18px;
     height: 100%;
 }
 
-.text-center{
+.text-center {
     color: rgb(47, 79, 93);
     padding-bottom: 0.8em;
     font-weight: bold;

@@ -7,9 +7,6 @@ import com.myproject.guitar_shop.utility.CurrentUserProvider;
 import com.myproject.guitar_shop.utility.RequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +17,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService service;
+    private final UserService userService;
     private final UserDetailsServiceImpl userDetailsService;
 
     @GetMapping("/log_in")
@@ -36,14 +33,8 @@ public class UserController {
     @PostMapping("/register")
     public String addUser(@RequestBody String body) {
         Map<String, String> userInfo = RequestMapper.mapRequestBody(body);
-        User currentUser = service.save(service.mapUser(userInfo));
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(currentUser.getEmail());
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, currentUser.getPassword(), userDetails.getAuthorities());
-
-        if (token.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(token);
-        }
+        User currentUser = userService.save(userService.mapUser(userInfo));
+        userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
 
         return "home";
     }
@@ -57,23 +48,35 @@ public class UserController {
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/account")
     public String account(Model model) {
-        model.addAttribute("user", CurrentUserProvider.getCurrentUser()); 
+        model.addAttribute("user", CurrentUserProvider.getCurrentUser());
         return "home";
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/updateUser/{user_id}")
     public String updateUSer(@PathVariable String user_id, @RequestParam Map<String, String> params, Model model) {
-        User currentUser = service.save(service.update(params, Integer.parseInt(user_id)));
+        User currentUser = userService.save(userService.update(params, Integer.parseInt(user_id)));
+        userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(currentUser.getEmail());
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, currentUser.getPassword(), userDetails.getAuthorities());
-
-        if (token.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(token);
-        }
-        model.addAttribute("user",currentUser);
+        model.addAttribute("user", currentUser);
         return "home";
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/passwordChange")
+    public String passwordChange() {
+        return "passwordChange";
+    }
+
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @PostMapping("/updateUser")
+    public String updateUSerPassword(@RequestParam Map<String, String> params, Model model) {
+        User currentUser = CurrentUserProvider.getCurrentUser();
+        if (currentUser != null) {
+            currentUser = userService.save(userService.update(params, currentUser.getId()));
+            userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
+            model.addAttribute("user", currentUser);
+        }
+        return "home";
+    }
 }

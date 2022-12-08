@@ -7,6 +7,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import java.text.DecimalFormat;
+
 @Aspect
 @Component
 public class ItemAspect {
@@ -19,7 +21,8 @@ public class ItemAspect {
      */
     @Around("callTotal() && args(item)")
     public Item totalBefore(ProceedingJoinPoint pjp, Item item) throws Throwable {
-        item.setSum(item.getPrice() * item.getQuantity());
+        DecimalFormat df = new DecimalFormat("#.##");
+        item.setSum(Double.valueOf(df.format(item.getPrice() * item.getQuantity()).replace(",", ".")));
         pjp.proceed();
         return item;
     }

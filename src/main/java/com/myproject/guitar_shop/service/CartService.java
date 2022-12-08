@@ -46,24 +46,33 @@ public class CartService extends AppService<Cart> {
 
     /**
      * @param item
-     * @param cart
-     * The method receives List of Items of the cart and checks if it contains item.
-     * If it does - it updates price-information and adds 1 unit
-     * If it doesn't - adds this new item into the cart
+     * @param cart The method receives List of Items of the cart and checks if it contains item.
+     *             If it does - it updates price-information and adds 1 unit
+     *             If it doesn't - adds this new item into the cart
      */
-    public void addItemIntoCart(Item item, Cart cart) {
+    public void addItemIntoCart(Item item, Cart cart) throws Exception {
         List<Item> items = cart.getItems();
         if (items.contains(item)) {
-            Item previousItem = items.get(items.indexOf(item));
-            previousItem.setPrice(item.getPrice());
-            previousItem.setQuantity(previousItem.getQuantity() + 1);
-            itemService.update(previousItem);
+            Item itemInCart = items.get(items.indexOf(item));
+            if (itemInCart.getQuantity() < itemInCart.getProduct().getQuantity()) {
+                itemInCart.setPrice(item.getPrice());
+                itemInCart.setQuantity(itemInCart.getQuantity() + 1);
+                itemService.update(itemInCart);
+            }
+            else throw new Exception();
         } else {
             item.setCartId(cart.getId());
             itemService.save(item);
             items.add(item);
         }
         update(cart);
+    }
+
+    public List<Item> removeItemsIfAbsent(Cart cart) {
+        List<Item> items = cart.getItems();
+        items.removeIf(item -> item.getQuantity() > item.getProduct().getQuantity());
+        update(cart);
+        return items;
     }
 
 }

@@ -1,7 +1,6 @@
 package com.myproject.guitar_shop.service;
 
 import com.myproject.guitar_shop.domain.Cart;
-import com.myproject.guitar_shop.domain.Item;
 import com.myproject.guitar_shop.domain.Transaction;
 import com.myproject.guitar_shop.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,33 +15,37 @@ import java.util.List;
 @Service
 public class TransactionService extends AppService<Transaction> {
 
-    private final TransactionRepository repository;
+    private final TransactionRepository transactionRepository;
     private final ItemService itemService;
     private final UserService userService;
 
     @Autowired
     public TransactionService(TransactionRepository repository, UserService userService, ItemService itemService) {
         super(repository);
-        this.repository = repository;
+        this.transactionRepository = repository;
         this.userService = userService;
         this.itemService = itemService;
     }
 
     public List<Transaction> getAllTransactionsByUserId(int userId) {
         List<Transaction> receivedTransactions = new ArrayList<>();
-        repository.findAllByUserId(userId).forEach(receivedTransactions::add);
+        transactionRepository.findAllByUserId(userId).forEach(receivedTransactions::add);
         return receivedTransactions;
     }
 
-    public void createTransaction(Cart cart) {
-        Transaction transaction = Transaction.builder()
-                .user(userService.getById(cart.getUser().getId()))
-                .sum(cart.getSum())
-                .creationDate(Date.valueOf(LocalDate.now()))
-                .build();
+    public void createTransaction(Cart cart) throws Exception {
+        if (!cart.getItems().isEmpty()) {
+            Transaction transaction = Transaction.builder()
+                    .user(userService.getById(cart.getUser().getId()))
+                    .sum(cart.getSum())
+                    .creationDate(Date.valueOf(LocalDate.now()))
+                    .build();
 
-        transaction = save(transaction);
-        itemService.setTransactionId(cart.getItems(), transaction.getId());
+            transaction = save(transaction);
+            itemService.setTransactionId(cart.getItems(), transaction.getId());
+        }
+        else throw new Exception();
+
     }
 
     public Transaction update(Transaction entity) throws NotSupportedException {

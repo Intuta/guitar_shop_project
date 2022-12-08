@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class ProductService extends AppService<Product> {
@@ -27,9 +25,8 @@ public class ProductService extends AppService<Product> {
         return products;
     }
 
-    public Product getProductByTitle(String title) {
-        Optional<Product> receivedProduct = repository.findByTitle(title);
-        return receivedProduct.orElseThrow(() -> new NoSuchElementException(String.format("Product with title %s not found", title)));
+    public List<Product> getProductByTitle(String title) {
+        return repository.findAllByTitleContaining(title);
     }
 
     public List<Product> getAllProductsByCategory(Product.Category category) {
@@ -38,7 +35,7 @@ public class ProductService extends AppService<Product> {
         return products;
     }
 
-    public Product update(Product product){
+    public Product update(Product product) {
         return repository.save(product);
     }
 

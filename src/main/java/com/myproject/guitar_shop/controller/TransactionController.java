@@ -1,6 +1,7 @@
 package com.myproject.guitar_shop.controller;
 
 import com.myproject.guitar_shop.domain.Cart;
+import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.service.CartService;
 import com.myproject.guitar_shop.service.ItemService;
 import com.myproject.guitar_shop.service.TransactionService;
@@ -18,23 +19,36 @@ public class TransactionController {
 
     private final TransactionService transactionService;
     private final CartService cartService;
-
     private final ItemService itemService;
-
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/buy/{cartId}")
-    public String commitTransaction(@PathVariable String cartId) throws Exception {
+    public String confirmTransaction(@PathVariable String cartId, Model model) {
+        Cart currentCart = cartService.getById(Integer.parseInt(cartId));
+        currentCart.setItems(cartService.removeItemsIfAbsent(currentCart));
+        model.addAttribute("itemsForConfirmation", currentCart);
+        return "home";
+    }
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/purchase/{cartId}")
+    public String commitTransaction(@PathVariable String cartId, Model model) throws Exception {
         Cart currentCart = cartService.getById(Integer.parseInt(cartId));
         transactionService.createTransaction(currentCart);
         cartService.delete(currentCart);
+        User currentUser = CurrentUserProvider.getCurrentUser();
+        if (currentUser != null) {
+            model.addAttribute("transactions", transactionService.getAllTransactionsByUserId(currentUser.getId()));
+        }
         return "home";
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/transactions")
     public String getAllTransactions(Model model) {
-        model.addAttribute("transactions", transactionService.getAllTransactionsByUserId(CurrentUserProvider.getCurrentUser().getId()));
+        User currentUser = CurrentUserProvider.getCurrentUser();
+        if (currentUser != null) {
+            model.addAttribute("transactions", transactionService.getAllTransactionsByUserId(currentUser.getId()));
+        }
         return "home";
     }
 

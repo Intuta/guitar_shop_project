@@ -16,18 +16,32 @@ import java.util.NoSuchElementException;
 @Service
 public class ItemService extends AppService<Item> {
     private final ItemRepository repository;
+    private final ProductService productService;
     private CartService cartService;
 
     @Autowired
-    public ItemService(ItemRepository repository) {
+    public ItemService(ItemRepository repository, ProductService productService) {
         super(repository);
         this.repository = repository;
+        this.productService = productService;
     }
 
     @Autowired
     @Lazy
     public void setCartService(CartService cartService) {
         this.cartService = cartService;
+    }
+
+    public List<Item> getAllItemsByCartId(int cartId) {
+        List<Item> items = new ArrayList<>();
+        repository.findAllByCartId(cartId).forEach(items::add);
+        return items;
+    }
+
+    public List<Item> getAllItemsByTransactionId(int transactionId) {
+        List<Item> items = new ArrayList<>();
+        repository.findAllByTransactionId(transactionId).forEach(items::add);
+        return items;
     }
 
     @Override
@@ -44,18 +58,6 @@ public class ItemService extends AppService<Item> {
         }
     }
 
-    public List<Item> getAllItemsByCartId(int cartId) {
-        List<Item> items = new ArrayList<>();
-        repository.findAllByCartId(cartId).forEach(items::add);
-        return items;
-    }
-
-    public List<Item> getAllItemsByTransactionId(int transactionId) {
-        List<Item> items = new ArrayList<>();
-        repository.findAllByTransactionId(transactionId).forEach(items::add);
-        return items;
-    }
-
     public void updateQuantity(int id, int quantity) {
         Item item = repository.findById(id).orElseThrow(NoSuchElementException::new);
         Cart cart = cartService.getById(item.getCartId());
@@ -63,9 +65,14 @@ public class ItemService extends AppService<Item> {
         if (quantity < 1) {
             repository.delete(item);
         } else {
-            item.setQuantity(quantity);
-            update(item);
-            cart.getItems().add(item);
+            if (quantity > item.getProduct().getQuantity()) {
+                throw new NoSuchElementException();
+            }
+            else {
+                item.setQuantity(quantity);
+                update(item);
+                cart.getItems().add(item);
+            }
         }
         cartService.update(cart);
     }
@@ -74,14 +81,16 @@ public class ItemService extends AppService<Item> {
      * @param product
      * @param user    The method receives the cart via user id and constructs a new Item
      */
-    public void addItem(Product product, User user) {
+    public void addItem(Product product, User user) throws Exception {
         Cart cart = cartService.getCartByUserId(user.getId());
         Item item = Item.builder().cartId(cart.getId()).product(product).price(product.getPrice()).quantity(1).build();
         cartService.addItemIntoCart(item, cart);
     }
 
     public List<Item> setTransactionId(List<Item> items, int transactionId) {
-        for (Item item:items) {
+        for (Item item : items) {
+            item.getProduct().setQuantity(item.getProduct().getQuantity() - item.getQuantity());
+            productService.update(item.getProduct());
             item.setTransactionId(transactionId);
             item.setCartId(null);
             update(item);
