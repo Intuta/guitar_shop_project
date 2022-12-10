@@ -1,5 +1,6 @@
 package com.myproject.guitar_shop.config;
 
+import com.myproject.guitar_shop.controller.AppAccessDeniedHandler;
 import com.myproject.guitar_shop.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -34,12 +35,17 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AppAccessDeniedHandler appAccessDeniedHandler() {
+        return new AppAccessDeniedHandler();
+    }
+
+    @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/resources/**");
     }
 
     @Bean
-    public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/").permitAll();
         http.csrf().disable()
                 .formLogin()
@@ -47,6 +53,7 @@ public class SecurityConfig {
                 .usernameParameter("email")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/home")
+                .failureHandler(appAccessDeniedHandler())
                 .permitAll()
                 .and()
                 .logout()

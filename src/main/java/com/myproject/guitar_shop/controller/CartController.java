@@ -20,7 +20,7 @@ public class CartController {
     private final CartService cartService;
     private final ItemService itemService;
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/cart")
     public String cart(Model model) {
         User currentUser = CurrentUserProvider.getCurrentUser();
@@ -30,8 +30,8 @@ public class CartController {
         return "home";
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @GetMapping("/updateQuantity/{item_id}")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
+    @GetMapping("/update_quantity/{item_id}")
     public String updateQuantity(@PathVariable("item_id") String itemId, @RequestParam("quantity") String quantity, Model model) {
         User currentUser = CurrentUserProvider.getCurrentUser();
 

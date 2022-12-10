@@ -4,6 +4,7 @@ import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.exception.IncorrectPasswordException;
 import com.myproject.guitar_shop.exception.NonExistentUserException;
 import com.myproject.guitar_shop.exception.NonUniqueEmailException;
+import com.myproject.guitar_shop.exception.utility.ErrorMessages;
 import com.myproject.guitar_shop.security.UserDetailsServiceImpl;
 import com.myproject.guitar_shop.service.UserService;
 import com.myproject.guitar_shop.utility.CurrentUserProvider;
@@ -47,15 +48,15 @@ public class UserController {
         return "home";
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/account")
     public String account(Model model) {
         model.addAttribute("user", CurrentUserProvider.getCurrentUser());
         return "home";
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @GetMapping("/updateUser/{user_id}")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
+    @GetMapping("/update_user/{user_id}")
     public String updateUser(@PathVariable String user_id, @RequestParam Map<String, String> params, Model model) {
         User currentUser = userService.save(userService.update(params, Integer.parseInt(user_id)));
         userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
@@ -64,15 +65,15 @@ public class UserController {
         return "home";
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @GetMapping("/passwordChange")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
+    @GetMapping("/password_change")
     public String passwordChange() {
         return "passwordChange";
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @PostMapping("/updateUser")
-    public String updateUSerPassword(@RequestParam Map<String, String> params, Model model) {
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
+    @PostMapping("/update_user")
+    public String updateUserPassword(@RequestParam Map<String, String> params, Model model) {
         User currentUser = CurrentUserProvider.getCurrentUser();
         if (currentUser != null) {
             currentUser = userService.save(userService.update(params, currentUser.getId()));
@@ -80,6 +81,12 @@ public class UserController {
             model.addAttribute("user", currentUser);
         }
         return "home";
+    }
+
+    @GetMapping("/access_denied")
+    public String accessDenied(Model model) {
+        model.addAttribute("errorMessage", ErrorMessages.ACCESS_DENIED);
+        return "error";
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

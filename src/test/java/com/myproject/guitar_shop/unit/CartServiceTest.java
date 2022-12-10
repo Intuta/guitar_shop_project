@@ -101,29 +101,4 @@ public class CartServiceTest {
         assertThat(returnedCart).isEqualTo(cart).usingRecursiveComparison();
     }
 
-    @Test
-    public void addItemIntoCart_Pass() {
-        int newItemId = 3;
-        Item newItem = Item.builder()
-                .id(newItemId)
-                .product(new Product())
-                .quantity(1)
-                .build();
-
-    }
 }
-//    List<Item> items = cart.getItems();
-//        if (items.contains(item)) {
-//                Item itemInCart = items.get(items.indexOf(item));
-//                if (itemInCart.getQuantity() < itemInCart.getProduct().getQuantity()) {
-//        itemInCart.setPrice(item.getPrice());
-//        itemInCart.setQuantity(itemInCart.getQuantity() + 1);
-//        itemService.update(itemInCart);
-//        }
-//        else throw new Exception();
-//        } else {
-//        item.setCartId(cart.getId());
-//        itemService.save(item);
-//        items.add(item);
-//        }
-//        update(cart);

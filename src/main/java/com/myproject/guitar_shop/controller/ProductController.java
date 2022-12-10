@@ -40,8 +40,8 @@ public class ProductController {
         return "home";
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
-    @GetMapping("/addIntoCart/{id}")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
+    @GetMapping("/add_into_cart/{id}")
     public String addIntoCart(@PathVariable String id, Model model) {
         Product currentProduct = productService.getById(Integer.parseInt(id));
         User currentUser = CurrentUserProvider.getCurrentUser();
@@ -49,6 +49,13 @@ public class ProductController {
             itemService.addItem(currentProduct, currentUser);
         }
         model.addAttribute("products", productService.getAllProductsByCategory(currentProduct.getCategory()));
+        return "home";
+    }
+
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @GetMapping("/add_product")
+    public String addProduct(Model model) {
+        model.addAttribute("adding_product_form", true);
         return "home";
     }
 

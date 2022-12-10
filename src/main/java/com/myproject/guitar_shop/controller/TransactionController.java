@@ -27,7 +27,7 @@ public class TransactionController {
     private final CartService cartService;
     private final ItemService itemService;
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/buy/{cartId}")
     public String confirmTransaction(@PathVariable String cartId, Model model) {
         Cart currentCart = cartService.getById(Integer.parseInt(cartId));
@@ -36,7 +36,7 @@ public class TransactionController {
         return "home";
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/purchase/{cartId}")
     public String commitTransaction(@PathVariable String cartId, Model model) throws Exception {
         Cart currentCart = cartService.getById(Integer.parseInt(cartId));
@@ -49,7 +49,7 @@ public class TransactionController {
         return "home";
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/transactions")
     public String getAllTransactions(Model model) {
         User currentUser = CurrentUserProvider.getCurrentUser();
@@ -59,7 +59,7 @@ public class TransactionController {
         return "home";
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/transaction/{id}")
     public String getTransaction(Model model, @PathVariable String id) {
         model.addAttribute("transactionItems", itemService.getAllItemsByTransactionId(Integer.parseInt(id)));

@@ -47,5 +47,5 @@ VALUES ('EPIPHONE', 'EPIPHONE SG Muse Smoked Almond Metallic', 'ELECTRIC_GUITAR'
 INSERT INTO users (name, email, phone, password, role)
 VALUES ('Jim', 'jim@email1.com', '111111', '$2a$10$vEbQ7IFayfDzODEAQvMlLe2y9Pm087A2tD1W68bx1WZZeYEIEoJCy', 'CUSTOMER');
 INSERT INTO users(name, email, phone, password, role)
-VALUES ('Mark', 'mark@email2.com', '5555555', 'password2', 'ADMINISTRATOR');
+VALUES ('Mark', 'mark@email2.com', '5555555', '$2a$10$gqNVIzJeeca1mpkZqoQKHOKPQPMioX9Y/nyhMCS37VWIQdvgwZca.', 'ADMINISTRATOR');
 

@@ -64,7 +64,7 @@ public class UserService extends AppService<User> {
                     user.setPhone(attributes.get(PHONE));
                     break;
                 case PASSWORD:
-                    if (passwordEncoder.matches(attributes.get(PASSWORD), user.getPassword())) {
+                    if (passwordEncoder.matches(attributes.get(PASSWORD), user.getPassword()) && !attributes.get(NEW_PASSWORD).isEmpty()) {
                         user.setPassword(attributes.get(NEW_PASSWORD));
                     } else {
                         throw new IncorrectPasswordException(ErrorMessages.WRONG_PASSWORD);

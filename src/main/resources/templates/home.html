@@ -34,7 +34,7 @@
         <h2>Sign In</h2>
     </button>
 
-    <button class="add_product" id="admin" sec:authorize="hasRole('CUSTOMER')">
+    <button class="add_product" id="add_product" sec:authorize="hasRole('ADMINISTRATOR')">
         <h2>Add product</h2>
     </button>
 
@@ -61,23 +61,23 @@
 
 <div th:if="${user != null}" class="account_container">
     <div class="user_container">
-        <form th:action="@{/updateUser/{user_id}(name = 'name', user_id =${user.id})}"
+        <form th:action="@{/update_user/{user_id}(name = 'name', user_id =${user.id})}"
               method="GET">
-            <div class="user_data_text">User name:</div>
+            <div class="input_data_text">User name:</div>
             <input type="text" class="change_form" id="updateName"
                    th:name="name" th:placeholder="${user.getName()}">
         </form>
 
-        <form th:action="@{/updateUser/{user_id}(name = 'email', user_id =${user.id})}"
+        <form th:action="@{/update_user/{user_id}(name = 'email', user_id =${user.id})}"
               method="GET">
-            <div class="user_data_text">Email:</div>
+            <div class="input_data_text">Email:</div>
             <input type="email" class="change_form" id="updateEmail"
                    th:name="email" th:placeholder="${user.getEmail()}">
         </form>
 
-        <form th:action="@{/updateUser/{user_id}(name = 'phone', user_id =${user.id})}"
+        <form th:action="@{/update_user/{user_id}(name = 'phone', user_id =${user.id})}"
               method="GET">
-            <div class="user_data_text">Phone:</div>
+            <div class="input_data_text">Phone:</div>
             <input type="tel" pattern="[0-9]{12}" class="change_form" id="updatePhone"
                    th:name="phone" th:placeholder="${user.getPhone()}">
         </form>
@@ -97,7 +97,7 @@
                 <div class="table-data" th:text="${product.getPrice() + ' USD'}"></div>
                 <div class="table-data">
                     <a th:if="${product.getQuantity() > 0}" class="add_form_catalog_form"
-                       th:href="@{/addIntoCart/{id}(id = ${product.getId()})}">
+                       th:href="@{/add_into_cart/{id}(id = ${product.getId()})}">
                         <label class="add_form_catalog_text">
                             Add into the cart
                         </label>
@@ -118,7 +118,7 @@
         <div class="data_container" th:text="${product.getQuantity() + ' unit in stock'}"></div>
         <div class="data_container" th:text="${'Price: ' + product.getPrice() + ' USD'}"></div>
         <a th:if="${product.getQuantity() > 0}" class="add_form"
-           th:href="@{/addIntoCart/{id}(id = ${product.getId()})}">
+           th:href="@{/add_into_cart/{id}(id = ${product.getId()})}">
             <label class="add_form_text">
                 Add into the cart
             </label>
@@ -147,12 +147,12 @@
                     </div>
 
                     <div class="table-data">
-                        <form th:action="@{/updateQuantity/{item_id}(quantity = 'name', item_id =${item.id})}"
+                        <form th:action="@{/update_quantity/{item_id}(quantity = 'name', item_id =${item.id})}"
                               method="GET">
                             <input type="number" class="quantity_form" id="updateQuantity"
                                    th:name="quantity" th:placeholder="${item.getQuantity()}">
                         </form>
-                        <a th:href="@{/updateQuantity/{item_id}(quantity = '0', item_id =${item.id})}">
+                        <a th:href="@{/update_quantity/{item_id}(quantity = '0', item_id =${item.id})}">
                             <button class="delete"></button>
                         </a>
                     </div>
@@ -226,6 +226,19 @@
     </div>
 </div>
 
+<div th:if="${adding_product_form == true}" class="container_container">
+    <div class="product_container">
+        <form  th:action="@{/addNewProduct/(brand)(title)(category)(price)(info)(quantity)(image)}" method="POST">
+            <input type="text" class="change_form" th:brand="brand" th:placeholder="${'input brand'}" required>
+            <input type="text" class="change_form" th:title="title" th:placeholder="${'input title'}" required>
+            <input type="text" class="change_form" th:category="category" th:placeholder="${'input category'}" required>
+            <input type="text" class="change_form" th:price="price" th:placeholder="${'input price'}" required>
+            <input type="text" class="change_form" th:info="info" th:placeholder="${'input info'}">
+            <input type="text" class="change_form" th:quantity="quantity" th:placeholder="${'input quantity > 0'}" required>
+            <input type="image" class="change_form" th:image="image" th:placeholder="${'add image'}" required>
+        </form>
+    </div>
+</div>
 
 <script src="../js/home.js"></script>
 <script src="../js/log_in.js"></script>
@@ -238,6 +251,7 @@
 <script src="../js/electric.js"></script>
 <script src="../js/bass.js"></script>
 <script src="../js/acousticBass.js"></script>
+<script src="../js/add_product.js"></script>
 
 </body>
 </html>
