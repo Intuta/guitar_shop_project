@@ -1,6 +1,7 @@
 package com.myproject.guitar_shop.unit;
 
 import com.myproject.guitar_shop.domain.User;
+import com.myproject.guitar_shop.exception.NonExistentUserException;
 import com.myproject.guitar_shop.repository.UserRepository;
 import com.myproject.guitar_shop.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ public class UserServiceTest {
 
 
     @Test
-    public void getByIdTest_Pass() throws Exception {
+    public void getByIdTest_Pass() {
         int userId = 1;
         User user = User.builder()
                 .id(userId)
@@ -72,7 +73,7 @@ public class UserServiceTest {
 
         when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> userService.getUserByEmail(email)).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> userService.getUserByEmail(email)).isInstanceOf(NonExistentUserException.class);
     }
 
     @Test

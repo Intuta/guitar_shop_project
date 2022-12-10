@@ -125,6 +125,7 @@
     color: white;
 }
 
+
 .authentication {
     position: absolute;
     top: 7px;
@@ -152,6 +153,36 @@
 }
 
 .authentication:active {
+    background: rgb(39, 58, 65);
+    color: white;
+}
+.add_product {
+    position: absolute;
+    top: 7px;
+    display: block;
+    left: 1312px;
+
+    min-width: 100px;
+    height: 35px;
+
+    color: rgb(39, 58, 65);
+    text-decoration: none;
+    border-color: white;
+    background: #e5e3e3;
+    outline-color: lightgray;
+
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 7px;
+    text-align: center;
+}
+
+.add_product:hover {
+    background: rgb(47, 79, 93);
+    color: white;
+}
+
+.add_product:active {
     background: rgb(39, 58, 65);
     color: white;
 }

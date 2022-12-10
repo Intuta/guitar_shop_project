@@ -36,7 +36,8 @@ CREATE TABLE users
     email    VARCHAR(50)  NOT NULL,
     phone    VARCHAR(20),
     password VARCHAR      NOT NULL,
-    role     VARCHAR      NOT NULL
+    role     VARCHAR      NOT NULL,
+    UNIQUE(email)
 );
 
 CREATE TABLE transactions

@@ -25,12 +25,12 @@
     color: white;
     text-decoration: none;
     border-color: #676767;
-    background: rgb(39, 58, 65);
+    background: rgb(44, 73, 86);
     outline-color: lightgray;
 }
 
 .buy:hover {
-    background: rgb(44, 73, 86);
+    background: rgb(41, 67, 79);
     color: white;
 }
 

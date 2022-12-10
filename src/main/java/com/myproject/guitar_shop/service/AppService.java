@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
- * @param <T> Common class with realization of shared methods of services
+ * Common class with realization of shared methods of services
  */
 abstract class AppService<T> {
     public CrudRepository<T, Integer> repository;
@@ -15,6 +15,8 @@ abstract class AppService<T> {
         this.repository = repository;
     }
 
+    //TODO
+    //EXCEPTIONS!!!
     public T getById(int id) {
         Optional<T> receivedCart = repository.findById(id);
         return receivedCart.orElseThrow(() -> new NoSuchElementException("Not found!"));

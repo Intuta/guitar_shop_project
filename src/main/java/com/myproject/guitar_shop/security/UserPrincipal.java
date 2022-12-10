@@ -10,8 +10,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class UserPrincipal implements UserDetails {
-
     private User user;
+
 
     @Autowired
     public UserPrincipal(User user) {
@@ -21,8 +21,8 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        String ROLE_PREFIX = "ROLE_";
-        return Collections.singleton(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole().name()));
+        String rolePrefix = "ROLE_%s";
+        return Collections.singleton(new SimpleGrantedAuthority(String.format(rolePrefix, user.getRole().name())));
     }
 
     @Override

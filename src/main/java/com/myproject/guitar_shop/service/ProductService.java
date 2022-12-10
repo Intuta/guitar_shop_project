@@ -10,33 +10,32 @@ import java.util.List;
 
 @Service
 public class ProductService extends AppService<Product> {
-
-    private final ProductRepository repository;
+    private final ProductRepository productRepository;
 
     @Autowired
     public ProductService(ProductRepository repository) {
         super(repository);
-        this.repository = repository;
+        this.productRepository = repository;
     }
 
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<>();
-        repository.findAll().forEach(products::add);
+        productRepository.findAll().forEach(products::add);
         return products;
     }
 
     public List<Product> getProductByTitle(String title) {
-        return repository.findAllByTitleContaining(title);
+        return productRepository.findAllByTitleContaining(title);
     }
 
     public List<Product> getAllProductsByCategory(Product.Category category) {
         List<Product> products = new ArrayList<>();
-        repository.findAllByCategory(category).forEach(products::add);
+        productRepository.findAllByCategory(category).forEach(products::add);
         return products;
     }
 
     public Product update(Product product) {
-        return repository.save(product);
+        return productRepository.save(product);
     }
 
 }

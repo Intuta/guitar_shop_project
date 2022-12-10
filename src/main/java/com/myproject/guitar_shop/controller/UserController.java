@@ -1,11 +1,15 @@
 package com.myproject.guitar_shop.controller;
 
 import com.myproject.guitar_shop.domain.User;
+import com.myproject.guitar_shop.exception.IncorrectPasswordException;
+import com.myproject.guitar_shop.exception.NonExistentUserException;
+import com.myproject.guitar_shop.exception.NonUniqueEmailException;
 import com.myproject.guitar_shop.security.UserDetailsServiceImpl;
 import com.myproject.guitar_shop.service.UserService;
 import com.myproject.guitar_shop.utility.CurrentUserProvider;
 import com.myproject.guitar_shop.utility.RequestMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +20,6 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
     private final UserDetailsServiceImpl userDetailsService;
 
@@ -33,7 +36,7 @@ public class UserController {
     @PostMapping("/register")
     public String addUser(@RequestBody String body) {
         Map<String, String> userInfo = RequestMapper.mapRequestBody(body);
-        User currentUser = userService.save(userService.mapUser(userInfo));
+        User currentUser = userService.mapUser(userInfo);
         userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
 
         return "home";
@@ -44,7 +47,6 @@ public class UserController {
         return "home";
     }
 
-
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/account")
     public String account(Model model) {
@@ -54,7 +56,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/updateUser/{user_id}")
-    public String updateUSer(@PathVariable String user_id, @RequestParam Map<String, String> params, Model model) {
+    public String updateUser(@PathVariable String user_id, @RequestParam Map<String, String> params, Model model) {
         User currentUser = userService.save(userService.update(params, Integer.parseInt(user_id)));
         userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
 
@@ -78,5 +80,12 @@ public class UserController {
             model.addAttribute("user", currentUser);
         }
         return "home";
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({IncorrectPasswordException.class, NonExistentUserException.class, NonUniqueEmailException.class})
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "error";
     }
 }

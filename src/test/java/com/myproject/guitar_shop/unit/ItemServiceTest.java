@@ -107,15 +107,11 @@ public class ItemServiceTest {
     public void updateItemTest() {
         item.setPrice(30.0);
         item.setQuantity(2);
-        double expectedSum = 60.0;
 
-        when(itemRepository.existsById(item.getId())).thenReturn(true);
         when(itemRepository.save(itemCaptor.capture())).thenReturn(item);
 
-        Item returnedItem = itemService.update(item);
-//        Item capturedItem = itemCaptor.getValue();
-//
-//        assertThat(capturedItem.getSum()).isEqualTo(expectedSum);
+        Item returnedItem = itemService.save(item);
+
         assertThat(returnedItem).isEqualTo(item).usingRecursiveComparison();
 
     }

@@ -5,17 +5,15 @@ import com.myproject.guitar_shop.domain.Item;
 import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.repository.CartRepository;
 import com.myproject.guitar_shop.service.CartService;
+import com.myproject.guitar_shop.service.ItemService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -29,27 +27,28 @@ public class CartServiceTest {
     private Item item1;
     private Item item2;
     private Cart cart;
-    @Captor
-    private ArgumentCaptor<Cart> cartCaptor;
     @Mock
     private CartRepository cartRepository;
+    @Mock
+    private ItemService itemService;
     @InjectMocks
     private CartService cartService;
 
     @BeforeEach
     public void initialization() {
         item1 = Item.builder()
-                .id((int) (Math.random() * 9))
+                .id(1)
                 .cartId(1)
                 .product(new Product())
                 .build();
         item2 = Item.builder()
-                .id((int) (Math.random() * 9))
+                .id(2)
                 .cartId(1)
                 .product(new Product())
                 .build();
         cart = Cart.builder()
                 .id(1)
+                .items(Arrays.asList(item1, item2))
                 .build();
     }
 
@@ -75,7 +74,7 @@ public class CartServiceTest {
     }
 
     @Test
-    public void getCartByUserIdTest_Pass() {
+    public void getCartByUserIdTest() {
         int userId = 1;
 
         when(cartRepository.findByUserId(userId)).thenReturn(Optional.of(cart));
@@ -87,12 +86,6 @@ public class CartServiceTest {
 
     @Test
     public void createCartTest() {
-        List<Item> items = new ArrayList<>();
-        item1.setSum(2.0);
-        item2.setSum(6.0);
-        items.add(item1);
-        cart.setItems(items);
-
         when(cartRepository.save(cart)).thenReturn(cart);
 
         Cart returnedCart = cartService.save(cart);
@@ -102,20 +95,35 @@ public class CartServiceTest {
 
     @Test
     public void updateCartTest() {
-        List<Item> items = new ArrayList<>();
-        item1.setSum(3.0);
-        item2.setSum(3.0);
-        items.add(item1);
-        items.add(item2);
-        cart.setItems(items);
-        double expectedSum = 6.0;
+        when(cartRepository.save(cart)).thenReturn(cart);
 
-        when(cartRepository.save(cartCaptor.capture())).thenReturn(cart);
-
-        Cart returnedCart = cartService.update(cart);
-        Cart capturedCart = cartCaptor.getValue();
-
-//        assertThat(capturedCart.getSum()).isEqualTo(expectedSum);
+        Cart returnedCart = cartService.save(cart);
         assertThat(returnedCart).isEqualTo(cart).usingRecursiveComparison();
     }
+
+    @Test
+    public void addItemIntoCart_Pass() {
+        int newItemId = 3;
+        Item newItem = Item.builder()
+                .id(newItemId)
+                .product(new Product())
+                .quantity(1)
+                .build();
+
+    }
 }
+//    List<Item> items = cart.getItems();
+//        if (items.contains(item)) {
+//                Item itemInCart = items.get(items.indexOf(item));
+//                if (itemInCart.getQuantity() < itemInCart.getProduct().getQuantity()) {
+//        itemInCart.setPrice(item.getPrice());
+//        itemInCart.setQuantity(itemInCart.getQuantity() + 1);
+//        itemService.update(itemInCart);
+//        }
+//        else throw new Exception();
+//        } else {
+//        item.setCartId(cart.getId());
+//        itemService.save(item);
+//        items.add(item);
+//        }
+//        update(cart);

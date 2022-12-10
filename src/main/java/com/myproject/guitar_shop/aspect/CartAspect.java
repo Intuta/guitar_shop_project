@@ -8,6 +8,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import java.text.DecimalFormat;
+
 @Aspect
 @Component
 public class CartAspect {
@@ -21,10 +23,11 @@ public class CartAspect {
      */
     @Around("callTotalCart() && args(cart)")
     public Cart totalBefore(ProceedingJoinPoint pjp, Cart cart) throws Throwable {
+        DecimalFormat df = new DecimalFormat("#.##");
         double sum = cart.getItems().stream()
                 .mapToDouble(Item::getSum)
                 .sum();
-        cart.setSum(sum);
+        cart.setSum(Double.valueOf(df.format(sum).replace(",", ".")));
         pjp.proceed();
         return cart;
     }

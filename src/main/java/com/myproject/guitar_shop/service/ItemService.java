@@ -4,25 +4,29 @@ import com.myproject.guitar_shop.domain.Cart;
 import com.myproject.guitar_shop.domain.Item;
 import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.domain.User;
+import com.myproject.guitar_shop.exception.NonExistentItemException;
+import com.myproject.guitar_shop.exception.NotEnoughProductException;
+import com.myproject.guitar_shop.exception.utility.ErrorMessages;
 import com.myproject.guitar_shop.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ItemService extends AppService<Item> {
-    private final ItemRepository repository;
+    private final ItemRepository itemRepository;
     private final ProductService productService;
     private CartService cartService;
+
 
     @Autowired
     public ItemService(ItemRepository repository, ProductService productService) {
         super(repository);
-        this.repository = repository;
+        this.itemRepository = repository;
         this.productService = productService;
     }
 
@@ -34,67 +38,80 @@ public class ItemService extends AppService<Item> {
 
     public List<Item> getAllItemsByCartId(int cartId) {
         List<Item> items = new ArrayList<>();
-        repository.findAllByCartId(cartId).forEach(items::add);
+        itemRepository.findAllByCartId(cartId).forEach(items::add);
         return items;
     }
 
     public List<Item> getAllItemsByTransactionId(int transactionId) {
         List<Item> items = new ArrayList<>();
-        repository.findAllByTransactionId(transactionId).forEach(items::add);
+        itemRepository.findAllByTransactionId(transactionId).forEach(items::add);
         return items;
     }
 
     @Override
     public Item save(Item item) {
-        return repository.save(item);
-    }
-
-    public Item update(Item item) {
-        int id = item.getId();
-        if (repository.existsById(id)) {
-            return repository.save(item);
-        } else {
-            throw new NoSuchElementException(String.format("Item with id %s not found", id));
-        }
-    }
-
-    public void updateQuantity(int id, int quantity) {
-        Item item = repository.findById(id).orElseThrow(NoSuchElementException::new);
-        Cart cart = cartService.getById(item.getCartId());
-        cart.getItems().remove(item);
-        if (quantity < 1) {
-            repository.delete(item);
-        } else {
-            if (quantity > item.getProduct().getQuantity()) {
-                throw new NoSuchElementException();
-            }
-            else {
-                item.setQuantity(quantity);
-                update(item);
-                cart.getItems().add(item);
-            }
-        }
-        cartService.update(cart);
+        return itemRepository.save(item);
     }
 
     /**
-     * @param product
-     * @param user    The method receives the cart via user id and constructs a new Item
+     * @param product Product which should be converted to Item
+     * @param user    User who require to add Item
+     *                The method receives the cart via user id and constructs and adds new Item to it
      */
-    public void addItem(Product product, User user) throws Exception {
+    public void addItem(Product product, User user) {
         Cart cart = cartService.getCartByUserId(user.getId());
         Item item = Item.builder().cartId(cart.getId()).product(product).price(product.getPrice()).quantity(1).build();
         cartService.addItemIntoCart(item, cart);
     }
 
-    public List<Item> setTransactionId(List<Item> items, int transactionId) {
+    /**
+     * The method removes Item from the Cart if quantity < 1 or set new quantity value
+     *
+     * @param id       id of Item which quantity should be changed
+     * @param quantity quantity that should be set for the Item
+     * @throws NonExistentItemException  will be thrown if it is no possible to find Item by granted id
+     * @throws NotEnoughProductException will be thrown if the quantity of product is not enough for set required quantity for the Item
+     */
+    public void updateQuantity(int id, int quantity) {
+        Item item = itemRepository.findById(id).orElseThrow(() -> new NonExistentItemException(ErrorMessages.ITEM_NOT_FOUND));
+        Cart cart = cartService.getById(item.getCartId());
+        cart.getItems().remove(item);
+        if (quantity < 1) {
+            itemRepository.delete(item);
+        } else {
+            if (quantityIsAvailable(item, quantity)) {
+                item.setQuantity(quantity);
+                save(item);
+                cart.getItems().add(item);
+                cartService.save(cart);
+            } else {
+                throw new NotEnoughProductException(String.format(ErrorMessages.NOT_ENOUGH_PRODUCTS, item.getProduct().getQuantity()));
+            }
+        }
+    }
+
+    //TODO NULL ???
+    //(how can I remove the null setting for cartId if the database demands it as a foreign key?)
+
+    /**
+     * @param items         List of Items
+     * @param transactionId id of transaction that should be set for items from the list
+     */
+    @Transactional
+    public void setTransactionId(List<Item> items, int transactionId) {
         for (Item item : items) {
             item.getProduct().setQuantity(item.getProduct().getQuantity() - item.getQuantity());
             productService.update(item.getProduct());
             item.setTransactionId(transactionId);
             item.setCartId(null);
-            update(item);
+            save(item);
         }
-        return items;
+    }
+
+    /**
+     * @return true if quantity value of newItem is less than quantity value of its product
+     */
+    public boolean quantityIsAvailable(Item item, int quantity) {
+        return quantity <= item.getProduct().getQuantity();
     }
 }

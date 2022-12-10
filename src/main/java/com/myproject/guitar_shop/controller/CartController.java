@@ -2,22 +2,22 @@ package com.myproject.guitar_shop.controller;
 
 import com.myproject.guitar_shop.domain.Cart;
 import com.myproject.guitar_shop.domain.User;
+import com.myproject.guitar_shop.exception.NonExistentItemException;
+import com.myproject.guitar_shop.exception.NotEnoughProductException;
 import com.myproject.guitar_shop.service.CartService;
 import com.myproject.guitar_shop.service.ItemService;
 import com.myproject.guitar_shop.utility.CurrentUserProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
 public class CartController {
-
-    private final CartService service;
+    private final CartService cartService;
     private final ItemService itemService;
 
     @PreAuthorize("hasRole('CUSTOMER')")
@@ -25,7 +25,7 @@ public class CartController {
     public String cart(Model model) {
         User currentUser = CurrentUserProvider.getCurrentUser();
         if (currentUser != null) {
-            model.addAttribute("cart", service.getCartByUserId(currentUser.getId()));
+            model.addAttribute("cart", cartService.getCartByUserId(currentUser.getId()));
         }
         return "home";
     }
@@ -38,10 +38,17 @@ public class CartController {
         itemService.updateQuantity(Integer.parseInt(itemId), Integer.parseInt(quantity));
 
         if (currentUser != null) {
-            Cart currentCart = service.getCartByUserId(currentUser.getId());
+            Cart currentCart = cartService.getCartByUserId(currentUser.getId());
             model.addAttribute("cart", currentCart);
         }
         return "home";
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({NotEnoughProductException.class, NonExistentItemException.class})
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "error";
     }
 
 }

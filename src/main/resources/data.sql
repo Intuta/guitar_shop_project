@@ -45,21 +45,7 @@ VALUES ('EPIPHONE', 'EPIPHONE SG Muse Smoked Almond Metallic', 'ELECTRIC_GUITAR'
 
 
 INSERT INTO users (name, email, phone, password, role)
-VALUES ('Jim', 'Jim@email1.com', '111111', '$2a$10$vEbQ7IFayfDzODEAQvMlLe2y9Pm087A2tD1W68bx1WZZeYEIEoJCy', 'CUSTOMER');
-INSERT INTO users (name, email, phone, password, role)
-VALUES ('Anna', 'email2', '22222222', 'password2', 'CUSTOMER');
+VALUES ('Jim', 'jim@email1.com', '111111', '$2a$10$vEbQ7IFayfDzODEAQvMlLe2y9Pm087A2tD1W68bx1WZZeYEIEoJCy', 'CUSTOMER');
 INSERT INTO users(name, email, phone, password, role)
-VALUES ('Mark', 'email2', '5555555', 'password2', 'ADMINISTRATOR');
+VALUES ('Mark', 'mark@email2.com', '5555555', 'password2', 'ADMINISTRATOR');
 
--- INSERT INTO carts
--- VALUES (1, 1, 0);
--- INSERT INTO carts
--- VALUES (2, 1, 4624.85);
-
--- INSERT INTO items
--- VALUES (1, 1, 5, null, 4624.85, 2, 9249.7);
--- INSERT INTO items VALUES (2, 1, 1, null, 4624.85, 2, 9249.7);
-
--- INSERT INTO transactions
--- VALUES (1, 1, '2012-01-23', 9249.7);
--- COMMIT;
