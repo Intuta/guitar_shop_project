@@ -37,7 +37,6 @@ public class UserController {
     public String addUser(@RequestParam Map<String, String> params) {
         User currentUser = userService.mapUser(params);
         userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
-
         return "home";
     }
 
