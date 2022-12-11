@@ -15,7 +15,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Product {
     @Id
-    @Column(name = "id")
+    @SequenceGenerator(name = "product_hibernate_sequence", sequenceName = "product_hibernate_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "brand")

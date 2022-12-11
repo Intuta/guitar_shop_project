@@ -6,7 +6,7 @@ import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.exception.NonExistentItemException;
 import com.myproject.guitar_shop.exception.NotEnoughProductException;
-import com.myproject.guitar_shop.exception.utility.ErrorMessages;
+import com.myproject.guitar_shop.utility.ErrorMessages;
 import com.myproject.guitar_shop.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -101,7 +101,7 @@ public class ItemService extends AppService<Item> {
     public void setTransactionId(List<Item> items, int transactionId) {
         for (Item item : items) {
             item.getProduct().setQuantity(item.getProduct().getQuantity() - item.getQuantity());
-            productService.update(item.getProduct());
+            productService.save(item.getProduct());
             item.setTransactionId(transactionId);
             item.setCartId(null);
             save(item);

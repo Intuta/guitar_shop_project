@@ -4,7 +4,7 @@ import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.exception.IncorrectPasswordException;
 import com.myproject.guitar_shop.exception.NonExistentUserException;
 import com.myproject.guitar_shop.exception.NonUniqueEmailException;
-import com.myproject.guitar_shop.exception.utility.ErrorMessages;
+import com.myproject.guitar_shop.utility.ErrorMessages;
 import com.myproject.guitar_shop.repository.UserRepository;
 import com.myproject.guitar_shop.utility.EmailFormatter;
 import org.hibernate.NonUniqueResultException;
@@ -65,7 +65,7 @@ public class UserService extends AppService<User> {
                     break;
                 case PASSWORD:
                     if (passwordEncoder.matches(attributes.get(PASSWORD), user.getPassword()) && !attributes.get(NEW_PASSWORD).isEmpty()) {
-                        user.setPassword(attributes.get(NEW_PASSWORD));
+                        user.setPassword(passwordEncoder.encode(attributes.get(NEW_PASSWORD)));
                     } else {
                         throw new IncorrectPasswordException(ErrorMessages.WRONG_PASSWORD);
                     }

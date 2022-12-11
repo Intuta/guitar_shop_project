@@ -4,7 +4,8 @@ DROP TABLE IF EXISTS carts;
 DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS users;
-DROP SEQUENCE IF EXISTS hibernate_sequence;
+DROP SEQUENCE IF EXISTS product_hibernate_sequence;
+DROP SEQUENCE IF EXISTS user_hibernate_sequence;
 DROP SEQUENCE IF EXISTS item_hibernate_sequence;
 DROP SEQUENCE IF EXISTS cart_hibernate_sequence;
 DROP SEQUENCE IF EXISTS transaction_hibernate_sequence;
@@ -12,7 +13,8 @@ DROP SEQUENCE IF EXISTS transaction_hibernate_sequence;
 
 DROP TYPE IF EXISTS category;
 
-CREATE SEQUENCE hibernate_sequence START 1;
+CREATE SEQUENCE product_hibernate_sequence START 1;
+CREATE SEQUENCE user_hibernate_sequence START 1;
 CREATE SEQUENCE item_hibernate_sequence START 1;
 CREATE SEQUENCE cart_hibernate_sequence START 1;
 CREATE SEQUENCE transaction_hibernate_sequence START 1;
@@ -37,7 +39,7 @@ CREATE TABLE users
     phone    VARCHAR(20),
     password VARCHAR      NOT NULL,
     role     VARCHAR      NOT NULL,
-    UNIQUE(email)
+    UNIQUE (email)
 );
 
 CREATE TABLE transactions

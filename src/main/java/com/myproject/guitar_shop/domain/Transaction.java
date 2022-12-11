@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Transaction {
     @Id
-    @SequenceGenerator(name = "transaction_hibernate_sequence", sequenceName="transaction_hibernate_sequence", allocationSize=1)
+    @SequenceGenerator(name = "transaction_hibernate_sequence", sequenceName = "transaction_hibernate_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;

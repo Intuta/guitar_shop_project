@@ -15,7 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class User {
     @Id
-    @SequenceGenerator(name = "hibernate_sequence", sequenceName="hibernate_sequence", allocationSize=1)
+    @SequenceGenerator(name = "user_hibernate_sequence", sequenceName = "user_hibernate_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 

@@ -14,7 +14,6 @@ public class CurrentUserProvider {
         if (principal instanceof UserPrincipal) {
             UserPrincipal userPrincipal = ((UserPrincipal) principal);
             return userPrincipal.getUser();
-        }
-        else return null;
+        } else return null;
     }
 }

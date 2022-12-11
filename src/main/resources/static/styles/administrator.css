@@ -1,1 +1,100 @@
+.admin_add_product_container_back {
+    position: absolute;
+    top: 140px;
+    left: 780px;
+    right: 50%;
 
+
+    width: 310px;
+    height: content-box;
+
+    opacity: .95;
+    border: solid rgb(44, 51, 54);
+    background: rgb(39, 58, 65);
+
+    font-family: 'Cookie', serif;
+    font-size: 26px;
+    text-align: left;
+}
+
+
+.admin_add_product_container {
+    display: flex;
+    top: 1px;
+
+    width: border-box;
+    height: border-box;
+    justify-content: center;
+    overflow: hidden;
+
+    opacity: .95;
+    border: solid rgb(44, 51, 54);
+    background: white;
+
+}
+
+.add_product_input_form {
+    position: relative;
+    display: grid;
+    justify-content: center;
+    left: 5px;
+    margin: 2px;
+    top: 1px;
+
+    font-size: 0.9em;
+    overflow: hidden;
+    font-family: 'Cookie', serif;
+    color: rgb(44, 51, 54);
+}
+
+.add_file_input_form {
+    position: relative;
+    justify-content: center;
+    width: border-box;
+    left: 5px;
+    margin: 2px;
+
+    font-size: 0.7em;
+    overflow: hidden;
+    font-family: 'Cookie', serif;
+    color: rgb(44, 51, 54);
+}
+
+.add_product_button {
+    position: relative;
+    top: 2px;
+    left: 5px;
+    display: block;
+    opacity: .99;
+    border-color: lightgray;
+    margin: 2px;
+
+    width: 300px;
+    height: 45px;
+    color: rgb(39, 58, 65);
+
+
+    background: #e5e3e3;
+    outline-color: lightgray;
+    font-size: 0.6em;
+    font-family: 'Cookie', serif;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.add_product_button:hover {
+    background: rgb(44, 73, 86);
+    color: white;
+}
+
+.add_product_button:active {
+    background: rgb(39, 58, 65);
+    color: white;
+}
+
+.add_product_title_text {
+    color: white;
+    text-transform: uppercase;
+    font-size: 18px;
+    text-align: center;
+}

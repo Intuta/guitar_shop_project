@@ -3,7 +3,7 @@ package com.myproject.guitar_shop.service;
 import com.myproject.guitar_shop.domain.Cart;
 import com.myproject.guitar_shop.domain.Item;
 import com.myproject.guitar_shop.exception.NotEnoughProductException;
-import com.myproject.guitar_shop.exception.utility.ErrorMessages;
+import com.myproject.guitar_shop.utility.ErrorMessages;
 import com.myproject.guitar_shop.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,7 +64,8 @@ public class CartService extends AppService<Cart> {
                 itemInCart.setPrice(item.getPrice());
                 itemInCart.setQuantity(quantityToAdd);
                 itemService.save(itemInCart);
-            } else throw new NotEnoughProductException(String.format(ErrorMessages.NOT_ENOUGH_PRODUCTS, item.getProduct().getQuantity()));
+            } else
+                throw new NotEnoughProductException(String.format(ErrorMessages.NOT_ENOUGH_PRODUCTS, item.getProduct().getQuantity()));
         } else {
             itemService.save(item);
             items.add(item);

@@ -22,7 +22,7 @@ public class CartAspect {
      * @param cart The method counts sum of all items in the cart
      */
     @Around("callTotalCart() && args(cart)")
-    public Cart totalBefore(ProceedingJoinPoint pjp, Cart cart) throws Throwable {
+    public Cart total(ProceedingJoinPoint pjp, Cart cart) throws Throwable {
         DecimalFormat df = new DecimalFormat("#.##");
         double sum = cart.getItems().stream()
                 .mapToDouble(Item::getSum)

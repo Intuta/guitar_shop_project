@@ -16,11 +16,12 @@ public class ItemAspect {
     public void callTotal(){
 
     }
+
     /**
      * @param item The method counts final cost of the item
      */
     @Around("callTotal() && args(item)")
-    public Item totalBefore(ProceedingJoinPoint pjp, Item item) throws Throwable {
+    public Item total(ProceedingJoinPoint pjp, Item item) throws Throwable {
         DecimalFormat df = new DecimalFormat("#.##");
         item.setSum(Double.valueOf(df.format(item.getPrice() * item.getQuantity()).replace(",", ".")));
         pjp.proceed();

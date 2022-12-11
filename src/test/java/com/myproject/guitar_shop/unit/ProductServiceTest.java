@@ -126,18 +126,4 @@ class ProductServiceTest {
         assertThat(returnedProduct).isEqualTo(product).usingRecursiveComparison();
     }
 
-    @Test
-    public void updateProductTest_Pass() throws Exception {
-        Product product = Product.builder()
-                .id(1)
-                .title("title")
-                .price(100)
-                .build();
-
-        when(productRepository.save(product)).thenReturn(product);
-
-        Product returnedProduct = productService.update(product);
-
-        assertThat(returnedProduct).isEqualTo(product).usingRecursiveComparison();
-    }
 }

@@ -3,7 +3,7 @@ package com.myproject.guitar_shop.service;
 import com.myproject.guitar_shop.domain.Cart;
 import com.myproject.guitar_shop.domain.Transaction;
 import com.myproject.guitar_shop.exception.EmptyCartException;
-import com.myproject.guitar_shop.exception.utility.ErrorMessages;
+import com.myproject.guitar_shop.utility.ErrorMessages;
 import com.myproject.guitar_shop.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

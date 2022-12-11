@@ -7,6 +7,7 @@
     <link th:href="@{/styles/cart.css}" rel="stylesheet">
     <link th:href="@{/styles/catalog.css}" rel="stylesheet">
     <link th:href="@{/styles/product.css}" rel="stylesheet">
+    <link th:href="@{/styles/administrator.css}" rel="stylesheet">
     <title>Guitar shop</title>
 </head>
 <body class="background1">
@@ -109,7 +110,7 @@
 </div>
 
 <div th:if="${product != null}" class="container_container">
-    <div class="product_container">
+    <div class="product_container" sec:authorize="hasAnyRole('ANONYMOUS','CUSTOMER')">
         <div class="title_container" th:text="${product.getTitle()}"></div>
         <div class="image_container">
             <div class="image"><img th:src="${product.getSrc()}" alt=""></div>
@@ -123,6 +124,42 @@
                 Add into the cart
             </label>
         </a>
+    </div>
+
+    <div class="product_container" sec:authorize="hasRole('ADMINISTRATOR')">
+        <div class="image_container">
+            <div class="image"><img th:src="${product.getSrc()}" alt=""></div>
+        </div>
+        <form th:action="@{/update_product/{product_id}(name = 'title', product_id=${product.id})}" method="GET">
+            <input type="text" class="product_change_form"
+                   th:name="title" th:placeholder="${product.getTitle()}">
+            <button class="product_change_button">Change</button>
+        </form>
+        <form th:action="@{/update_product/{product_id}(name = 'info', product_id=${product.id})}" method="GET">
+            <input type="text" class="product_change_form"
+                   th:name="info" th:placeholder="${product.getInfo()}">
+            <button class="product_change_button">Change</button>
+        </form>
+        <form th:action="@{/update_product/{product_id}(name = 'quantity', product_id=${product.id})}" method="GET">
+            <input type="text" class="product_change_form"
+                   th:name="quantity" th:placeholder="${product.getQuantity() + ' unit in stock'}">
+            <button class="product_change_button">Change</button>
+        </form>
+        <form th:action="@{/update_product/{product_id}(name = 'price', product_id=${product.id})}" method="GET">
+            <input type="text" class="product_change_form" id="updatePrice"
+                   th:name="price" th:placeholder="${product.getPrice()}">
+            <button class="product_change_button">Change</button>
+        </form>
+        <form th:action="@{/update_product/{product_id}(name = 'category', product_id=${product.id})}" method="GET">
+            <select name="category" class="product_change_select">
+                <option th:text="${product.getCategory()}"></option>
+                <option value="ACOUSTIC_GUITAR">ACOUSTIC_GUITAR</option>
+                <option value="ELECTRIC_GUITAR">ELECTRIC_GUITAR</option>
+                <option value="BASS_GUITAR">BASS_GUITAR</option>
+                <option value="ACOUSTIC_BASS_GUITAR">ACOUSTIC_BASS_GUITAR</option>
+            </select>
+            <button class="product_change_button">Change</button>
+        </form>
     </div>
 </div>
 
@@ -226,16 +263,26 @@
     </div>
 </div>
 
-<div th:if="${adding_product_form == true}" class="container_container">
-    <div class="product_container">
-        <form  th:action="@{/addNewProduct/(brand)(title)(category)(price)(info)(quantity)(image)}" method="POST">
-            <input type="text" class="change_form" th:brand="brand" th:placeholder="${'input brand'}" required>
-            <input type="text" class="change_form" th:title="title" th:placeholder="${'input title'}" required>
-            <input type="text" class="change_form" th:category="category" th:placeholder="${'input category'}" required>
-            <input type="text" class="change_form" th:price="price" th:placeholder="${'input price'}" required>
-            <input type="text" class="change_form" th:info="info" th:placeholder="${'input info'}">
-            <input type="text" class="change_form" th:quantity="quantity" th:placeholder="${'input quantity > 0'}" required>
-            <input type="image" class="change_form" th:image="image" th:placeholder="${'add image'}" required>
+<div th:if="${adding_product_form == true}" class="admin_add_product_container_back">
+    <div class="add_product_title_text">Enter new product information</div>
+    <div class="admin_add_product_container">
+        <form action="/add_new_product" method="POST" enctype="multipart/form-data">
+            <input type="text" class="add_product_input_form" name="brand" th:placeholder="${'input brand'}" required>
+            <input type="text" class="add_product_input_form" name="title" th:placeholder="${'input title'}" required>
+            <input type="text" class="add_product_input_form" name="price" th:placeholder="${'input price'}"
+                   pattern="^\d+(?:\.\d{1,2})?" required>
+            <input type="text" class="add_product_input_form" name="info" th:placeholder="${'input info'}">
+            <input type="number" class="add_product_input_form" name="quantity" th:placeholder="${'input quantity > 0'}"
+                   required>
+            <select name="category" class="add_product_input_form" required="required">
+                <option value="">choose category</option>
+                <option value="ACOUSTIC_GUITAR">Acoustic guitar</option>
+                <option value="ELECTRIC_GUITAR">Electric guitar</option>
+                <option value="BASS_GUITAR">Bass</option>
+                <option value="ACOUSTIC_BASS_GUITAR">Acoustic bass guitar</option>
+            </select>
+            <input type="file" class="add_file_input_form" name="image" required>
+            <button class="add_product_button">Add product</button>
         </form>
     </div>
 </div>
