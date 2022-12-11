@@ -8,7 +8,6 @@ import com.myproject.guitar_shop.security.UserDetailsServiceImpl;
 import com.myproject.guitar_shop.service.UserService;
 import com.myproject.guitar_shop.utility.CurrentUserProvider;
 import com.myproject.guitar_shop.utility.ErrorMessages;
-import com.myproject.guitar_shop.utility.RequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,9 +34,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String addUser(@RequestBody String body) {
-        Map<String, String> userInfo = RequestMapper.mapRequestBody(body);
-        User currentUser = userService.mapUser(userInfo);
+    public String addUser(@RequestParam Map<String, String> params) {
+        User currentUser = userService.mapUser(params);
         userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
 
         return "home";
