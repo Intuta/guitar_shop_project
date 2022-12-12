@@ -4,15 +4,16 @@ import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.exception.IncorrectPasswordException;
 import com.myproject.guitar_shop.exception.NonExistentUserException;
 import com.myproject.guitar_shop.exception.NonUniqueEmailException;
-import com.myproject.guitar_shop.utility.ErrorMessages;
 import com.myproject.guitar_shop.repository.UserRepository;
-import com.myproject.guitar_shop.utility.EmailFormatter;
+import com.myproject.guitar_shop.utility.ErrorMessages;
+import com.myproject.guitar_shop.utility.TextFormatter;
 import org.hibernate.NonUniqueResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ public class UserService extends AppService<User> {
     public static final String NAME = "name";
     public static final String EMAIL = "email";
     public static final String PHONE = "phone";
+    public static final String ROLE = "role";
     public static final String PASSWORD = "password";
     public static final String NEW_PASSWORD = "new_password";
 
@@ -34,8 +36,12 @@ public class UserService extends AppService<User> {
     }
 
     public User getUserByEmail(String email) {
-        Optional<User> receivedUser = userRepository.findByEmail(EmailFormatter.formatEmail(email));
-        return receivedUser.orElseThrow(() -> new NonExistentUserException(String.format(ErrorMessages.USER_NOT_FOUND_BY_EMAIL, EmailFormatter.formatEmail(email))));
+        Optional<User> receivedUser = userRepository.findByEmail(TextFormatter.formatText(email));
+        return receivedUser.orElseThrow(() -> new NonExistentUserException(String.format(ErrorMessages.USER_NOT_FOUND_BY_EMAIL, TextFormatter.formatText(email))));
+    }
+
+    public List<User> getAllUsersByAttribute(String attribute) {
+        return userRepository.findAllUsersByEmailOrName(attribute, attribute);
     }
 
     /**
@@ -51,17 +57,20 @@ public class UserService extends AppService<User> {
         currentUser.ifPresent(user -> attributes.keySet().forEach(key -> {
             switch (key) {
                 case NAME:
-                    user.setName(attributes.get(NAME));
+                    user.setName(TextFormatter.formatText(attributes.get(NAME)));
                     break;
                 case EMAIL:
                     try {
-                        user.setEmail(attributes.get(EMAIL));
+                        user.setEmail(TextFormatter.formatText(attributes.get(EMAIL)));
                     } catch (NonUniqueResultException e) {
                         throw new NonUniqueEmailException(String.format(ErrorMessages.INVALID_EMAIL, attributes.get(EMAIL)));
                     }
                     break;
                 case PHONE:
                     user.setPhone(attributes.get(PHONE));
+                    break;
+                case ROLE:
+                    user.setRole(User.Role.valueOf(attributes.get(ROLE)));
                     break;
                 case PASSWORD:
                     if (passwordEncoder.matches(attributes.get(PASSWORD), user.getPassword()) && !attributes.get(NEW_PASSWORD).isEmpty()) {
@@ -82,8 +91,8 @@ public class UserService extends AppService<User> {
      */
     public User mapUser(Map<String, String> attributes) throws NonUniqueEmailException {
         User newUser = User.builder()
-                .name(attributes.get(NAME))
-                .email(EmailFormatter.formatEmail(attributes.get(EMAIL)))
+                .name(TextFormatter.formatText(attributes.get(NAME)))
+                .email(TextFormatter.formatText(attributes.get(EMAIL)))
                 .phone(attributes.get(PHONE))
                 .password(passwordEncoder.encode(attributes.get(PASSWORD)))
                 .role(User.Role.CUSTOMER)
@@ -91,7 +100,7 @@ public class UserService extends AppService<User> {
         try {
             return save(newUser);
         } catch (DataAccessException e) {
-            throw new NonUniqueEmailException(String.format(ErrorMessages.INVALID_EMAIL, EmailFormatter.formatEmail(attributes.get(EMAIL))));
+            throw new NonUniqueEmailException(String.format(ErrorMessages.INVALID_EMAIL, TextFormatter.formatText(attributes.get(EMAIL))));
         }
     }
 }

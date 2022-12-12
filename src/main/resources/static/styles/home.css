@@ -158,10 +158,11 @@
 }
 
 .add_product {
-    position: absolute;
-    top: 7px;
-    display: block;
-    left: 1312px;
+    position: relative;
+    top: 6px;
+    display: inline-block;
+    left: 350px;
+
 
     min-width: 100px;
     height: 35px;

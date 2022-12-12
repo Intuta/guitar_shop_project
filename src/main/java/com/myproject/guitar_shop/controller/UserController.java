@@ -47,7 +47,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/account")
-    public String account(Model model) {
+    public String getAccount(Model model) {
         model.addAttribute("user", CurrentUserProvider.getCurrentUser());
         return "home";
     }
@@ -64,7 +64,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/password_change")
-    public String passwordChange() {
+    public String changePassword() {
         return "passwordChange";
     }
 
@@ -77,6 +77,32 @@ public class UserController {
             userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
             model.addAttribute("user", currentUser);
         }
+        return "home";
+    }
+
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @GetMapping("/update_user_role/{user_id}")
+    public String updateUseRole(@RequestParam Map<String, String> params, Model model, @PathVariable String user_id) {
+        User currentUser = userService.getById(Integer.parseInt(user_id));
+        currentUser = userService.save(userService.update(params, currentUser.getId()));
+
+        model.addAttribute("users", userService.getAllUsersByAttribute(currentUser.getEmail()));
+        model.addAttribute("manage_users_form", true);
+        return "home";
+    }
+
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @GetMapping("/manage_users_form")
+    public String usersFormRedirect(Model model) {
+        model.addAttribute("manage_users_form", true);
+        return "home";
+    }
+
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @GetMapping("/users")
+    public String getUsers(@RequestParam(value = "attribute") String attribute, Model model) {
+        model.addAttribute("users", userService.getAllUsersByAttribute(attribute));
+        model.addAttribute("manage_users_form", true);
         return "home";
     }
 

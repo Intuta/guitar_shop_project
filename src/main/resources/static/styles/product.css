@@ -135,6 +135,7 @@
     top: 20px;
     left: 290px;
     width: 483px;
+    height: 30px;
     font-size: 0.8em;
 }
 
@@ -142,7 +143,7 @@
     position: relative;
     display: inline-block;
     top: 20px;
-    left: 290px;
+    left: 285px;
     width: 100px;
     height: 30px;
     font-size: 0.8em;

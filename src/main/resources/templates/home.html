@@ -35,6 +35,10 @@
         <h2>Sign In</h2>
     </button>
 
+    <button class="add_product" id="manage_users" sec:authorize="hasRole('ADMINISTRATOR')">
+        <h2>Manage users</h2>
+    </button>
+
     <button class="add_product" id="add_product" sec:authorize="hasRole('ADMINISTRATOR')">
         <h2>Add product</h2>
     </button>
@@ -62,8 +66,7 @@
 
 <div th:if="${user != null}" class="account_container">
     <div class="user_container">
-        <form th:action="@{/update_user/{user_id}(name = 'name', user_id =${user.id})}"
-              method="GET">
+        <form th:action="@{/update_user/{user_id}(name = 'name', user_id =${user.id})}" method="GET">
             <div class="input_data_text">User name:</div>
             <input type="text" class="change_form" id="updateName"
                    th:name="name" th:placeholder="${user.getName()}">
@@ -87,7 +90,7 @@
     </div>
 </div>
 
-<div th:if="${products != null}" class="catalog_container">
+<div th:if="${products != null}" class="table_container">
     <div class="table">
         <div class="table-content">
             <div class="table-row" th:each="product: ${products}">
@@ -163,7 +166,7 @@
     </div>
 </div>
 
-<div th:if="${cart != null}" class="catalog_container">
+<div th:if="${cart != null}" class="table_container">
     <div class="table">
         <div class="table-content">
             <div class="table-row" th:if="${cart.getItems().isEmpty()}">
@@ -205,7 +208,7 @@
     </div>
 </div>
 
-<div th:if="${itemsForConfirmation != null}" class="catalog_container">
+<div th:if="${itemsForConfirmation != null}" class="table_container">
     <div class="table">
         <div class="table-content">
             <div th:if="${itemsForConfirmation.getItems().isEmpty()}" class="table-row">
@@ -229,7 +232,7 @@
     </div>
 </div>
 
-<div th:if="${transactions != null}" class="catalog_container">
+<div th:if="${transactions != null}" class="table_container">
     <div class="table">
         <div class="table-content">
             <div class="table-row" th:if="${transactions.isEmpty()}">
@@ -248,7 +251,7 @@
     </div>
 </div>
 
-<div th:if="${transactionItems != null}" class="catalog_container">
+<div th:if="${transactionItems != null}" class="table_container">
     <div class="table">
         <div class="table-content" th:if="${!transactionItems.isEmpty()}">
             <div class="table-row" th:each="item: ${transactionItems}">
@@ -267,12 +270,12 @@
     <div class="add_product_title_text">Enter new product information</div>
     <div class="admin_add_product_container">
         <form action="/add_new_product" method="POST" enctype="multipart/form-data">
-            <input type="text" class="add_product_input_form" name="brand" th:placeholder="${'input brand'}" required>
-            <input type="text" class="add_product_input_form" name="title" th:placeholder="${'input title'}" required>
-            <input type="text" class="add_product_input_form" name="price" th:placeholder="${'input price'}"
+            <input type="text" class="add_product_input_form" name="brand" th:placeholder="${'enter brand'}" required>
+            <input type="text" class="add_product_input_form" name="title" th:placeholder="${'enter title'}" required>
+            <input type="text" class="add_product_input_form" name="price" th:placeholder="${'enter price'}"
                    pattern="^\d+(?:\.\d{1,2})?" required>
-            <input type="text" class="add_product_input_form" name="info" th:placeholder="${'input info'}">
-            <input type="number" class="add_product_input_form" name="quantity" th:placeholder="${'input quantity > 0'}"
+            <input type="text" class="add_product_input_form" name="info" th:placeholder="${'enter info'}">
+            <input type="number" class="add_product_input_form" name="quantity" th:placeholder="${'enter quantity > 0'}"
                    required>
             <select name="category" class="add_product_input_form" required="required">
                 <option value="">choose category</option>
@@ -287,6 +290,32 @@
     </div>
 </div>
 
+<div th:if="${manage_users_form == true}" class="table_container">
+    <div class="table">
+        <div class="table-row">
+            <form action="/users" method="GET">
+                <label>
+                    <input type="text" class="table_search" name="attribute" th:placeholder="${'search...'}" required>
+                </label>
+                <button class="user_search"></button>
+            </form>
+        </div>
+        <div th:if="${users != null && !users.isEmpty()}">
+            <div class="table-row" th:each="user: ${users}">
+                <div class="table-data" th:text="${user.getEmail()}"></div>
+                <form th:action="@{/update_user_role/{user_id}(name = 'role', user_id =${user.id})}" method="GET">
+                    <select name="role" class="user_change_select">
+                        <option th:text="${user.getRole().name()}"></option>
+                        <option value="ADMINISTRATOR">ADMINISTRATOR</option>
+                    </select>
+                    <button class="user_change_button">Change</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="../js/home.js"></script>
 <script src="../js/log_in.js"></script>
 <script src="../js/log_out.js"></script>
@@ -299,6 +328,7 @@
 <script src="../js/bass.js"></script>
 <script src="../js/acousticBass.js"></script>
 <script src="../js/add_product.js"></script>
+<script src="../js/manageUsers.js"></script>
 
 </body>
 </html>

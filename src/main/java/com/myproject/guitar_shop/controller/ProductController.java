@@ -32,13 +32,13 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public String productsByTitle(@RequestParam("title") String title, Model model) {
+    public String getProductsByTitle(@RequestParam("title") String title, Model model) {
         model.addAttribute("products", productService.getProductByTitle(title.toUpperCase()));
         return "home";
     }
 
     @GetMapping("/category/{category}")
-    public String category(@PathVariable String category, Model model) {
+    public String getByCategory(@PathVariable String category, Model model) {
         model.addAttribute("products", productService.getAllProductsByCategory(Product.Category.valueOf(category)));
         return "home";
     }
