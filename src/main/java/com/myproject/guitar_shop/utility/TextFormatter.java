@@ -8,4 +8,5 @@ public class TextFormatter {
     public static String formatText(String email) {
         return URLDecoder.decode(email, StandardCharsets.UTF_8).toLowerCase();
     }
+
 }

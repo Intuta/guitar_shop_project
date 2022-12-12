@@ -5,6 +5,7 @@ import com.myproject.guitar_shop.security.UserPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class CurrentUserProvider {
+
     /**
      * The method contains general logic for transferring current User object
      * if it presents or null in the otherwise
@@ -16,4 +17,5 @@ public class CurrentUserProvider {
             return userPrincipal.getUser();
         } else return null;
     }
+
 }

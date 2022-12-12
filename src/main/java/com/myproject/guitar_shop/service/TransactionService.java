@@ -21,7 +21,6 @@ public class TransactionService extends AppService<Transaction> {
     private final ItemService itemService;
     private final UserService userService;
 
-
     @Autowired
     public TransactionService(TransactionRepository repository, UserService userService, ItemService itemService) {
         super(repository);

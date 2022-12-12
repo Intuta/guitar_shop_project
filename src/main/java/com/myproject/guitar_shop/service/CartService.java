@@ -56,7 +56,6 @@ public class CartService extends AppService<Cart> {
     public void addItemIntoCart(Item item, Cart cart) throws NotEnoughProductException {
         int quantityToAdd = 1;
         List<Item> items = cart.getItems();
-
         if (items.contains(item)) {
             Item itemInCart = items.get(items.indexOf(item));
             quantityToAdd = quantityToAdd + itemInCart.getQuantity();

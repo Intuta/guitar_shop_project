@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 @Component
 public class ItemAspect {
     @Pointcut("execution(* com.myproject.guitar_shop.repository.ItemRepository.save(..))")
-    public void callTotal() {
+    public void callTotal(){
 
     }
 

@@ -1,13 +1,14 @@
 package com.myproject.guitar_shop.security;
 
 import com.myproject.guitar_shop.domain.User;
+import com.myproject.guitar_shop.exception.NonExistentUserException;
 import com.myproject.guitar_shop.repository.UserRepository;
+import com.myproject.guitar_shop.utility.ErrorMessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,8 +22,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = repository.findByEmail(email.toLowerCase()).orElseThrow();
+    public UserDetails loadUserByUsername(String email) {
+        User user = repository.findByEmail(email.toLowerCase()).orElseThrow(() -> new NonExistentUserException(ErrorMessages.USER_NOT_FOUND));
         return new UserPrincipal(user);
     }
 

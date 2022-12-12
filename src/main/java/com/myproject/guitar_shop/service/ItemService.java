@@ -22,7 +22,6 @@ public class ItemService extends AppService<Item> {
     private final ProductService productService;
     private CartService cartService;
 
-
     @Autowired
     public ItemService(ItemRepository repository, ProductService productService) {
         super(repository);
@@ -89,9 +88,6 @@ public class ItemService extends AppService<Item> {
             }
         }
     }
-
-    //TODO NULL ???
-    //(how can I remove the null setting for cartId if the database demands it as a foreign key?)
 
     /**
      * @param items         List of Items

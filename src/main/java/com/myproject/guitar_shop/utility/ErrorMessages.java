@@ -1,6 +1,7 @@
 package com.myproject.guitar_shop.utility;
 
 public class ErrorMessages {
+    public static final String ELEMENT_NOT_FOUND = "Element not found!";
     public static final String ITEM_NOT_FOUND = "Item not found!";
     public static final String NOT_SUPPORTED = "Not supported operation!";
     public static final String USER_NOT_FOUND = "User not found!";

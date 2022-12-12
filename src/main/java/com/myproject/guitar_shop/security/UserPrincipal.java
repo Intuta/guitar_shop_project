@@ -1,7 +1,6 @@
 package com.myproject.guitar_shop.security;
 
 import com.myproject.guitar_shop.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,10 +9,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class UserPrincipal implements UserDetails {
-    private User user;
+    private final User user;
+    public static final String PREFIX = "ROLE_%s";
 
-
-    @Autowired
     public UserPrincipal(User user) {
         super();
         this.user = user;
@@ -21,8 +19,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        String rolePrefix = "ROLE_%s";
-        return Collections.singleton(new SimpleGrantedAuthority(String.format(rolePrefix, user.getRole().name())));
+        return Collections.singleton(new SimpleGrantedAuthority(String.format(PREFIX, user.getRole().name())));
     }
 
     @Override
@@ -58,4 +55,5 @@ public class UserPrincipal implements UserDetails {
     public User getUser() {
         return user;
     }
+
 }

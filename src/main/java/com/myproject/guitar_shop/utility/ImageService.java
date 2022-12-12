@@ -5,7 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 
 public class ImageService {
-
     private static final String PATH = "C:\\Users\\79046\\IdeaProjects\\guitar_shop\\target\\classes\\static\\images\\%s";
 
     public static void saveImageAs(String fileName, MultipartFile image) {

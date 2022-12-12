@@ -1,5 +1,6 @@
 package com.myproject.guitar_shop.service;
 
+import com.myproject.guitar_shop.utility.ErrorMessages;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.NoSuchElementException;
@@ -15,11 +16,9 @@ abstract class AppService<T> {
         this.repository = repository;
     }
 
-    //TODO
-    //EXCEPTIONS!!!
     public T getById(int id) {
-        Optional<T> receivedCart = repository.findById(id);
-        return receivedCart.orElseThrow(() -> new NoSuchElementException("Not found!"));
+        Optional<T> receivedElement = repository.findById(id);
+        return receivedElement.orElseThrow(() -> new NoSuchElementException(ErrorMessages.ELEMENT_NOT_FOUND));
     }
 
     public T save(T entity) {
