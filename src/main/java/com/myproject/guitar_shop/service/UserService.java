@@ -41,7 +41,7 @@ public class UserService extends AppService<User> {
     }
 
     public List<User> getAllUsersByAttribute(String attribute) {
-        return userRepository.findAllUsersByEmailOrName(attribute, attribute);
+        return userRepository.findAllUsersByEmailOrName(TextFormatter.formatText(attribute), TextFormatter.formatText(attribute));
     }
 
     /**

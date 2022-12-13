@@ -39,7 +39,7 @@ public class ProductService extends AppService<Product> {
         return products;
     }
 
-    public List<Product> getProductByTitle(String title) {
+    public List<Product> getProductsByTitle(String title) {
         return productRepository.findAllByTitleContaining(title);
     }
 
@@ -66,7 +66,7 @@ public class ProductService extends AppService<Product> {
     }
 
     public Product update(Map<String, String> attributes, int productId) {
-        Optional<Product> currentProduct = repository.findById(productId);
+        Optional<Product> currentProduct = productRepository.findById(productId);
         currentProduct.ifPresent(product -> attributes.keySet().forEach(key -> {
             switch (key) {
                 case BRAND:

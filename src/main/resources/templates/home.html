@@ -144,13 +144,13 @@
             <button class="product_change_button">Change</button>
         </form>
         <form th:action="@{/update_product/{product_id}(name = 'quantity', product_id=${product.id})}" method="GET">
-            <input type="text" class="product_change_form"
-                   th:name="quantity" th:placeholder="${product.getQuantity() + ' unit in stock'}">
+            <input type="number" class="product_change_form"
+                   th:name="quantity" th:placeholder="${product.getQuantity() + ' unit in stock'}"  required>
             <button class="product_change_button">Change</button>
         </form>
         <form th:action="@{/update_product/{product_id}(name = 'price', product_id=${product.id})}" method="GET">
-            <input type="text" class="product_change_form" id="updatePrice"
-                   th:name="price" th:placeholder="${product.getPrice()}">
+            <input type="number" class="product_change_form" id="updatePrice"
+                   th:name="price" th:placeholder="${product.getPrice()}" min="1" step=".01" required>
             <button class="product_change_button">Change</button>
         </form>
         <form th:action="@{/update_product/{product_id}(name = 'category', product_id=${product.id})}" method="GET">
@@ -272,8 +272,8 @@
         <form action="/add_new_product" method="POST" enctype="multipart/form-data">
             <input type="text" class="add_product_input_form" name="brand" th:placeholder="${'enter brand'}" required>
             <input type="text" class="add_product_input_form" name="title" th:placeholder="${'enter title'}" required>
-            <input type="text" class="add_product_input_form" name="price" th:placeholder="${'enter price'}"
-                   pattern="^\d+(?:\.\d{1,2})?" required>
+            <input type="number" class="add_product_input_form" name="price" th:placeholder="${'enter price'}"
+                   min="1" step=".01" required>
             <input type="text" class="add_product_input_form" name="info" th:placeholder="${'enter info'}">
             <input type="number" class="add_product_input_form" name="quantity" th:placeholder="${'enter quantity > 0'}"
                    required>

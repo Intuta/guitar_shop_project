@@ -33,7 +33,7 @@ public class ProductController {
 
     @GetMapping("/products")
     public String getProductsByTitle(@RequestParam("title") String title, Model model) {
-        model.addAttribute("products", productService.getProductByTitle(title.toUpperCase()));
+        model.addAttribute("products", productService.getProductsByTitle(title.toUpperCase()));
         return "home";
     }
 

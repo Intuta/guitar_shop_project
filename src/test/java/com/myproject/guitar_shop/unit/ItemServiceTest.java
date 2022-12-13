@@ -29,23 +29,22 @@ public class ItemServiceTest {
     private ItemRepository itemRepository;
     @InjectMocks
     private ItemService itemService;
-
     @Captor
     ArgumentCaptor<Item> itemCaptor;
-
     private Item item;
 
     @BeforeEach
     public void initialization() {
         item = Item.builder()
-                .id((int) (Math.random() * 9))
+                .id(1)
                 .cartId(1)
                 .product(new Product())
+                .quantity(1)
                 .build();
     }
 
     @Test
-    public void getItemByIdTest_Pass() throws Exception {
+    public void getItemByIdTest_Pass() {
         int id = item.getId();
 
         when(itemRepository.findById(id)).thenReturn(Optional.of(item));
@@ -92,14 +91,10 @@ public class ItemServiceTest {
     public void createItemTest() {
         item.setPrice(25.0);
         item.setQuantity(2);
-        double expectedSum = 50.0;
 
         when(itemRepository.save(itemCaptor.capture())).thenReturn(item);
 
         Item returnedItem = itemService.save(item);
-//        Item capturedItem = itemCaptor.getValue();
-//
-//        assertThat(capturedItem.getSum()).isEqualTo(expectedSum);
         assertThat(returnedItem).isEqualTo(item).usingRecursiveComparison();
     }
 
@@ -113,7 +108,6 @@ public class ItemServiceTest {
         Item returnedItem = itemService.save(item);
 
         assertThat(returnedItem).isEqualTo(item).usingRecursiveComparison();
-
     }
 
 }

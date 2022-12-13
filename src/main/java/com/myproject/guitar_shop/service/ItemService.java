@@ -47,11 +47,6 @@ public class ItemService extends AppService<Item> {
         return items;
     }
 
-    @Override
-    public Item save(Item item) {
-        return itemRepository.save(item);
-    }
-
     /**
      * @param product Product which should be converted to Item
      * @param user    User who require to add Item

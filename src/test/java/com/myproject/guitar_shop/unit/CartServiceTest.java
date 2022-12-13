@@ -3,9 +3,11 @@ package com.myproject.guitar_shop.unit;
 import com.myproject.guitar_shop.domain.Cart;
 import com.myproject.guitar_shop.domain.Item;
 import com.myproject.guitar_shop.domain.Product;
+import com.myproject.guitar_shop.exception.NotEnoughProductException;
 import com.myproject.guitar_shop.repository.CartRepository;
 import com.myproject.guitar_shop.service.CartService;
 import com.myproject.guitar_shop.service.ItemService;
+import com.myproject.guitar_shop.utility.ErrorMessages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,9 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -39,16 +39,20 @@ public class CartServiceTest {
         item1 = Item.builder()
                 .id(1)
                 .cartId(1)
-                .product(new Product())
+                .product(Product.builder().id(1).build())
+                .quantity(1)
+                .price(10.0)
                 .build();
         item2 = Item.builder()
                 .id(2)
                 .cartId(1)
-                .product(new Product())
+                .product(Product.builder().id(2).build())
+                .quantity(1)
+                .price(10.0)
                 .build();
         cart = Cart.builder()
                 .id(1)
-                .items(Arrays.asList(item1, item2))
+                .items(new ArrayList<>(Arrays.asList(item1, item2)))
                 .build();
     }
 
@@ -94,10 +98,42 @@ public class CartServiceTest {
     }
 
     @Test
+    public void addItemIntoCartTest_Pass() {
+        Item item3 = Item.builder()
+                .id(3)
+                .cartId(1)
+                .product(Product.builder().id(3).build())
+                .quantity(1)
+                .price(10.0)
+                .build();
+        List<Item> expectedItemList = Arrays.asList(item1, item2, item3);
+        cartService.addItemIntoCart(item3, cart);
+        List<Item> returnedItemList = cart.getItems();
+
+        assertThat(returnedItemList).isEqualTo(expectedItemList).usingRecursiveComparison();
+    }
+
+    @Test
+    public void addItemIntoCartTest_Fall() {
+        Item item3 = Item.builder()
+                .id(item1.getId())
+                .cartId(item1.getCartId())
+                .product(item1.getProduct())
+                .quantity(item1.getQuantity() + 1)
+                .price(item1.getPrice())
+                .build();
+
+        when(itemService.quantityIsAvailable(item3, item3.getQuantity())).thenReturn(false);
+
+        assertThatThrownBy(() -> cartService.addItemIntoCart(item3, cart)).isInstanceOf(NotEnoughProductException.class);
+    }
+
+    @Test
     public void updateCartTest() {
         when(cartRepository.save(cart)).thenReturn(cart);
 
         Cart returnedCart = cartService.save(cart);
+
         assertThat(returnedCart).isEqualTo(cart).usingRecursiveComparison();
     }
 
