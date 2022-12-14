@@ -6,16 +6,16 @@ import com.myproject.guitar_shop.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = GuitarShopApplication.class)
-@Profile("test")
+@SpringBootTest
 @Sql(scripts = "/test-schema.sql")
-public class ItemServiceTests {
+public class UserServiceTests {
     @Autowired
     private UserService userService;
 
