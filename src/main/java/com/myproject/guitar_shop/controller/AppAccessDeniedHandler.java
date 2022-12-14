@@ -13,4 +13,5 @@ public class AppAccessDeniedHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         response.sendRedirect("/access_denied");
     }
+
 }
