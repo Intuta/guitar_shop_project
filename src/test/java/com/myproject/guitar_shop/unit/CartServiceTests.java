@@ -7,7 +7,6 @@ import com.myproject.guitar_shop.exception.NotEnoughProductException;
 import com.myproject.guitar_shop.repository.CartRepository;
 import com.myproject.guitar_shop.service.CartService;
 import com.myproject.guitar_shop.service.ItemService;
-import com.myproject.guitar_shop.utility.ErrorMessages;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +22,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CartServiceTest {
+public class CartServiceTests {
     private Item item1;
     private Item item2;
     private Cart cart;

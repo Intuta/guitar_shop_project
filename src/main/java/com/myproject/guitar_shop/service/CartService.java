@@ -8,6 +8,7 @@ import com.myproject.guitar_shop.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class CartService extends AppService<Cart> {
             return save(cart);
         } else return receivedCart.get();
     }
-
+    @Transactional
     @Override
     public Cart save(Cart cart) {
         return cartRepository.save(cart);
@@ -53,6 +54,7 @@ public class CartService extends AppService<Cart> {
      * @param cart Cart for adding the item
      * @throws NotEnoughProductException will be thrown if the quantity of product is not enough for adding another item-unit
      */
+    @Transactional
     public void addItemIntoCart(Item item, Cart cart) throws NotEnoughProductException {
         int quantityToAdd = 1;
         List<Item> items = cart.getItems();
@@ -79,6 +81,7 @@ public class CartService extends AppService<Cart> {
      * @param cart Cart from which should be removed lacking items
      * @return: Updated List<Item> of cart
      */
+    @Transactional
     public List<Item> removeItemsIfAbsent(Cart cart) {
         List<Item> items = cart.getItems();
         items.removeIf(item -> item.getQuantity() > item.getProduct().getQuantity());

@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,6 +53,7 @@ public class UserService extends AppService<User> {
      * @throws NonUniqueEmailException    will be thrown if it is not possible to set email for User because User with such email already exists
      * @throws IncorrectPasswordException will be thrown If attributes contain a password && it is not matched with current password of the User
      */
+    @Transactional
     public User update(Map<String, String> attributes, int userId) throws RuntimeException {
         Optional<User> currentUser = userRepository.findById(userId);
         currentUser.ifPresent(user -> attributes.keySet().forEach(key -> {
@@ -89,6 +91,7 @@ public class UserService extends AppService<User> {
      * @return Returns new User
      * @throws NonUniqueEmailException will be thrown if it is not possible to set email for User because User with such email already exists
      */
+    @Transactional
     public User mapUser(Map<String, String> attributes) throws NonUniqueEmailException {
         User newUser = User.builder()
                 .name(TextFormatter.formatText(attributes.get(NAME)))

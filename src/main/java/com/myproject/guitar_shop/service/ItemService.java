@@ -66,6 +66,7 @@ public class ItemService extends AppService<Item> {
      * @throws NonExistentItemException  will be thrown if it is no possible to find Item by granted id
      * @throws NotEnoughProductException will be thrown if the quantity of product is not enough for set required quantity for the Item
      */
+    @Transactional
     public void updateQuantity(int id, int quantity) {
         Item item = itemRepository.findById(id).orElseThrow(() -> new NonExistentItemException(ErrorMessages.ITEM_NOT_FOUND));
         Cart cart = cartService.getById(item.getCartId());

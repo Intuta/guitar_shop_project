@@ -20,7 +20,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceTest {
+class ProductServiceTests {
     @Mock
     private ProductRepository productRepository;
     @InjectMocks
