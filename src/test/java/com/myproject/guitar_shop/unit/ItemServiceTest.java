@@ -6,7 +6,6 @@ import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.repository.ItemRepository;
 import com.myproject.guitar_shop.service.CartService;
 import com.myproject.guitar_shop.service.ItemService;
-import com.myproject.guitar_shop.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
