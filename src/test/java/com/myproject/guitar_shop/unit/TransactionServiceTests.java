@@ -67,7 +67,7 @@ public class TransactionServiceTests {
 
         Transaction returnedTransaction = transactionService.getById(transaction.getId());
 
-        assertThat(returnedTransaction).isEqualTo(transaction).usingRecursiveComparison();
+        assertThat(returnedTransaction.getId()).isEqualTo(transaction.getId()).usingRecursiveComparison();
     }
 
     @Test

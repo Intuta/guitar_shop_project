@@ -27,7 +27,7 @@ CREATE TABLE products
     category VARCHAR      NOT NULL,
     price    DECIMAL      NOT NULL CHECK (price > 0),
     info     VARCHAR(200),
-    quantity INTEGER CHECK (quantity > -1),
+    quantity INTEGER NOT NULL CHECK (quantity > -1),
     src      VARCHAR(1000)
 );
 

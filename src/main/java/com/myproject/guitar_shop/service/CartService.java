@@ -68,6 +68,7 @@ public class CartService extends AppService<Cart> {
             } else
                 throw new NotEnoughProductException(String.format(ErrorMessages.NOT_ENOUGH_PRODUCTS, item.getProduct().getQuantity()));
         } else {
+            item.setCartId(cart.getId());
             itemService.save(item);
             items.add(item);
         }

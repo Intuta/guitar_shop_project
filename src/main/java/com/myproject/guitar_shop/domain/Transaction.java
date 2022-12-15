@@ -34,4 +34,13 @@ public class Transaction {
 
     @OneToMany(mappedBy = "transactionId", fetch = FetchType.EAGER)
     private List<Item> items;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Transaction) {
+            Transaction other = (Transaction) obj;
+            return other.getId().equals(id) && other.getCreationDate().equals(creationDate) && other.getSum() == sum;
+        }
+        return false;
+    }
 }
