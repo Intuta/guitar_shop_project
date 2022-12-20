@@ -1,3 +1,3 @@
-document.querySelector("#manage_users").onclick = function manageUsersRedirect() {
+function manageUsersRedirect() {
     document.location.href = "/manage_users_form";
 }

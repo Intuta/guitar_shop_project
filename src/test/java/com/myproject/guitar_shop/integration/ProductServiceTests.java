@@ -49,8 +49,8 @@ public class ProductServiceTests {
     public void addNewProductTest() {
         Product expectedProduct = Product.builder()
                 .id(1)
-                .brand("brand")
-                .title("title")
+                .brand("BRAND")
+                .title("TITLE")
                 .category(Product.Category.BASS_GUITAR)
                 .price(300.0)
                 .info("info")

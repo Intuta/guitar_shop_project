@@ -157,7 +157,7 @@
     color: white;
 }
 
-.add_product {
+.admin_button {
     position: relative;
     top: 6px;
     display: inline-block;
@@ -179,12 +179,12 @@
     text-align: center;
 }
 
-.add_product:hover {
+.admin_button:hover {
     background: rgb(47, 79, 93);
     color: white;
 }
 
-.add_product:active {
+.admin_button:active {
     background: rgb(39, 58, 65);
     color: white;
 }

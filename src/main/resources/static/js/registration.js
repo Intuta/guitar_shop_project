@@ -1,3 +1,3 @@
-document.querySelector("#register").onclick = function registrationRedirect() {
+function registrationRedirect() {
     document.location.href = "/registration";
 }

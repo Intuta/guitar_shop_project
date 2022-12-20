@@ -9,6 +9,7 @@ import com.myproject.guitar_shop.service.ItemService;
 import com.myproject.guitar_shop.service.ProductService;
 import com.myproject.guitar_shop.utility.CurrentUserProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,23 @@ public class ProductController {
     private final ItemService itemService;
 
     @GetMapping("/product/{id}")
-    public String productById(@PathVariable String id, Model model) {
-        model.addAttribute("product", productService.getById(Integer.parseInt(id)));
+    public String productById(@PathVariable int id, Model model) {
+        model.addAttribute("product", productService.getById(id));
         return "home";
     }
 
-    @GetMapping("/products")
-    public String getProductsByTitle(@RequestParam("title") String title, Model model) {
-        model.addAttribute("products", productService.getProductsByTitle(title.toUpperCase()));
+    @GetMapping("/products/{page}/{size}")
+    public String getProductsByTitle(@RequestParam("title") String title, Model model, @PathVariable int page, @PathVariable int size) {
+        Page<Product> pageOfProducts = productService.getProductsByTitle(title.toUpperCase(), page, size);
+        int totalPages = pageOfProducts.getTotalPages();
+        long totalItems = pageOfProducts.getTotalElements();
+        model.addAttribute("title", title);
+        model.addAttribute("products", pageOfProducts);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalItems", totalItems);
+
+
         return "home";
     }
 
@@ -45,8 +55,8 @@ public class ProductController {
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/add_into_cart/{id}")
-    public String addIntoCart(@PathVariable String id, Model model) {
-        Product currentProduct = productService.getById(Integer.parseInt(id));
+    public String addIntoCart(@PathVariable int id, Model model) {
+        Product currentProduct = productService.getById(id);
         User currentUser = CurrentUserProvider.getCurrentUser();
         if (currentUser != null) {
             itemService.addItem(currentProduct, currentUser);
@@ -71,8 +81,8 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/update_product/{product_id}")
-    public String updateProduct(@PathVariable String product_id, @RequestParam Map<String, String> params, Model model) {
-        Product updatedProduct = productService.update(params, Integer.parseInt(product_id));
+    public String updateProduct(@PathVariable int product_id, @RequestParam Map<String, String> params, Model model) {
+        Product updatedProduct = productService.update(params, product_id);
         model.addAttribute("product", updatedProduct);
         return "home";
     }

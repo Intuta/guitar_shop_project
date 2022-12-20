@@ -1,3 +1,3 @@
-document.querySelector("#cart").onclick = function () {
+function cart() {
     document.location.href = "/cart";
 }

@@ -2,52 +2,74 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <link th:href="@{/styles/home.css}" rel="stylesheet">
-    <link th:href="@{/styles/error.css}" rel="stylesheet">
 
+    <link th:href="@{/styles/error.css}" rel="stylesheet">
+    <link th:href="@{/styles/home.css}" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/home.js}"></script>
+    <script type="text/javascript" th:src="@{/js/log_in.js}"></script>
+    <script type="text/javascript" th:src="@{/js/log_out.js}"></script>
+    <script type="text/javascript" th:src="@{/js/account.js}"></script>
+    <script type="text/javascript" th:src="@{/js/cart.js}"></script>
+    <script type="text/javascript" th:src="@{/js/acoustic.js}"></script>
+    <script type="text/javascript" th:src="@{/js/electric.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bass.js}"></script>
+    <script type="text/javascript" th:src="@{/js/acousticBass.js}"></script>
+    <script type="text/javascript" th:src="@{/js/add_product.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manageUsers.js}"></script>
     <title>ERROR</title>
+
 </head>
 <body class="background1">
 
 <div class="title">
-    <button class="home" id="home">
+    <button class="home" type="button" th:onclick="homeRedirect()">
         <h2>Guitar Shop</h2>
     </button>
 
-    <form action="/products" method="GET">
+
+    <form th:action="@{/products/{page}/{size}(name = 'title', page =${0}, size =${3})}" method="GET">
         <label>
             <input type="text" class="input_form" th:placeholder="${'search...'}" name="title" required>
         </label>
         <button class="search"></button>
     </form>
 
-    <button class="cart" id="cart"></button>
-    <button class="account" id="account"></button>
+    <button class="cart" th:onclick="cart()"></button>
+    <button class="account" th:onclick="getAccount()"></button>
 
-    <button class="authentication" id="log_out" sec:authorize="isAuthenticated()">
+
+    <button class="authentication" th:onclick="logRedirect()" sec:authorize="!isAuthenticated()">
+        <h2>Sign In</h2>
+    </button>
+
+    <button class="authentication" th:onclick="logOutRedirect()" sec:authorize="isAuthenticated()">
         <h2>Sign Out</h2>
     </button>
 
-    <button class="authentication" id="log_in" sec:authorize="!isAuthenticated()">
-        <h2>Sign In</h2>
+    <button class="admin_button" th:onclick="manageUsersRedirect()" sec:authorize="hasRole('ADMINISTRATOR')">
+        <h2>Manage users</h2>
+    </button>
+
+    <button class="admin_button" th:onclick="addProductRedirect()" sec:authorize="hasRole('ADMINISTRATOR')">
+        <h2>Add product</h2>
     </button>
 
 </div>
 
 <div class="backing">
-    <button class="categories" id="acoustic">
+    <button class="categories" th:onclick="acoustic()">
         <h3>Acoustic guitars</h3>
     </button>
 
-    <button class="categories" id="electric">
+    <button class="categories" th:onclick="electric()">
         <h3>Electric guitars</h3>
     </button>
 
-    <button class="categories" id="bass">
+    <button class="categories" th:onclick="bass()">
         <h3>Bass guitars</h3>
     </button>
 
-    <button class="categories" id="acoustic_bass">
+    <button class="categories" th:onclick="acousticBass()">
         <h3>Acoustic bass guitars</h3>
     </button>
 </div>
@@ -57,17 +79,6 @@
         <div class="error_text" th:text="${errorMessage}"></div>
     </div>
 </div>
-
-
-<script src="../js/home.js"></script>
-<script src="../js/log_in.js"></script>
-<script src="../js/log_out.js"></script>
-<script src="../js/account.js"></script>
-<script src="../js/cart.js"></script>
-<script src="../js/acoustic.js"></script>
-<script src="../js/electric.js"></script>
-<script src="../js/bass.js"></script>
-<script src="../js/acousticBass.js"></script>
 
 </body>
 </html>

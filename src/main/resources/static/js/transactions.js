@@ -1,3 +1,3 @@
-document.querySelector("#transactions").onclick = function getTransactions() {
+function getTransactions() {
     document.location.href = "/transactions";
 }

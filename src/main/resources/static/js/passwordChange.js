@@ -1,3 +1,3 @@
-document.querySelector("#passwordChange").onclick = function passwordChangeRedirect() {
+function passwordChangeRedirect() {
     document.location.href = "/password_change";
 }

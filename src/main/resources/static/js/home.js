@@ -1,3 +1,3 @@
-document.querySelector("#home").onclick = function homeRedirect() {
+function homeRedirect() {
     document.location.href = "/home";
 }

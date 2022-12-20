@@ -11,8 +11,12 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -60,7 +64,6 @@ class ProductServiceTests {
     @Test
     public void getByIdTest_Fail() {
         int productId = product.getId();
-        ;
 
         when(productRepository.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -86,6 +89,7 @@ class ProductServiceTests {
 
     @Test
     public void getProductsByTitleTest() {
+        Pageable pageable = PageRequest.of(0, 3);
         List<Product> products = new ArrayList<>();
         String title = "title";
         for (int i = 0; i < 3; i++) {
@@ -95,9 +99,9 @@ class ProductServiceTests {
                     .build());
         }
 
-        when(productRepository.findAllByTitleContaining(title)).thenReturn(products);
+        when(productRepository.findAllByTitleContaining(title, pageable)).thenReturn(new PageImpl<>(products));
 
-        List<Product> returnedProducts = productService.getProductsByTitle(title);
+        List<Product> returnedProducts = productService.getProductsByTitle(title, 0, 3).get().collect(Collectors.toList());
 
         assertThat(returnedProducts).isEqualTo(products).usingRecursiveComparison();
     }

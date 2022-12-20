@@ -6,6 +6,9 @@ import com.myproject.guitar_shop.repository.ProductRepository;
 import com.myproject.guitar_shop.utility.ErrorMessages;
 import com.myproject.guitar_shop.utility.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,8 +42,9 @@ public class ProductService extends AppService<Product> {
         return products;
     }
 
-    public List<Product> getProductsByTitle(String title) {
-        return productRepository.findAllByTitleContaining(title);
+    public Page<Product> getProductsByTitle(String title, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAllByTitleContaining(title, pageable);
     }
 
     public List<Product> getAllProductsByCategory(Product.Category category) {
@@ -53,8 +57,8 @@ public class ProductService extends AppService<Product> {
     public Product addNewProduct(Map<String, String> attributes, MultipartFile image) {
         String src = String.format(SRC, attributes.get(TITLE));
         Product product = Product.builder()
-                .brand(attributes.get(BRAND))
-                .title(attributes.get(TITLE))
+                .brand(attributes.get(BRAND).toUpperCase())
+                .title(attributes.get(TITLE).toUpperCase())
                 .category(Product.Category.valueOf(attributes.get(CATEGORY)))
                 .price(Double.parseDouble(attributes.get(PRICE)))
                 .info(attributes.get(INFO))

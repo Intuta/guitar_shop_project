@@ -1,3 +1,3 @@
-document.querySelector("#electric").onclick = function electric() {
+function electric() {
     document.location.href = "/category/ELECTRIC_GUITAR";
 }

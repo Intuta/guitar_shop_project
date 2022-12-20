@@ -1,3 +1,3 @@
-document.querySelector("#account").onclick = function getAccount() {
+function getAccount() {
     document.location.href = "/account";
 }
