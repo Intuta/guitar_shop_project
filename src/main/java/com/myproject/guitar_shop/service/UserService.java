@@ -92,7 +92,7 @@ public class UserService extends AppService<User> {
      * @throws NonUniqueEmailException will be thrown if it is not possible to set email for User because User with such email already exists
      */
     @Transactional
-    public User mapUser(Map<String, String> attributes) throws NonUniqueEmailException {
+    public User createUser(Map<String, String> attributes) throws NonUniqueEmailException {
         User newUser = User.builder()
                 .name(TextFormatter.formatText(attributes.get(NAME)))
                 .email(TextFormatter.formatText(attributes.get(EMAIL)))

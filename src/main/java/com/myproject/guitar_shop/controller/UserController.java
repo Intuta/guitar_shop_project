@@ -35,7 +35,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String addUser(@RequestParam Map<String, String> params) {
-        User currentUser = userService.mapUser(params);
+        User currentUser = userService.createUser(params);
         userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
         return "home";
     }

@@ -22,12 +22,12 @@ CREATE SEQUENCE transaction_hibernate_sequence START 1;
 CREATE TABLE products
 (
     id       SERIAL PRIMARY KEY,
-    brand    VARCHAR(50),
+    brand    VARCHAR(50)  NOT NULL,
     title    VARCHAR(100) NOT NULL,
     category VARCHAR      NOT NULL,
     price    DECIMAL      NOT NULL CHECK (price > 0),
     info     VARCHAR(200),
-    quantity INTEGER NOT NULL CHECK (quantity > -1),
+    quantity INTEGER      NOT NULL CHECK (quantity > -1),
     src      VARCHAR(1000)
 );
 

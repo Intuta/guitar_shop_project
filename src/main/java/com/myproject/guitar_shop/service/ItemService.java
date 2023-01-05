@@ -52,6 +52,7 @@ public class ItemService extends AppService<Item> {
      * @param user    User who require to add Item
      *                The method receives the cart via user id and constructs and adds new Item to it
      */
+    @Transactional
     public void addItem(Product product, User user) {
         Cart cart = cartService.getCartByUserId(user.getId());
         Item item = Item.builder().cartId(cart.getId()).product(product).price(product.getPrice()).quantity(1).build();
@@ -59,11 +60,11 @@ public class ItemService extends AppService<Item> {
     }
 
     /**
-     * The method removes Item from the Cart if quantity < 1 or set new quantity value
+     * The method removes Item from the Cart if quantity < 1 or set new quantity value if possible
      *
      * @param id       id of Item which quantity should be changed
      * @param quantity quantity that should be set for the Item
-     * @throws NonExistentItemException  will be thrown if it is no possible to find Item by granted id
+     * @throws NonExistentItemException  will be thrown if it is not possible to find Item by granted id
      * @throws NotEnoughProductException will be thrown if the quantity of product is not enough for set required quantity for the Item
      */
     @Transactional

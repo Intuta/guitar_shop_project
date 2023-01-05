@@ -84,12 +84,9 @@ public class UserServiceTests {
 
         User returnedUser = userService.update(attributes, user.getId());
         expectedUser.setId(returnedUser.getId());
+        expectedUser.setPassword(returnedUser.getPassword());
 
-        assertThat(passwordEncoder.matches(expectedUser.getPassword(), returnedUser.getPassword())).isEqualTo(true);
-        assertThat(returnedUser.getId()).isEqualTo(expectedUser.getId());
-        assertThat(returnedUser.getName()).isEqualTo(expectedUser.getName());
-        assertThat(returnedUser.getPhone()).isEqualTo(expectedUser.getPhone());
-        assertThat(returnedUser.getRole()).isEqualTo(expectedUser.getRole());
+        assertThat(returnedUser).isEqualTo(expectedUser).usingRecursiveComparison();
     }
 
     @Test
@@ -101,14 +98,11 @@ public class UserServiceTests {
                 .role(User.Role.valueOf(attributes.get("role")))
                 .password(attributes.get("password")).build();
 
-        User returnedUser = userService.mapUser(attributes);
+        User returnedUser = userService.createUser(attributes);
         expectedUser.setId(returnedUser.getId());
+        expectedUser.setPassword(returnedUser.getPassword());
 
-        assertThat(passwordEncoder.matches(expectedUser.getPassword(), returnedUser.getPassword())).isEqualTo(true);
-        assertThat(returnedUser.getId()).isEqualTo(expectedUser.getId());
-        assertThat(returnedUser.getName()).isEqualTo(expectedUser.getName());
-        assertThat(returnedUser.getPhone()).isEqualTo(expectedUser.getPhone());
-        assertThat(returnedUser.getRole()).isEqualTo(expectedUser.getRole());
+        assertThat(returnedUser).isEqualTo(expectedUser).usingRecursiveComparison();
     }
 
 }

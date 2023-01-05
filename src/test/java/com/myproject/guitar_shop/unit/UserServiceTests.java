@@ -156,7 +156,7 @@ public class UserServiceTests {
 
         when(userRepository.save(captor.capture())).thenReturn(expectedUser);
 
-        User returnedUser = userService.mapUser(attributes);
+        User returnedUser = userService.createUser(attributes);
         User capturedUser = captor.getValue();
 
         assertThat(returnedUser).isEqualTo(expectedUser).usingRecursiveComparison();
