@@ -32,6 +32,7 @@ public class CartService extends AppService<Cart> {
      * @return: The method returns the user`s cart if it exists.
      * If the user doesn't have a cart the method returns a new one.
      */
+    @Transactional
     public Cart getCartByUserId(int userId) {
         Optional<Cart> receivedCart = cartRepository.findByUserId(userId);
         if (receivedCart.isEmpty()) {

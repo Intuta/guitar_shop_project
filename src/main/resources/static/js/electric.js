@@ -1,3 +1,3 @@
 function electric() {
-    document.location.href = "/category/ELECTRIC_GUITAR";
+    document.location.href = "/products/category/ELECTRIC_GUITAR";
 }

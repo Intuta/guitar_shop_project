@@ -1,3 +1,3 @@
 function bass() {
-    document.location.href = "/category/BASS_GUITAR";
+    document.location.href = "/products/category/BASS_GUITAR";
 }

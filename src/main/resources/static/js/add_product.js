@@ -1,3 +1,3 @@
 function addProductRedirect() {
-    document.location.href = "/add_product";
+    document.location.href = "/products/form";
 }

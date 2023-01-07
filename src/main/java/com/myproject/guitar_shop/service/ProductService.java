@@ -68,6 +68,7 @@ public class ProductService extends AppService<Product> {
         ImageService.saveImageAs(String.format(FILE_NAME, attributes.get(TITLE)), image);
         return save(product);
     }
+
     @Transactional
     public Product update(Map<String, String> attributes, int productId) {
         Optional<Product> currentProduct = productRepository.findById(productId);
@@ -90,6 +91,8 @@ public class ProductService extends AppService<Product> {
                     break;
                 case QUANTITY:
                     product.setQuantity(Integer.parseInt(attributes.get(QUANTITY)));
+                    break;
+                default:
                     break;
             }
         }));

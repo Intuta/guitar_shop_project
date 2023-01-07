@@ -1,3 +1,3 @@
 function cart() {
-    document.location.href = "/cart";
+    document.location.href = "/cart/";
 }

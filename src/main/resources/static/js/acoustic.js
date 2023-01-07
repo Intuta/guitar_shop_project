@@ -1,3 +1,3 @@
 function acoustic() {
-    document.location.href = "/category/ACOUSTIC_GUITAR";
+    document.location.href = "/products/category/ACOUSTIC_GUITAR";
 }

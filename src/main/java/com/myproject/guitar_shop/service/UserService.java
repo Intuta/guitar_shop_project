@@ -7,7 +7,6 @@ import com.myproject.guitar_shop.exception.NonUniqueEmailException;
 import com.myproject.guitar_shop.repository.UserRepository;
 import com.myproject.guitar_shop.utility.ErrorMessages;
 import com.myproject.guitar_shop.utility.TextFormatter;
-import org.hibernate.NonUniqueResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,11 +61,12 @@ public class UserService extends AppService<User> {
                     user.setName(TextFormatter.formatText(attributes.get(NAME)));
                     break;
                 case EMAIL:
-                    try {
-                        user.setEmail(TextFormatter.formatText(attributes.get(EMAIL)));
-                    } catch (NonUniqueResultException e) {
-                        throw new NonUniqueEmailException(String.format(ErrorMessages.INVALID_EMAIL, attributes.get(EMAIL)));
+                    String email = TextFormatter.formatText(attributes.get(EMAIL));
+                    User existingByEmail = userRepository.findByEmail(email).orElse(null);
+                    if (existingByEmail != null && existingByEmail.getId() != userId) {
+                        throw new NonUniqueEmailException(String.format(ErrorMessages.INVALID_EMAIL, email));
                     }
+                    user.setEmail(email);
                     break;
                 case PHONE:
                     user.setPhone(attributes.get(PHONE));
@@ -80,6 +80,8 @@ public class UserService extends AppService<User> {
                     } else {
                         throw new IncorrectPasswordException(ErrorMessages.WRONG_PASSWORD);
                     }
+                    break;
+                default:
                     break;
             }
         }));

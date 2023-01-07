@@ -26,7 +26,7 @@ public class Transaction {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @Column(name = "Date")
+    @Column(name = "date")
     private Date creationDate;
 
     @Column(name = "sum")

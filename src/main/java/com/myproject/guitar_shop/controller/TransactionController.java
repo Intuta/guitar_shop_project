@@ -13,23 +13,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/transactions")
 public class TransactionController {
     private final TransactionService transactionService;
     private final CartService cartService;
     private final ItemService itemService;
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
-    @GetMapping("/buy/{cartId}")
-    public String confirmTransaction(@PathVariable String cartId, Model model) {
+    @GetMapping("/checkout/{cartId}")
+    public String checkoutTransaction(@PathVariable String cartId, Model model) {
         Cart currentCart = cartService.getById(Integer.parseInt(cartId));
         currentCart.setItems(cartService.removeItemsIfAbsent(currentCart));
         model.addAttribute("itemsForConfirmation", currentCart);
@@ -37,8 +35,8 @@ public class TransactionController {
     }
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
-    @GetMapping("/purchase/{cartId}")
-    public String commitTransaction(@PathVariable String cartId, Model model) throws Exception {
+    @GetMapping("/submit/{cartId}")
+    public String submitTransaction(@PathVariable String cartId, Model model) throws Exception {
         Cart currentCart = cartService.getById(Integer.parseInt(cartId));
         transactionService.createTransaction(currentCart);
         cartService.delete(currentCart);
@@ -50,7 +48,7 @@ public class TransactionController {
     }
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
-    @GetMapping("/transactions")
+    @GetMapping("")
     public String getAllTransactions(Model model) {
         User currentUser = CurrentUserProvider.getCurrentUser();
         if (currentUser != null) {
@@ -60,8 +58,8 @@ public class TransactionController {
     }
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
-    @GetMapping("/transaction/{id}")
-    public String getTransaction(Model model, @PathVariable String id) {
+    @GetMapping("/{id}")
+    public String getTransactionById(Model model, @PathVariable String id) {
         model.addAttribute("transactionItems", itemService.getAllItemsByTransactionId(Integer.parseInt(id)));
         return "home";
     }

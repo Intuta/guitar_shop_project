@@ -1,11 +1,13 @@
 package com.myproject.guitar_shop.controller;
 
 import com.myproject.guitar_shop.domain.Cart;
+import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.domain.User;
 import com.myproject.guitar_shop.exception.NonExistentItemException;
 import com.myproject.guitar_shop.exception.NotEnoughProductException;
 import com.myproject.guitar_shop.service.CartService;
 import com.myproject.guitar_shop.service.ItemService;
+import com.myproject.guitar_shop.service.ProductService;
 import com.myproject.guitar_shop.utility.CurrentUserProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,12 +18,15 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/cart")
 public class CartController {
     private final CartService cartService;
     private final ItemService itemService;
 
+    private final ProductService productService;
+
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
-    @GetMapping("/cart")
+    @GetMapping("/")
     public String cart(Model model) {
         User currentUser = CurrentUserProvider.getCurrentUser();
         if (currentUser != null) {
@@ -31,7 +36,19 @@ public class CartController {
     }
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
-    @GetMapping("/update_quantity/{item_id}")
+    @GetMapping("/add/{id}")
+    public String addIntoCart(@PathVariable int id, Model model) {
+        Product currentProduct = productService.getById(id);
+        User currentUser = CurrentUserProvider.getCurrentUser();
+        if (currentUser != null) {
+            itemService.addItem(currentProduct, currentUser);
+        }
+        model.addAttribute("products", productService.getAllProductsByCategory(currentProduct.getCategory()));
+        return "home";
+    }
+
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
+    @GetMapping("/item/update_quantity/{item_id}")
     public String updateQuantity(@PathVariable("item_id") String itemId, @RequestParam("quantity") String quantity, Model model) {
         User currentUser = CurrentUserProvider.getCurrentUser();
 

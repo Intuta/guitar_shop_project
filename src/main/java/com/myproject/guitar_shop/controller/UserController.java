@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String addUser(@RequestParam Map<String, String> params) {
+    public String addNewUser(@RequestParam Map<String, String> params) {
         User currentUser = userService.createUser(params);
         userDetailsService.setUsernamePasswordAuthenticationToken(currentUser);
         return "home";
@@ -64,7 +64,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/password_change")
-    public String changePassword() {
+    public String changeUserPasswordFormRedirect() {
         return "passwordChange";
     }
 
@@ -82,19 +82,19 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/update_user_role/{user_id}")
-    public String updateUseRole(@RequestParam Map<String, String> params, Model model, @PathVariable String user_id) {
+    public String updateUserRole(@RequestParam Map<String, String> params, Model model, @PathVariable String user_id) {
         User currentUser = userService.getById(Integer.parseInt(user_id));
         currentUser = userService.save(userService.update(params, currentUser.getId()));
 
         model.addAttribute("users", userService.getAllUsersByAttribute(currentUser.getEmail()));
-        model.addAttribute("manage_users_form", true);
+        model.addAttribute("users_search_form", true);
         return "home";
     }
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/manage_users_form")
     public String usersFormRedirect(Model model) {
-        model.addAttribute("manage_users_form", true);
+        model.addAttribute("users_search_form", true);
         return "home";
     }
 
@@ -102,7 +102,7 @@ public class UserController {
     @GetMapping("/users")
     public String getUsers(@RequestParam(value = "attribute") String attribute, Model model) {
         model.addAttribute("users", userService.getAllUsersByAttribute(attribute));
-        model.addAttribute("manage_users_form", true);
+        model.addAttribute("users_search_form", true);
         return "home";
     }
 
