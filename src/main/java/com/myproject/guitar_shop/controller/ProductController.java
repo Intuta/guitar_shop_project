@@ -4,7 +4,6 @@ import com.myproject.guitar_shop.domain.Product;
 import com.myproject.guitar_shop.exception.NonExistentItemException;
 import com.myproject.guitar_shop.exception.NotEnoughProductException;
 import com.myproject.guitar_shop.exception.ProductNotFoundException;
-import com.myproject.guitar_shop.service.ItemService;
 import com.myproject.guitar_shop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
