@@ -74,6 +74,7 @@ public class ItemService extends AppService<Item> {
         cart.getItems().remove(item);
         if (quantity < 1) {
             itemRepository.delete(item);
+            cartService.save(cart);
         } else {
             if (quantity <= item.getProduct().getQuantity()) {
                 item.setQuantity(quantity);
