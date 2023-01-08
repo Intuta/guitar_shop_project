@@ -65,7 +65,7 @@ public class UserController {
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
     @GetMapping("/password_change")
     public String changeUserPasswordFormRedirect() {
-        return "passwordChange";
+        return "password_change";
     }
 
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMINISTRATOR')")
