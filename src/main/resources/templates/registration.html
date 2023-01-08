@@ -25,14 +25,14 @@
             <label>
                 <span class="label-text">Phone</span>
                 <input type="tel" name="phone" required
-                       pattern="[0-9]{12}">
+                       minlength="7">
             </label>
             <label class="password">
                 <span class="label-text">Password</span>
                 <button class="toggle-visibility" title="toggle password visibility" tabindex="-1">
                     <span class="glyphicon glyphicon-eye-close"></span>
                 </button>
-                <input type="password" name="password" required>
+                <input type="password" minlength="4" name="password" required>
             </label>
             <label class="checkbox">
                 <input type="checkbox" name="newsletter">
