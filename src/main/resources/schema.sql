@@ -10,7 +10,6 @@ DROP SEQUENCE IF EXISTS item_hibernate_sequence;
 DROP SEQUENCE IF EXISTS cart_hibernate_sequence;
 DROP SEQUENCE IF EXISTS transaction_hibernate_sequence;
 
-
 DROP TYPE IF EXISTS category;
 
 CREATE SEQUENCE product_hibernate_sequence START 1;
